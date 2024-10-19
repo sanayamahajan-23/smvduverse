@@ -1,0 +1,71 @@
+.cloud {
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.9;
+    z-index: 10000;
+  }
+  .cloud-left {
+    left: -100%; 
+    top: 1%;
+    width: 200%;
+    height: 100%;
+  }
+  .cloud-right {
+    right: -100%;
+    top: 1%; 
+    width: 200%; 
+    height: 100%;
+  }
+  .cloud-top {
+    bottom: 1%; 
+    left: 0; 
+    width: 100%;
+    height: 150%;
+  }
+  .cloud-bottom {
+    bottom: 5; 
+    left: 0;
+    width: 100%;
+    height: 150%; 
+  }
+  @keyframes float {
+    0% {
+      transform: translateY(0); 
+    }
+    50% {
+      transform: translateY(-10px); 
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  .cloud {
+    animation: float 5s ease-in-out infinite; 
+  }
+  @keyframes reveal-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  @keyframes reveal-right {
+    0% {
+      transform: translateX(0); 
+    }
+    100% {
+      transform: translateX(100%); 
+    }
+  }
+  
+  .reveal-left {
+    animation: reveal-left 4s forwards ease-in-out; 
+  }
+  
+  .reveal-right {
+    animation: reveal-right 4s forwards ease-in-out; 
+  }
+  
