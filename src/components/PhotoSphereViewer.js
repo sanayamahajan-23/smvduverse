@@ -7,6 +7,8 @@ const PhotoSphere = ({ imageUrl, onClose }) => {
   const [rotation, setRotation] = useState({ x: 0, y: -130, z: 0 }); // Initial rotation
   const [cameraZ, setCameraZ] = useState(-5); // Initial camera position along z-axis
   
+  const [panelVisible, setPanelVisible] = useState(true); // State for showing/hiding control panel
+
   // Function to handle rotation changes
   const rotate = (direction) => {
     switch (direction) {
@@ -40,26 +42,68 @@ const PhotoSphere = ({ imageUrl, onClose }) => {
     setRotation({ x: 0, y: -130, z: 0 }); // Reset rotation to initial
   };
 
+  // Toggle the visibility of the control panel
+  const togglePanelVisibility = () => {
+    setPanelVisible((prevVisible) => !prevVisible);
+  };
+
   return (
     <div className="photosphere-overlay">
       <button className="close-button" onClick={onClose} style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 100 }}>
         X
       </button>
 
-      {/* Navigation buttons */}
-      <div className="navigation-buttons" style={{ position: 'absolute', top: '50%', left: '10px', transform: 'translateY(-50%)', zIndex: 100 }}>
-        <button onClick={() => rotate('right')}>→</button>
-        <button onClick={() => rotate('up')}>↑</button>
-        <button onClick={() => rotate('down')}>↓</button>
-        <button onClick={() => rotate('left')}>←</button>
-      </div>
+      {/* Control Panel */}
+      {panelVisible && (
+        <div className="control-panel" style={{
+          position: 'absolute',
+          bottom: '40px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 100,
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '10px',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)', // Transparent black background
+          padding: '10px',
+          borderRadius: '8px'
+        }}>
+          {/* Rotation Buttons */}
+          <button onClick={() => rotate('left')}>←</button>
+          <button onClick={() => rotate('up')}>↑</button>
+          <button onClick={() => rotate('down')}>↓</button>
+          <button onClick={() => rotate('right')}>→</button>
 
-      {/* Zoom and Refresh buttons */}
-      <div className="zoom-buttons" style={{ position: 'absolute', bottom: '20px', left: '10px', zIndex: 100 }}>
-        <button onClick={handleZoomOut}>Zoom Out</button>
-        <button onClick={handleZoomIn}>Zoom In</button>
-        <button onClick={handleRefresh}>Refresh</button>
-      </div>
+          {/* Zoom and Refresh Buttons */}
+          <button onClick={handleZoomIn}>Zoom In</button>
+          <button onClick={handleZoomOut}>Zoom Out</button>
+          <button onClick={handleRefresh}>Refresh</button>
+
+          {/* Fullscreen Button */}
+          <button onClick={() => document.documentElement.requestFullscreen()}>Fullscreen</button>
+        </div>
+      )}
+
+      {/* Toggle Button */}
+      <button
+        onClick={togglePanelVisibility}
+        style={{
+          position: 'absolute',
+          bottom: '10px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 100,
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          color: 'white',
+          borderRadius: '50%',
+          padding: '5px 10px',
+          border: 'none',
+          cursor: 'pointer',
+          fontSize: '18px'
+        }}
+      >
+        {panelVisible ? '∨' : '∧'}
+      </button>
 
       {/* A-Frame scene for 360° image */}
       <a-scene embedded style={{ height: '100vh', width: '100vw' }}>
