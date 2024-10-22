@@ -6,6 +6,7 @@ const PhotoSphere = ({ imageUrl, onClose }) => {
   // State to manage rotation of the sky
   const [rotation, setRotation] = useState({ x: 0, y: -130, z: 0 }); // Initial rotation
   const [cameraZ, setCameraZ] = useState(-5); // Initial camera position along z-axis
+  
   const [panelVisible, setPanelVisible] = useState(true); // State for showing/hiding control panel
   const [isFullscreen, setIsFullscreen] = useState(false); // State for fullscreen mode
 
@@ -30,11 +31,11 @@ const PhotoSphere = ({ imageUrl, onClose }) => {
   };
 
   const handleZoomOut = () => {
-    setCameraZ((prevZ) => Math.min(prevZ + 10, 10)); // Zoom in by moving the camera closer
+    setCameraZ((prevZ) => Math.min(prevZ + 10, 80)); // Zoom in by moving the camera closer
   };
 
   const handleZoomIn = () => {
-    setCameraZ((prevZ) => Math.max(prevZ - 10, -10)); // Zoom out by moving the camera away
+    setCameraZ((prevZ) => Math.max(prevZ - 10, -50)); // Zoom out by moving the camera away
   };
 
   const handleRefresh = () => {
