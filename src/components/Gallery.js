@@ -1,18 +1,29 @@
-// Gallery.js
 import React from 'react';
-import './Gallery.css'; // Optional: Custom styling for the gallery
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+import './Gallery.css'; // Custom styling for the gallery
 
 const Gallery = ({ images, onClose }) => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,  // Arrows for navigating forward/backward
+  };
+
   return (
-    <div className="gallery-overlay">
-      <button className="close-button" onClick={onClose} style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 100 }}>
-        X
-      </button>
-      <div className="gallery-container">
+    <div className="gallery-panel">
+      <button className="close-gallery" onClick={onClose}>X</button>
+      <Slider {...settings}>
         {images.map((image, index) => (
-          <img key={index} src={image} alt={`Gallery Image ${index}`} className="gallery-image" />
+          <div key={index} className="gallery-image">
+            <img src={image} alt={`Slide ${index + 1}`} />
+          </div>
         ))}
-      </div>
+      </Slider>
     </div>
   );
 };

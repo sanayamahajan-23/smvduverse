@@ -12,6 +12,7 @@ const SMVDUMap = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 }); 
   const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [selectedGalleryImages, setSelectedGalleryImages] = useState([]);
   const [figurinePosition, setFigurinePosition] = useState({ x: 20, y: 300 });
   const [isFigurineDragging, setIsFigurineDragging] = useState(false);
   const [hoveredHotspot, setHoveredHotspot] = useState(null);
@@ -19,53 +20,55 @@ const SMVDUMap = () => {
   const [suggestions, setSuggestions] = useState([]);
   const mapRef = useRef(null); 
   const hotspots = [
-    { x: 120, y: 570, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`, label: 'Gate 2' },
-    { x: 90, y: 280, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`, label: 'Sports Complex' },
-    { x: 300, y: 390, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'New Basholi' },
-    { x: 359, y:323, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`, label: 'Nilgiri' },
-    { x: 350, y: 190, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Vindhyachal' },
-    { x: 435, y: 225, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`, label: 'Trikuta' },
-    { x: 439, y: 270, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Kailash' },
-    { x: 400, y: 247, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Central Gym/Mess' },
-    { x: 595, y: 242, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Red Rocks' },
-    { x: 640, y: 242, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Fountain Area' },
-    { x: 620, y: 310, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Central Library' },
-    { x: 980, y: 450, imageUrl: `${process.env.PUBLIC_URL}/assets/vaishnavi.jpeg`, label: 'Vaishnavi' },
-    { x: 1030, y: 380, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Guest House' },
-    { x: 1100, y: 390, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Residential Area' },
-    { x:910, y: 305, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Medical Aid Center' },
-    { x:925, y: 290, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Grocery' },
-    { x:910, y: 245, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Shivalik A' },
-    { x:910, y: 180, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Shivalik B' },
-    { x:1050, y: 80, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Helipad'},
-    { x:810, y: 110, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Tennis Court'},
-    { x:790, y: 60, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Workshop'},
-    { x:710, y: 40, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Civil Building'},
-    { x:630, y: 20, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'School Of Architecture & Design'},
-    { x:540, y: 40, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Parking'},
-    { x:550, y: 130, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Matrika'},
-    { x:610, y: 170, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Administrative Block'},
-    { x:660, y: 160, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'School of Computer Science'},
-    { x:700, y: 150, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'LT3/4'},
-    { x:700, y: 210, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'School of Business Management'},
-    { x:700, y: 240, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'School of Language/Philosophy'},
-    { x:710, y: 305, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'LT1/2'},
-    { x:750, y: 300, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Block A'},
-    { x:755, y: 265, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Block B'},
-    { x:775, y: 225, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'BC Junction/TBIC'},
-    { x:755, y: 195, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Block C'},
-    { x:745, y: 155, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Block D'},
-    { x:720, y: 150, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'J&K Bank'},
-    { x:680, y: 300, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Research Block'},
-    { x:840, y: 430, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`, label: 'Gate 1' },
+    { x: 120, y: 570, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Gate 2' },
+    { x: 90, y: 280, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Sports Complex' },
+    { x: 300, y: 390, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'New Basholi' },
+    { x: 359, y:323, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Nilgiri' },
+    { x: 350, y: 190, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Vindhyachal' },
+    { x: 435, y: 225, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Trikuta' },
+    { x: 439, y: 270, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Kailash' },
+    { x: 400, y: 247, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Central Gym/Mess' },
+    { x: 595, y: 242, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Red Rocks' },
+    { x: 640, y: 242, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Fountain Area' },
+    { x: 620, y: 310, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Central Library' },
+    { x: 980, y: 450, imageUrl: `${process.env.PUBLIC_URL}/assets/vaishnavi.jpeg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.png`, `${process.env.PUBLIC_URL}/assets/photo1.png`, `${process.env.PUBLIC_URL}/assets/photo1.png`, `${process.env.PUBLIC_URL}/assets/photo1.png`], label: 'Vaishnavi' },
+    { x: 1030, y: 380, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Guest House' },
+    { x: 1100, y: 390, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Residential Area' },
+    { x:910, y: 305, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Medical Aid Center' },
+    { x:925, y: 290, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Grocery' },
+    { x:910, y: 245, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Shivalik A' },
+    { x:910, y: 180, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Shivalik B' },
+    { x:1050, y: 80, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Helipad'},
+    { x:810, y: 110, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Tennis Court'},
+    { x:790, y: 60, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Workshop'},
+    { x:710, y: 40, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Civil Building'},
+    { x:630, y: 20, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'School Of Architecture & Design'},
+    { x:540, y: 40, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Parking'},
+    { x:550, y: 130, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Matrika'},
+    { x:610, y: 170, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Administrative Block'},
+    { x:660, y: 160, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'School of Computer Science'},
+    { x:700, y: 150, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'LT3/4'},
+    { x:700, y: 210, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'School of Business Management'},
+    { x:700, y: 240, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'School of Language/Philosophy'},
+    { x:710, y: 305, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'LT1/2'},
+    { x:750, y: 300, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Block A'},
+    { x:755, y: 265, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Block B'},
+    { x:775, y: 225, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'BC Junction/TBIC'},
+    { x:755, y: 195, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Block C'},
+    { x:745, y: 155, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Block D'},
+    { x:720, y: 150, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'J&K Bank'},
+    { x:680, y: 300, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Research Block'},
+    { x:840, y: 430, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Gate 1' },
   ];
 
-  const handleHotspotClick = (imageUrl) => {
+  const handleHotspotClick = (imageUrl,galleryImages) => {
     setSelectedPhoto(imageUrl);
+    setSelectedGalleryImages(galleryImages);
   };
 
   const closePhotoSphere = () => {
     setSelectedPhoto(null);
+    setSelectedGalleryImages([]);
   };
   useEffect(() => {
     const mapImage = new Image();
@@ -261,7 +264,7 @@ const SMVDUMap = () => {
               key={index}
               x={hotspot.x}
               y={hotspot.y}
-              onClick={() => handleHotspotClick(hotspot.imageUrl)}
+              onClick={() => handleHotspotClick(hotspot.imageUrl,hotspot.galleryImages)}
               label={hotspot.label}
               scale={scale}
               position={position}
@@ -295,7 +298,7 @@ const SMVDUMap = () => {
       
       {/* Show the Photo Sphere when a photo is selected */}
       {selectedPhoto && (
-        <PhotoSphere imageUrl={selectedPhoto} onClose={closePhotoSphere} />
+        <PhotoSphere imageUrl={selectedPhoto}   additionalImages={selectedGalleryImages}  onClose={closePhotoSphere} />
       )}
 
       {/* Conditionally render zoom controls and figurine */}

@@ -1,29 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import 'aframe';  // Import A-Frame library
 import './PhotoSphereViewer.css';  // Optional: Custom styling for your scene
+import Gallery from './Gallery'; 
 
-const PhotoSphere = ({ imageUrl, onClose }) => {
-  // State to manage rotation of the sky
+const PhotoSphere = ({ imageUrl, additionalImages, onClose }) => {
   const [rotation, setRotation] = useState({ x: 0, y: -130, z: 0 }); // Initial rotation
   const [cameraZ, setCameraZ] = useState(-5); // Initial camera position along z-axis
-  
+  const [showGallery, setShowGallery] = useState(false); // State to show/hide the gallery
   const [panelVisible, setPanelVisible] = useState(true); // State for showing/hiding control panel
   const [isFullscreen, setIsFullscreen] = useState(false); // State for fullscreen mode
 
-  // Function to handle rotation changes
   const rotate = (direction) => {
     switch (direction) {
       case 'right':
-        setRotation((prev) => ({ ...prev, y: prev.y + 10 })); // Rotate right
+        setRotation((prev) => ({ ...prev, y: prev.y + 10 })); 
         break;
       case 'left':
-        setRotation((prev) => ({ ...prev, y: prev.y - 10 })); // Rotate left
+        setRotation((prev) => ({ ...prev, y: prev.y - 10 })); 
         break;
       case 'up':
-        setRotation((prev) => ({ ...prev, z: prev.z + 10 })); // Rotate up
+        setRotation((prev) => ({ ...prev, z: prev.z + 10 })); 
         break;
       case 'down':
-        setRotation((prev) => ({ ...prev, z: prev.z - 10 })); // Rotate down
+        setRotation((prev) => ({ ...prev, z: prev.z - 10 })); 
         break;
       default:
         break;
@@ -31,19 +30,18 @@ const PhotoSphere = ({ imageUrl, onClose }) => {
   };
 
   const handleZoomOut = () => {
-    setCameraZ((prevZ) => Math.min(prevZ + 10, 80)); // Zoom in by moving the camera closer
+    setCameraZ((prevZ) => Math.min(prevZ + 10, 80)); 
   };
 
   const handleZoomIn = () => {
-    setCameraZ((prevZ) => Math.max(prevZ - 10, -50)); // Zoom out by moving the camera away
+    setCameraZ((prevZ) => Math.max(prevZ - 10, -50)); 
   };
 
   const handleRefresh = () => {
-    setCameraZ(-5); // Reset camera position to initial
-    setRotation({ x: 0, y: -130, z: 0 }); // Reset rotation to initial
+    setCameraZ(-5); 
+    setRotation({ x: 0, y: -130, z: 0 }); 
   };
 
-  // Toggle the visibility of the control panel
   const togglePanelVisibility = () => {
     setPanelVisible((prevVisible) => !prevVisible);
   };
@@ -80,7 +78,6 @@ const PhotoSphere = ({ imageUrl, onClose }) => {
         X
       </button>
 
-      {/* Control Panel */}
       {panelVisible && (
         <div className="control-panel" style={{
           position: 'absolute',
@@ -91,22 +88,19 @@ const PhotoSphere = ({ imageUrl, onClose }) => {
           display: 'flex',
           justifyContent: 'center',
           gap: '10px',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)', // Transparent black background
-          padding: '10px',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+          padding: '10px 50px 10px 50px',
           borderRadius: '8px'
         }}>
-          {/* Rotation Buttons */}
           <button onClick={() => rotate('left')}>←</button>
           <button onClick={() => rotate('up')}>↑</button>
           <button onClick={() => rotate('down')}>↓</button>
           <button onClick={() => rotate('right')}>→</button>
 
-          {/* Zoom and Refresh Buttons */}
           <button onClick={handleZoomIn}>Zoom In</button>
           <button onClick={handleZoomOut}>Zoom Out</button>
           <button onClick={handleRefresh}>Refresh</button>
-
-          {/* Fullscreen Button */}
+          <button onClick={() => setShowGallery(true)}>Open Gallery</button>
           {!isFullscreen && (
             <button onClick={enterFullscreen}>Fullscreen</button>
           )}
@@ -156,12 +150,36 @@ const PhotoSphere = ({ imageUrl, onClose }) => {
         </button>
       )}
 
-      {/* A-Frame scene for 360° image */}
+      {/* Minimize Button for Fullscreen */}
+      {isFullscreen && (
+        <button
+          onClick={exitFullscreen}
+          style={{
+            position: 'absolute',
+            top: '10px',
+            left: '10px',
+            zIndex: 100,
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            color: 'white',
+            borderRadius: '50%',
+            padding: '10px',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '18px'
+          }}
+        >
+          –
+        </button>
+      )}
+
       <a-scene embedded style={{ height: '100vh', width: '100vw' }}>
         <a-sky src={imageUrl} rotation={`${rotation.x} ${rotation.y} ${rotation.z}`}></a-sky>
-        {/* Camera position is adjusted for zoom effect */}
         <a-camera position={`0 0 ${cameraZ}`}></a-camera>
       </a-scene>
+
+      {showGallery && (
+        <Gallery images={additionalImages} onClose={() => setShowGallery(false)} />
+      )}
     </div>
   );
 };
