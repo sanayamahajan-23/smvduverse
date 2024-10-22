@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'aframe';  // Import A-Frame library
 import './PhotoSphereViewer.css';  // Optional: Custom styling for your scene
 
@@ -7,6 +7,7 @@ const PhotoSphere = ({ imageUrl, onClose }) => {
   const [rotation, setRotation] = useState({ x: 0, y: -130, z: 0 }); // Initial rotation
   const [cameraZ, setCameraZ] = useState(-5); // Initial camera position along z-axis
   const [panelVisible, setPanelVisible] = useState(true); // State for showing/hiding control panel
+  const [isFullscreen, setIsFullscreen] = useState(false); // State for fullscreen mode
 
   // Function to handle rotation changes
   const rotate = (direction) => {
@@ -46,6 +47,32 @@ const PhotoSphere = ({ imageUrl, onClose }) => {
     setPanelVisible((prevVisible) => !prevVisible);
   };
 
+  // Toggle fullscreen mode
+  const enterFullscreen = () => {
+    document.documentElement.requestFullscreen();
+    setIsFullscreen(true);
+  };
+
+  // Exit fullscreen mode
+  const exitFullscreen = () => {
+    document.exitFullscreen();
+    setIsFullscreen(false);
+  };
+
+  // Check if the user exits fullscreen using the escape key or system methods
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        setIsFullscreen(false);
+      }
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
   return (
     <div className="photosphere-overlay">
       <button className="close-button" onClick={onClose} style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 100 }}>
@@ -79,11 +106,13 @@ const PhotoSphere = ({ imageUrl, onClose }) => {
           <button onClick={handleRefresh}>Refresh</button>
 
           {/* Fullscreen Button */}
-          <button onClick={() => document.documentElement.requestFullscreen()}>Fullscreen</button>
+          {!isFullscreen && (
+            <button onClick={enterFullscreen}>Fullscreen</button>
+          )}
         </div>
       )}
 
-      {/* Toggle Button */}
+      {/* Toggle Button for the Panel */}
       <button
         onClick={togglePanelVisibility}
         style={{
@@ -103,6 +132,28 @@ const PhotoSphere = ({ imageUrl, onClose }) => {
       >
         {panelVisible ? '∨' : '∧'}
       </button>
+
+      {/* Minimize Button for Fullscreen */}
+      {isFullscreen && (
+        <button
+          onClick={exitFullscreen}
+          style={{
+            position: 'absolute',
+            top: '10px',
+            left: '10px',
+            zIndex: 100,
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            color: 'white',
+            borderRadius: '50%',
+            padding: '10px',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '18px'
+          }}
+        >
+          –
+        </button>
+      )}
 
       {/* A-Frame scene for 360° image */}
       <a-scene embedded style={{ height: '100vh', width: '100vw' }}>

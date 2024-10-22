@@ -21,4 +21,6 @@
     font-size: 24px;
     cursor: pointer;
   }
-  
+  a-scene > .a-enter-vr {
+    display: none !important;
+  }
