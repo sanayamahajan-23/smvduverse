@@ -12,6 +12,13 @@ const PhotoSphere = ({imageUrl: initialImageUrl, additionalImages: initialAdditi
   const [showHotspotMenu, setShowHotspotMenu] = useState(false);
   const [imageUrl, setImageUrl] = useState(initialImageUrl);  // Initialize imageUrl from props
   const [additionalImages, setAdditionalImages] = useState(initialAdditionalImages);
+  const [currentHotspotIndex, setCurrentHotspotIndex] = useState(0);
+  useEffect(() => {
+    if (hotspots.length > 0) {
+      setImageUrl(hotspots[currentHotspotIndex].imageUrl);
+      setAdditionalImages(hotspots[currentHotspotIndex].galleryImages);
+    }
+  }, [currentHotspotIndex, hotspots]);
 
   const rotate = (direction) => {
     switch (direction) {
@@ -85,6 +92,14 @@ const PhotoSphere = ({imageUrl: initialImageUrl, additionalImages: initialAdditi
     setImageUrl(hotspot.imageUrl); // Set new hotspot image
     setAdditionalImages(hotspot.galleryImages); // Set new gallery images
   };
+  const goToPreviousHotspot = () => {
+    setCurrentHotspotIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : hotspots.length - 1)); // Loop to last if at the first
+  };
+
+  // Function to navigate to the next hotspot
+  const goToNextHotspot = () => {
+    setCurrentHotspotIndex((prevIndex) => (prevIndex < hotspots.length - 1 ? prevIndex + 1 : 0)); // Loop to first if at the last
+  };
   return (
     <div className="photosphere-overlay">
       <button className="close-button" onClick={onClose} style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 100 }}>
@@ -105,6 +120,7 @@ const PhotoSphere = ({imageUrl: initialImageUrl, additionalImages: initialAdditi
           padding: '10px 50px 10px 50px',
           borderRadius: '8px'
         }}>
+          <button onClick={goToPreviousHotspot}>prev</button> {/* Previous Hotspot Button */}
           <button onClick={() => rotate('left')}>←</button>
           <button onClick={() => rotate('up')}>↑</button>
           <button onClick={() => rotate('down')}>↓</button>
@@ -118,6 +134,7 @@ const PhotoSphere = ({imageUrl: initialImageUrl, additionalImages: initialAdditi
           {!isFullscreen && (
             <button onClick={enterFullscreen}>Fullscreen</button>
           )}
+          <button onClick={goToNextHotspot}>next</button> {/* Next Hotspot Button */}
         </div>
       )}
 
