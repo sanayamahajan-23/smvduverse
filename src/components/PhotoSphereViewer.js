@@ -3,12 +3,15 @@ import 'aframe';  // Import A-Frame library
 import './PhotoSphereViewer.css';  // Optional: Custom styling for your scene
 import Gallery from './Gallery'; 
 
-const PhotoSphere = ({ imageUrl, additionalImages, onClose }) => {
+const PhotoSphere = ({imageUrl: initialImageUrl, additionalImages: initialAdditionalImages,hotspots, onClose }) => {
   const [rotation, setRotation] = useState({ x: 0, y: -130, z: 0 }); // Initial rotation
   const [cameraZ, setCameraZ] = useState(-5); // Initial camera position along z-axis
   const [showGallery, setShowGallery] = useState(false); // State to show/hide the gallery
   const [panelVisible, setPanelVisible] = useState(true); // State for showing/hiding control panel
   const [isFullscreen, setIsFullscreen] = useState(false); // State for fullscreen mode
+  const [showHotspotMenu, setShowHotspotMenu] = useState(false);
+  const [imageUrl, setImageUrl] = useState(initialImageUrl);  // Initialize imageUrl from props
+  const [additionalImages, setAdditionalImages] = useState(initialAdditionalImages);
 
   const rotate = (direction) => {
     switch (direction) {
@@ -71,7 +74,17 @@ const PhotoSphere = ({ imageUrl, additionalImages, onClose }) => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
     };
   }, []);
-
+  const toggleHotspotMenu = () => {
+    setShowHotspotMenu((prevVisible) => !prevVisible);
+  };
+  const handleHotspotClick = (hotspot) => {
+    console.log("Selected Hotspot Image URL:", hotspot.imageUrl);
+    setShowHotspotMenu(false); // Close the hotspot menu after selecting a hotspot
+    setCameraZ(-5); // Reset zoom to default
+    setRotation({ x: 0, y: -130, z: 0 }); // Reset rotation to default
+    setImageUrl(hotspot.imageUrl); // Set new hotspot image
+    setAdditionalImages(hotspot.galleryImages); // Set new gallery images
+  };
   return (
     <div className="photosphere-overlay">
       <button className="close-button" onClick={onClose} style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 100 }}>
@@ -96,14 +109,57 @@ const PhotoSphere = ({ imageUrl, additionalImages, onClose }) => {
           <button onClick={() => rotate('up')}>↑</button>
           <button onClick={() => rotate('down')}>↓</button>
           <button onClick={() => rotate('right')}>→</button>
-
+     
           <button onClick={handleZoomIn}>Zoom In</button>
           <button onClick={handleZoomOut}>Zoom Out</button>
           <button onClick={handleRefresh}>Refresh</button>
+          <button onClick={toggleHotspotMenu}>Menu</button>
           <button onClick={() => setShowGallery(true)}>Open Gallery</button>
           {!isFullscreen && (
             <button onClick={enterFullscreen}>Fullscreen</button>
           )}
+        </div>
+      )}
+
+      {/* Hotspot Menu */}
+      {showHotspotMenu && (
+        <div
+          className="hotspot-menu"
+          style={{
+            position: 'absolute',
+            top: '50px',
+            right: '10px',
+            zIndex: 200,
+            width: '250px',
+            maxHeight: '70vh',
+            overflowY: 'auto',
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            padding: '10px',
+            borderRadius: '8px',
+          }}
+        >
+          {hotspots.map((hotspot, index) => (
+            <div
+              key={index}
+              onClick={() => handleHotspotClick(hotspot)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                marginBottom: '10px',
+                cursor: 'pointer',
+                border: '1px solid #ccc',
+                padding: '5px',
+                borderRadius: '5px',
+              }}
+            >
+              <img
+                src={hotspot.imageUrl}
+                alt={hotspot.label}
+                style={{ width: '50px', height: '50px', marginRight: '10px', objectFit: 'cover' }}
+              />
+              <span>{hotspot.label}</span>
+            </div>
+          ))}
         </div>
       )}
 
@@ -173,7 +229,8 @@ const PhotoSphere = ({ imageUrl, additionalImages, onClose }) => {
       )}
 
       <a-scene embedded style={{ height: '100vh', width: '100vw' }}>
-        <a-sky src={imageUrl} rotation={`${rotation.x} ${rotation.y} ${rotation.z}`}></a-sky>
+      <a-sky src={imageUrl || initialImageUrl} rotation={`${rotation.x} ${rotation.y} ${rotation.z}`} key={imageUrl}></a-sky>
+
         <a-camera position={`0 0 ${cameraZ}`}></a-camera>
       </a-scene>
 

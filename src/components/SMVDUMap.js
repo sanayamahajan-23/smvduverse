@@ -20,7 +20,7 @@ const SMVDUMap = () => {
   const [suggestions, setSuggestions] = useState([]);
   const mapRef = useRef(null); 
   const hotspots = [
-    { x: 120, y: 570, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Gate 2' },
+    { x: 120, y: 570, imageUrl: `${process.env.PUBLIC_URL}/assets/photo1.png`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.png`, `${process.env.PUBLIC_URL}/assets/photo1.png`], label: 'Gate 2' },
     { x: 90, y: 280, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Sports Complex' },
     { x: 300, y: 390, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'New Basholi' },
     { x: 359, y:323, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Nilgiri' },
@@ -31,7 +31,7 @@ const SMVDUMap = () => {
     { x: 595, y: 242, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Red Rocks' },
     { x: 640, y: 242, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Fountain Area' },
     { x: 620, y: 310, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Central Library' },
-    { x: 980, y: 450, imageUrl: `${process.env.PUBLIC_URL}/assets/vaishnavi.jpeg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.png`, `${process.env.PUBLIC_URL}/assets/photo1.png`, `${process.env.PUBLIC_URL}/assets/photo1.png`, `${process.env.PUBLIC_URL}/assets/photo1.png`], label: 'Vaishnavi' },
+    { x: 980, y: 450, imageUrl: `${process.env.PUBLIC_URL}/assets/vaishnavi.jpeg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/Vaishnavi-1.jpeg`, `${process.env.PUBLIC_URL}/assets/Vaishnavi-2.jpeg`, `${process.env.PUBLIC_URL}/assets/Vaishnavi-3.jpeg`], label: 'Vaishnavi' },
     { x: 1030, y: 380, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Guest House' },
     { x: 1100, y: 390, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Residential Area' },
     { x:910, y: 305, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Medical Aid Center' },
@@ -298,7 +298,7 @@ const SMVDUMap = () => {
       
       {/* Show the Photo Sphere when a photo is selected */}
       {selectedPhoto && (
-        <PhotoSphere imageUrl={selectedPhoto}   additionalImages={selectedGalleryImages}  onClose={closePhotoSphere} />
+        <PhotoSphere imageUrl={selectedPhoto}   additionalImages={selectedGalleryImages}  hotspots={hotspots} onClose={closePhotoSphere} />
       )}
 
       {/* Conditionally render zoom controls and figurine */}
