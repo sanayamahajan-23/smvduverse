@@ -3,7 +3,7 @@ import 'aframe';  // Import A-Frame library
 import './PhotoSphereViewer.css';  // Optional: Custom styling for your scene
 import Gallery from './Gallery'; 
 
-const PhotoSphere = ({imageUrl: initialImageUrl, additionalImages: initialAdditionalImages,hotspots, onClose }) => {
+const PhotoSphere = ({imageUrl: initialImageUrl, additionalImages: initialAdditionalImages,hotspots,currentHotspotIndex,setCurrentHotspotIndex ,onClose }) => {
   const [rotation, setRotation] = useState({ x: 0, y: -130, z: 0 }); // Initial rotation
   const [cameraZ, setCameraZ] = useState(-5); // Initial camera position along z-axis
   const [showGallery, setShowGallery] = useState(false); // State to show/hide the gallery
@@ -12,10 +12,11 @@ const PhotoSphere = ({imageUrl: initialImageUrl, additionalImages: initialAdditi
   const [showHotspotMenu, setShowHotspotMenu] = useState(false);
   const [imageUrl, setImageUrl] = useState(initialImageUrl);  // Initialize imageUrl from props
   const [additionalImages, setAdditionalImages] = useState(initialAdditionalImages);
-  const [currentHotspotIndex, setCurrentHotspotIndex] = useState(0);
   useEffect(() => {
-    if (hotspots.length > 0) {
-      setImageUrl(hotspots[currentHotspotIndex].imageUrl);
+    if (hotspots.length > 0 && currentHotspotIndex >= 0 && currentHotspotIndex < hotspots.length) {
+      const newImageUrl = hotspots[currentHotspotIndex].imageUrl;
+      console.log("Setting image URL:", newImageUrl);
+      setImageUrl(newImageUrl);
       setAdditionalImages(hotspots[currentHotspotIndex].galleryImages);
     }
   }, [currentHotspotIndex, hotspots]);

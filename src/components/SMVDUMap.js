@@ -4,6 +4,7 @@ import './SMVDUMap.css'
 import Hotspot from './Hotspot';
 import PhotoSphere from './PhotoSphereViewer';
 const SMVDUMap = () => {
+  const [currentHotspotIndex, setCurrentHotspotIndex] = useState(-1);
   const [isCloudVisible, setIsCloudVisible] = useState(true);
   const [shouldReveal, setShouldReveal] = useState(false); 
   const [isLoaded, setIsLoaded] = useState(false); 
@@ -61,9 +62,10 @@ const SMVDUMap = () => {
     { x:840, y: 430, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Gate 1' },
   ];
 
-  const handleHotspotClick = (imageUrl,galleryImages) => {
-    setSelectedPhoto(imageUrl);
-    setSelectedGalleryImages(galleryImages);
+  const handleHotspotClick = (index) => {
+    setCurrentHotspotIndex(index);
+    setSelectedPhoto(hotspots[index].imageUrl); // Set the selected image
+    setSelectedGalleryImages(hotspots[index].galleryImages); // Set gallery images
   };
 
   const closePhotoSphere = () => {
@@ -163,7 +165,7 @@ const SMVDUMap = () => {
     // Check if figurine overlaps with any hotspot
     let closestHotspot = null;
   
-    hotspots.forEach((hotspot) => {
+    hotspots.forEach((hotspot, index) => {
       const hotspotLeft = hotspot.x * scale + position.x;
       const hotspotTop = hotspot.y * scale + position.y;
       const hotspotRight = hotspotLeft + 30; // Adjust width for accurate hitbox
@@ -176,14 +178,13 @@ const SMVDUMap = () => {
         newPosition.y + 70 >= hotspotTop &&  // Consider figurine height (70px in this case)
         newPosition.y <= hotspotBottom
       ) {
-        closestHotspot = hotspot;
+        closestHotspot = { ...hotspot, index }; // Include the index of the hotspot
       }
     });
   
     // Set the hovered hotspot
     setHoveredHotspot(closestHotspot);
   };
-  
   
   const handleFigurineMouseUp = () => {
     setIsFigurineDragging(false);
@@ -195,10 +196,11 @@ const SMVDUMap = () => {
     if (hoveredHotspot) {
       // Use a slight delay to simulate 1ms logic
       setTimeout(() => {
-        handleHotspotClick(hoveredHotspot.imageUrl); // Trigger the 360° view
+        handleHotspotClick(hoveredHotspot.index); // Trigger the 360° view
       }, 1);
     }
   };
+  
   // Search and suggestion logic
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -264,7 +266,7 @@ const SMVDUMap = () => {
               key={index}
               x={hotspot.x}
               y={hotspot.y}
-              onClick={() => handleHotspotClick(hotspot.imageUrl,hotspot.galleryImages)}
+              onClick={() => handleHotspotClick(index)}
               label={hotspot.label}
               scale={scale}
               position={position}
@@ -298,7 +300,7 @@ const SMVDUMap = () => {
       
       {/* Show the Photo Sphere when a photo is selected */}
       {selectedPhoto && (
-        <PhotoSphere imageUrl={selectedPhoto}   additionalImages={selectedGalleryImages}  hotspots={hotspots} onClose={closePhotoSphere} />
+        <PhotoSphere imageUrl={selectedPhoto}   additionalImages={selectedGalleryImages}  hotspots={hotspots}  currentHotspotIndex={currentHotspotIndex}     setCurrentHotspotIndex={setCurrentHotspotIndex}  onClose={closePhotoSphere} />
       )}
 
       {/* Conditionally render zoom controls and figurine */}
