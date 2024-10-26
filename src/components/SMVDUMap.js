@@ -338,8 +338,10 @@ const SMVDUMap = () => {
       {/* Cloud transition */}
       {isCloudVisible && isLoaded && (
         <>
-          <div className={`cloud cloud-left ${shouldReveal ? 'reveal-left' : ''}`} style={{ ...cloudStyle }} />
+        <div className={`cloud cloud-left ${shouldReveal ? 'reveal-left' : ''}`} style={{ ...cloudStyle }} />
           <div className={`cloud cloud-right ${shouldReveal ? 'reveal-right' : ''}`} style={{ ...cloudStyle }} />
+          <div className={`cloud cloud-right1 ${shouldReveal ? 'reveal-right' : ''}`} style={{ ...cloudStyle }} />
+          <div className={`cloud cloud-right1 ${shouldReveal ? 'reveal-right' : ''}`} style={{ ...cloudStyle }} />
         </>
       )}
     </div>
