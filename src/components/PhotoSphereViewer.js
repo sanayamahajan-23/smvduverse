@@ -64,7 +64,7 @@ const PhotoSphere = ({imageUrl: initialImageUrl, additionalImages: initialAdditi
     if (autoRotate && !isStereoVRMode) {
       interval = setInterval(() => {
         setRotation((prev) => ({ ...prev, y: prev.y + 0.01 })); // Adjust rotation speed as needed
-      }, 100); // Adjust interval time for smoother rotation
+      }, 80); // Adjust interval time for smoother rotation
     }
     return () => {
       if (interval) clearInterval(interval);
@@ -234,7 +234,7 @@ const PhotoSphere = ({imageUrl: initialImageUrl, additionalImages: initialAdditi
         </button>
       )}
 
-{showHotspotMenu && (
+{!isStereoVRMode && showHotspotMenu && (
   <div
     className="hotspot-menu"
     style={{
@@ -310,7 +310,7 @@ const PhotoSphere = ({imageUrl: initialImageUrl, additionalImages: initialAdditi
         </button>)}
 
       {/* Minimize Button for Fullscreen */}
-      {isFullscreen && (
+      {!isStereoVRMode && isFullscreen && (
         <button
           onClick={exitFullscreen}
           style={{
@@ -332,7 +332,7 @@ const PhotoSphere = ({imageUrl: initialImageUrl, additionalImages: initialAdditi
       )}
 
       {/* Minimize Button for Fullscreen */}
-      {isFullscreen && (
+      {!isStereoVRMode && isFullscreen && (
         <button
           onClick={exitFullscreen}
           style={{
