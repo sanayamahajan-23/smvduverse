@@ -181,6 +181,47 @@ const PhotoSphere = ({imageUrl: initialImageUrl, additionalImages: initialAdditi
 
         X
         </button>)}
+         {/* Add Previous Button */}
+      <button
+        onClick={goToPreviousHotspot}
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '10px',
+          transform: 'translateY(-50%)',
+          zIndex: 100,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          color: 'white',
+          fontSize: '24px',
+          border: 'none',
+          borderRadius: '50%',
+          padding: '10px',
+          cursor: 'pointer',
+        }}
+      >
+        &#60; {/* Left Arrow Symbol */}
+      </button>
+
+      {/* Add Next Button */}
+      <button
+        onClick={goToNextHotspot}
+        style={{
+          position: 'absolute',
+          top: '50%',
+          right: '10px',
+          transform: 'translateY(-50%)',
+          zIndex: 100,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          color: 'white',
+          fontSize: '24px',
+          border: 'none',
+          borderRadius: '50%',
+          padding: '10px',
+          cursor: 'pointer',
+        }}
+      >
+        &#62; {/* Right Arrow Symbol */}
+      </button>
 
         {!isStereoVRMode && panelVisible && (
         <div className="control-panel" style={{
