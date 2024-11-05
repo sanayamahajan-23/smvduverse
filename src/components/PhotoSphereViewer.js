@@ -1,22 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import 'aframe';  // Import A-Frame library
-import './PhotoSphereViewer.css';  // Optional: Custom styling for your scene
+import React, { useEffect, useRef, useState } from 'react'; 
+import Marzipano from 'marzipano';
+import 'aframe';
+import './PhotoSphereViewer.css';
 import Gallery from './Gallery'; 
 
-const PhotoSphere = ({imageUrl: initialImageUrl, additionalImages: initialAdditionalImages,hotspots,currentHotspotIndex,setCurrentHotspotIndex ,onClose }) => {
+const PhotoSphere = ({
+  imageUrl,
+  additionalImages,
+  hotspots,
+  nonMappedHotspots,
+  currentHotspotIndex,
+  setCurrentHotspotIndex,
+  onClose,
+}) => {
   const [rotation, setRotation] = useState({ x: 0, y: -130, z: 0 }); // Initial rotation
-  const [cameraZ, setCameraZ] = useState(-5); // Initial camera position along z-axis
-  const [showGallery, setShowGallery] = useState(false); // State to show/hide the gallery
-  const [panelVisible, setPanelVisible] = useState(true); // State for showing/hiding control panel
-  const [isFullscreen, setIsFullscreen] = useState(false); // State for fullscreen mode
-  const [showHotspotMenu, setShowHotspotMenu] = useState(false);
-  const [imageUrl, setImageUrl] = useState(initialImageUrl);  // Initialize imageUrl from props
-  const [additionalImages, setAdditionalImages] = useState(initialAdditionalImages);
+  const [cameraZ, setCameraZ] = useState(-5);
   const [isStereoVRMode, setIsStereoVRMode] = useState(false);
-  const [autoRotate, setAutoRotate] = useState(true);
-  const [autoRotateDelay, setAutoRotateDelay] = useState(3000);
   const [isDragging, setIsDragging] = useState(false);
   const [lastMousePosition, setLastMousePosition] = useState(null);
+  const viewerRef = useRef(null);
+  const sceneRef = useRef(null);
+  const viewerContainerRef = useRef(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isAutorotating, setIsAutorotating] = useState(false);
+  const [showGallery, setShowGallery] = useState(false); 
+  const [showMenu, setShowMenu] = useState(false); 
+  const [showHotspotsPanel, setShowHotspotsPanel] = useState(false);
+  const initialFov = 1.0; // Set your desired initial FOV value
+  const autorotateDelay = 3000; // Delay before autorotation starts (in milliseconds)
+  const autorotateSpeed = 0.001; // Adjust the rotation speed
+  const combinedHotspots = [...hotspots, ...nonMappedHotspots];
+  // Timer reference for autorotation
+  const autorotationTimer = useRef(null);
+  const handleImageClick = (index) => {
+    setCurrentHotspotIndex(index);
+    setShowMenu(false); // Hide the menu when an image is clicked
+  };
   useEffect(() => {
     const handleMouseDown = (event) => {
       setIsDragging(true);
@@ -53,383 +72,339 @@ const PhotoSphere = ({imageUrl: initialImageUrl, additionalImages: initialAdditi
     };
   }, [isStereoVRMode, isDragging, lastMousePosition]);
   useEffect(() => {
-    // Start auto-rotation after a delay
-    const delayTimeout = setTimeout(() => {
-      setAutoRotate(true);
-    }, autoRotateDelay);
-    return () => clearTimeout(delayTimeout); // Cleanup on unmount
-  }, [autoRotateDelay]);
-  useEffect(() => {
-    let interval;
-    if (autoRotate && !isStereoVRMode) {
-      interval = setInterval(() => {
-        setRotation((prev) => ({ ...prev, y: prev.y + 0.01 })); // Adjust rotation speed as needed
-      }, 80); // Adjust interval time for smoother rotation
+    if (!isStereoVRMode) {
+      initializeViewer();
     }
-    return () => {
-      if (interval) clearInterval(interval);
+    return () => cleanupViewer();
+  }, [currentHotspotIndex, isStereoVRMode]);
+
+  const initializeViewer = () => {
+    clearTimeout(autorotationTimer.current);
+    autorotationTimer.current = setTimeout(() => {
+      setIsAutorotating(true);
+    }, autorotateDelay);
+
+    if (!viewerRef.current) {
+      viewerRef.current = new Marzipano.Viewer(viewerContainerRef.current);
+    }
+
+    const viewer = viewerRef.current;
+
+    // Check for valid currentHotspotIndex
+    if (currentHotspotIndex < 0 || currentHotspotIndex >= combinedHotspots.length) {
+      console.error("Invalid currentHotspotIndex:", currentHotspotIndex);
+      return; // Prevent further execution
+    }
+
+    const currentHotspot = combinedHotspots[currentHotspotIndex];
+    
+    // Ensure currentHotspot is defined
+    if (!currentHotspot) {
+      console.error("Current hotspot is undefined:", currentHotspotIndex);
+      return; // Prevent further execution
+    }
+
+    const source = Marzipano.ImageUrlSource.fromString(currentHotspot.imageUrl);
+    const geometry = new Marzipano.EquirectGeometry([{ width: 4000 }]);
+    const limiter = Marzipano.RectilinearView.limit.traditional(4096, (150 * Math.PI) / 180);
+    const view = new Marzipano.RectilinearView({ fov: initialFov }, limiter);
+
+    sceneRef.current = viewer.createScene({ source, geometry, view });
+    sceneRef.current.switchTo();
+
+    // Ensure linkedHotspots are defined
+    if (Array.isArray(currentHotspot.linkedHotspots)) {
+      currentHotspot.linkedHotspots.forEach(linkedHotspot => {
+        addArrowMarker(viewer, currentHotspot, linkedHotspot);
+      });
+    } else {
+      console.warn("No linked hotspots available for current hotspot:", currentHotspotIndex);
+    }
+
+    viewerContainerRef.current.addEventListener('mousedown', handleUserInteraction);
+    viewerContainerRef.current.addEventListener('touchstart', handleUserInteraction);
+  };
+
+  const cleanupViewer = () => {
+    if (viewerRef.current) {
+      viewerRef.current.destroy();
+      viewerRef.current = null;
+    }
+    clearTimeout(autorotationTimer.current);
+
+    if (viewerContainerRef.current) {
+      viewerContainerRef.current.removeEventListener('mousedown', handleUserInteraction);
+      viewerContainerRef.current.removeEventListener('touchstart', handleUserInteraction);
+    }
+  };
+
+  const addArrowMarker = (viewer, sourceHotspot, linkedHotspot) => {
+    const arrowElement = document.createElement('div');
+    arrowElement.className = 'arrow-marker';
+    arrowElement.textContent = '➔';
+    arrowElement.style.position = 'absolute';
+
+    const position = {
+      yaw: (linkedHotspot.longitude || 0) * (Math.PI / 180),
+      pitch: (linkedHotspot.latitude || 0) * (Math.PI / 180),
     };
-  }, [autoRotate, isStereoVRMode]);
+
+    sceneRef.current.hotspotContainer().createHotspot(arrowElement, position);
+
+    arrowElement.addEventListener('click', () => {
+      // Find the target hotspot in the combined hotspots array
+      const targetHotspot = combinedHotspots.find(h => h.id === linkedHotspot.id);
+      if (targetHotspot) {
+        setCurrentHotspotIndex(combinedHotspots.indexOf(targetHotspot));
+      }
+    });
+  };
+
+  const toggleFullscreen = () => {
+    if (!isFullscreen) {
+      if (viewerContainerRef.current.requestFullscreen) {
+        viewerContainerRef.current.requestFullscreen();
+      }
+      setIsFullscreen(true);
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+      setIsFullscreen(false);
+    }
+  };
+
+  const zoomView = (deltaFov) => {
+    if (sceneRef.current) {
+      const view = sceneRef.current.view();
+      if (view) {
+        const currentFov = view.fov();
+        const newFov = Math.min(Math.max(currentFov + deltaFov, 0.05), 15.0);
+        view.setFov(newFov);
+        resetAutorotation();
+      }
+    }
+  };
+
+  const refreshView = () => {
+    if (sceneRef.current) {
+      const view = sceneRef.current.view();
+      if (view) {
+        view.setYaw(0);
+        view.setPitch(0);
+        view.setFov(initialFov);
+        resetAutorotation();
+      }
+    }
+  };
+
+  const rotateView = (deltaYaw, deltaPitch) => {
+    if (sceneRef.current) {
+      const view = sceneRef.current.view();
+      if (view) {
+        const currentYaw = view.yaw();
+        const currentPitch = view.pitch();
+        view.setYaw(currentYaw + deltaYaw);
+        view.setPitch(currentPitch + deltaPitch);
+        resetAutorotation();
+      }
+    }
+  };
+
+  const resetAutorotation = () => {
+    setIsAutorotating(false);
+    clearTimeout(autorotationTimer.current);
+    autorotationTimer.current = setTimeout(() => {
+      setIsAutorotating(true);
+    }, autorotateDelay);
+  };
+
+  const handleUserInteraction = () => {
+    resetAutorotation();
+  };
+
   useEffect(() => {
-    if (hotspots.length > 0 && currentHotspotIndex >= 0 && currentHotspotIndex < hotspots.length) {
-      const newImageUrl = hotspots[currentHotspotIndex].imageUrl;
-      console.log("Setting image URL:", newImageUrl);
-      setImageUrl(newImageUrl);
-      setAdditionalImages(hotspots[currentHotspotIndex].galleryImages);
-      setAutoRotate(false);
+    if (isAutorotating) {
+      const autoRotateInterval = setInterval(() => {
+        if (sceneRef.current) {
+          const view = sceneRef.current.view();
+          if (view) {
+            view.setYaw(view.yaw() + autorotateSpeed);
+          }
+        }
+      }, 16);
+      return () => clearInterval(autoRotateInterval);
     }
-  }, [currentHotspotIndex, hotspots]);
+  }, [isAutorotating]);
 
-  const rotate = (direction) => {
-    setAutoRotate(false);
-    switch (direction) {
-      case 'right':
-        setRotation((prev) => ({ ...prev, y: prev.y + 10 })); 
-        break;
-      case 'left':
-        setRotation((prev) => ({ ...prev, y: prev.y - 10 })); 
-        break;
-      case 'up':
-        setRotation((prev) => ({ ...prev, z: prev.z + 10 })); 
-        break;
-      case 'down':
-        setRotation((prev) => ({ ...prev, z: prev.z - 10 })); 
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleZoomOut = () => {
-    setCameraZ((prevZ) => Math.min(prevZ + 10, 80)); 
-  };
-
-  const handleZoomIn = () => {
-    setCameraZ((prevZ) => Math.max(prevZ - 10, -50)); 
-  };
-
-  const handleRefresh = () => {
-    setCameraZ(-5); 
-    setRotation({ x: 0, y: -130, z: 0 }); 
-  };
-
-  const togglePanelVisibility = () => {
-    setPanelVisible((prevVisible) => !prevVisible);
-  };
-
-  // Toggle fullscreen mode
-  const enterFullscreen = () => {
-    document.documentElement.requestFullscreen();
-    setIsFullscreen(true);
-  };
-
-  // Exit fullscreen mode
-  const exitFullscreen = () => {
-    document.exitFullscreen();
-    setIsFullscreen(false);
-  };
-
-  // Check if the user exits fullscreen using the escape key or system methods
   useEffect(() => {
     const handleFullscreenChange = () => {
-      if (!document.fullscreenElement) {
-        setIsFullscreen(false);
-      }
+      setIsFullscreen(!!document.fullscreenElement);
     };
     document.addEventListener('fullscreenchange', handleFullscreenChange);
-
     return () => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
     };
   }, []);
-  const toggleHotspotMenu = () => {
-    setShowHotspotMenu((prevVisible) => !prevVisible);
-  };
-  const handleHotspotClick = (hotspot) => {
-    console.log("Selected Hotspot Image URL:", hotspot.imageUrl);
-    setShowHotspotMenu(false); // Close the hotspot menu after selecting a hotspot
-    setCameraZ(-5); // Reset zoom to default
-    setRotation({ x: 0, y: -130, z: 0 }); // Reset rotation to default
-    setImageUrl(hotspot.imageUrl); // Set new hotspot image
-    setAdditionalImages(hotspot.galleryImages); // Set new gallery images
-    const index = hotspots.findIndex((h) => h === hotspot);
-    if (index !== -1) {
-      setCurrentHotspotIndex(index);
-    }
-  };
-  const goToPreviousHotspot = () => {
-    setCurrentHotspotIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : hotspots.length - 1)); // Loop to last if at the first
-  };
 
-  // Function to navigate to the next hotspot
-  const goToNextHotspot = () => {
-    setCurrentHotspotIndex((prevIndex) => (prevIndex < hotspots.length - 1 ? prevIndex + 1 : 0)); // Loop to first if at the last
-  };
-   const toggleStereoVRMode = () => {
+  const toggleStereoVRMode = () => {
     setIsStereoVRMode((prevMode) => {
       const newMode = !prevMode;
       if (newMode) {
         // Disable auto-rotation when entering VR mode
-        setAutoRotate(false);
+        setIsAutorotating(false);
       }
       return newMode;
     });
   };
+  const handlePrev = () => {
+    const prevIndex = (currentHotspotIndex - 1 + hotspots.length) % hotspots.length;
+    setCurrentHotspotIndex(prevIndex);
+  };
+
+  const handleNext = () => {
+    const nextIndex = (currentHotspotIndex + 1) % hotspots.length;
+    setCurrentHotspotIndex(nextIndex);
+  };
   return (
-    <div className="photosphere-overlay">
-         {!isStereoVRMode && (<button className="close-button" onClick={onClose} style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 100 }}>
-
-        X
-        </button>)}
-         {/* Add Previous Button */}
-      <button
-        onClick={goToPreviousHotspot}
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '10px',
-          transform: 'translateY(-50%)',
-          zIndex: 100,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          color: 'white',
-          fontSize: '24px',
-          border: 'none',
-          borderRadius: '50%',
-          padding: '10px',
-          cursor: 'pointer',
-        }}
-      >
-        &#60; {/* Left Arrow Symbol */}
-      </button>
-
-      {/* Add Next Button */}
-      <button
-        onClick={goToNextHotspot}
-        style={{
-          position: 'absolute',
-          top: '50%',
-          right: '10px',
-          transform: 'translateY(-50%)',
-          zIndex: 100,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          color: 'white',
-          fontSize: '24px',
-          border: 'none',
-          borderRadius: '50%',
-          padding: '10px',
-          cursor: 'pointer',
-        }}
-      >
-        &#62; {/* Right Arrow Symbol */}
-      </button>
-
-        {!isStereoVRMode && panelVisible && (
-        <div className="control-panel" style={{
-          position: 'absolute',
-          bottom: '45px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 100,
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '10px',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)', 
-          padding: '10px 50px 10px 50px',
-          borderRadius: '8px'
-        }}>
-          <button onClick={goToPreviousHotspot}>prev</button> {/* Previous Hotspot Button */}
-          <button onClick={() => rotate('left')}>←</button>
-          <button onClick={() => rotate('up')}>↑</button>
-          <button onClick={() => rotate('down')}>↓</button>
-          <button onClick={() => rotate('right')}>→</button>
-     
-          <button onClick={handleZoomIn}>Zoom In</button>
-          <button onClick={handleZoomOut}>Zoom Out</button>
-          <button onClick={handleRefresh}>Refresh</button>
-          <button onClick={toggleHotspotMenu}>Menu</button>
-          <button onClick={toggleStereoVRMode}>Enter VR</button>
-          <button onClick={() => setShowGallery(true)}>Open Gallery</button>
-          {!isFullscreen && (
-            <button onClick={enterFullscreen}>Fullscreen</button>
-          )}
-          <button onClick={goToNextHotspot}>next</button> {/* Next Hotspot Button */}
-        </div>
-      )}
-      {isStereoVRMode && (
-        <button
-          onClick={toggleStereoVRMode}
-          style={{
-            position: 'absolute',
-            bottom: '10px',
-            right: '10px',
-            zIndex: 100,
-            backgroundColor: 'rgba(0, 0, 0, 0.7)',
-            color: 'white',
-            padding: '10px 20px',
-            borderRadius: '8px',
-            border: 'none',
-            cursor: 'pointer',
-            fontSize: '16px',
-          }}
-        >   Exit VR
+  <div>
+    {!isStereoVRMode && (<div ref={viewerContainerRef} id="viewer" style={{ height: '100vh', width: '100vw', position: 'relative' }}>
+      <div className="photosphere-overlay">
+       <><button className="close-button" onClick={onClose} style={{ position: 'absolute', top: '20px', right: '10px', zIndex: 100 }}>X</button>
+        <button className="fullscreen-button" onClick={toggleFullscreen} style={{ position: 'absolute', top: '20px', right: '50px', zIndex: 100 }}>
+          {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
         </button>
-      )}
-
-{!isStereoVRMode && showHotspotMenu && (
-  <div
-    className="hotspot-menu"
-    style={{
-      position: 'absolute',
-      top: '50px',
-      right: '10px',
-      zIndex: 200,
-      width: '250px',
-      maxHeight: '70vh',
-      overflowY: 'auto',
-      backgroundColor: 'rgba(0, 0, 0, 0.9)',
-      padding: '10px',
-      borderRadius: '8px',
-    }}
-  >
-    {hotspots.map((hotspot, index) => (
-      <div
-        key={index}
-        onClick={() => handleHotspotClick(hotspot)}
-        style={{
-          position: 'relative',
-          marginBottom: '10px',
-          cursor: 'pointer',
-          border: currentHotspotIndex === index ? '2px solid white' : '1px solid black',
-          borderRadius: '8px',
-          overflow: 'hidden',
-          backgroundColor: currentHotspotIndex === index ? '#e0e0e0' : 'white',
-        }}
-      >
-        <img
-          src={hotspot.imageUrl}
-          alt={hotspot.label}
-          style={{ width: '100%', height: 'auto', display: 'block' }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '0',
-            width: '100%',
-            textAlign: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.6)',
-            color: 'white',
-            padding: '5px 0',
-            fontSize: '14px',
-            fontWeight: 'bold',
-          }}
+        {/* Navigation Buttons */}
+        <button onClick={handlePrev} style={{ position: 'absolute', top: '50%', left: '10px', zIndex: 100 }}>Prev</button>
+        <button onClick={handleNext} style={{ position: 'absolute', top: '50%', right: '10px', zIndex: 100 }}>Next</button>
+        <button onClick={toggleStereoVRMode} style={{ position: 'absolute', top: '20PX', left: '10px', zIndex: 100 }}>Enter VR</button>
+        <button
+          className="gallery-button"
+          onClick={() => setShowGallery(!showGallery)}
+          style={{ position: 'absolute', bottom: '20px', right: '100px', zIndex: 100 }}
         >
-          {hotspot.label}
+          {showGallery ? 'Hide Gallery' : 'Show Gallery'}
+        </button>
+        <button
+              className="menu-button"
+              onClick={() => setShowHotspotsPanel(!showHotspotsPanel)} // Toggle the menu visibility
+              style={{ position: 'absolute', bottom: '20px', right: '200px', zIndex: 100 }}
+            >
+              {showHotspotsPanel ? 'Hide Hotspots' : 'Show Hotspots'}
+            </button>
+        {/* Gallery Component */}
+        {showGallery && (
+  <Gallery
+    images={Array.isArray(combinedHotspots[currentHotspotIndex]?.galleryImages) ? combinedHotspots[currentHotspotIndex].galleryImages : []}
+    onClose={() => setShowGallery(false)}
+  />
+)}
+{/* Hotspot Menu Panel */}
+{showHotspotsPanel && (
+  <div className="hotspots-panel" style={{
+    position: 'absolute',
+    top: '50px',
+    right: '20px',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    padding: '10px',
+    borderRadius: '5px',
+    boxShadow: '0 2px 10px rgba(0,0,0,0.3)',
+    zIndex: 100,
+    maxHeight: '400px', // Limit the height of the panel
+    overflowY: 'auto', // Enable vertical scrolling
+    width: '200px', // Set a width for the panel
+  }}>
+    {hotspots.map((hotspot, index) => {
+      const isSelected = index === currentHotspotIndex; // Check if this hotspot is selected
+      return (
+        <div key={index} onClick={() => handleImageClick(index)} style={{
+          position: 'relative', // Position for absolute children
+          cursor: 'pointer',
+          marginBottom: '10px', // Space between items
+          border: isSelected ? '2px solid white' : 'none', // White outline if selected
+          borderRadius: '5px', // Rounded corners for the outline
+          overflow: 'hidden', // Ensures the outline follows the rounded corners
+        }}>
+          <img src={hotspot.imageUrl} alt={hotspot.label} style={{
+            width: '100%', // Full width of the container
+            height: 'auto', // Maintain aspect ratio
+            borderRadius: '5px', // Rounded corners for images
+          }} />
+          <span style={{
+            position: 'absolute',
+            bottom: '0', // Position the label at the bottom of the image
+            left: '0', // Align to the left
+            width: '100%', // Full width of the container
+            color: 'white', // Label text color
+            backgroundColor: 'rgba(0, 0, 0, 0.7)', // Darker semi-transparent background
+            padding: '10px 5px', // Padding around the text
+            borderRadius: '0 0 5px 5px', // Rounded corners at the bottom
+            boxSizing: 'border-box', // Include padding in width calculation
+            border: isSelected ? '2px solid white' : 'none', // White outline if selected
+          }}>
+            {hotspot.label}
+          </span>
         </div>
-      </div>
-    ))}
+      );
+    })}
   </div>
 )}
-      {/* Toggle Button for the Panel */}
-      {!isStereoVRMode && ( <button
-        onClick={togglePanelVisibility}
-        style={{
-          position: 'absolute',
-          bottom: '10px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 100,
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          color: 'white',
-          borderRadius: '50%',
-          padding: '5px 10px',
-          border: 'none',
-          cursor: 'pointer',
-          fontSize: '18px'
-        }}
-      >
-        {panelVisible ? '∨' : '∧'}
-        </button>)}
 
-      {/* Minimize Button for Fullscreen */}
-      {!isStereoVRMode && isFullscreen && (
-        <button
-          onClick={exitFullscreen}
-          style={{
-            position: 'absolute',
-            top: '10px',
-            left: '10px',
-            zIndex: 100,
-            backgroundColor: 'rgba(0, 0, 0, 0.7)',
-            color: 'white',
-            borderRadius: '50%',
-            padding: '10px',
-            border: 'none',
-            cursor: 'pointer',
-            fontSize: '18px'
-          }}
-        >
-          –
-        </button>
+        
+        {/* Rotation Controls */}
+        <div className="rotation-controls" style={{ position: 'absolute', bottom: '20px', left: '20px', zIndex: 100 }}>
+          <button onClick={() => rotateView(0, 0.1)}>Down</button>
+          <button onClick={() => rotateView(0.1, 0)}>Right</button>
+          <button onClick={() => rotateView(-0.1, 0)}>Left</button>
+          <button onClick={() => rotateView(0, -0.1)}>Up</button>
+        </div>
+
+        <div className="zoom-controls" style={{ position: 'absolute', bottom: '80px', left: '20px', zIndex: 100 }}>
+          <button onClick={() => zoomView(-0.2)}>Zoom In</button>  {/* Small zoom in increment */}
+          <button onClick={() => zoomView(0.2)}>Zoom Out</button>  {/* Small zoom out increment */}
+          <button onClick={refreshView}>Refresh</button>
+        </div>
+        
+        </>
+        </div>
+        </div>
+      )}
+  {isStereoVRMode && (
+         <div className="stereo-vr-container" style={{ display: 'flex', width: '100vw', height: '100vh' }}>
+         <a-scene embedded style={{ width: '50vw', height: '100vh' }}>
+           <a-camera position={`-0.03 0 ${cameraZ}`}>
+             {/* Add crosshair for left eye view */}
+             <a-entity
+               position="0 0 -1"
+               geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.015"
+               material="color: white; shader: flat"
+             ></a-entity>
+           </a-camera>
+           <a-sky src={combinedHotspots[currentHotspotIndex].imageUrl} rotation={`${rotation.x} ${rotation.y} ${rotation.z}`}></a-sky>
+         </a-scene>
+         <a-scene embedded style={{ width: '50vw', height: '100vh' }}>
+           <a-camera position={`0.03 0 ${cameraZ}`}>
+             {/* Add crosshair for right eye view */}
+             <a-entity
+               position="0 0 -1"
+               geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.015"
+               material="color: white; shader: flat"
+             ></a-entity>
+           </a-camera>
+           <a-sky src={combinedHotspots[currentHotspotIndex].imageUrl} rotation={`${rotation.x} ${rotation.y} ${rotation.z}`}></a-sky>
+         </a-scene>
+         <button onClick={toggleStereoVRMode} style={{ position: 'absolute', top: '20px', right: '10px', zIndex: 100 }}>
+            Exit VR
+          </button>
+       </div>
+          
+       
       )}
 
-      {/* Minimize Button for Fullscreen */}
-      {!isStereoVRMode && isFullscreen && (
-        <button
-          onClick={exitFullscreen}
-          style={{
-            position: 'absolute',
-            top: '10px',
-            left: '10px',
-            zIndex: 100,
-            backgroundColor: 'rgba(0, 0, 0, 0.7)',
-            color: 'white',
-            borderRadius: '50%',
-            padding: '10px',
-            border: 'none',
-            cursor: 'pointer',
-            fontSize: '18px'
-          }}
-        >
-          –
-        </button>
-      )}
- {isStereoVRMode ? (
-  <div className="stereo-vr-container" style={{ display: 'flex', width: '100vw', height: '100vh' }}>
-    <a-scene embedded style={{ width: '50vw', height: '100vh' }}>
-      <a-camera position={`-0.03 0 ${cameraZ}`}>
-        {/* Add crosshair for left eye view */}
-        <a-entity
-          position="0 0 -1"
-          geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.015"
-          material="color: white; shader: flat"
-        ></a-entity>
-      </a-camera>
-      <a-sky src={imageUrl || initialImageUrl} rotation={`${rotation.x} ${rotation.y} ${rotation.z}`}></a-sky>
-    </a-scene>
-    <a-scene embedded style={{ width: '50vw', height: '100vh' }}>
-      <a-camera position={`0.03 0 ${cameraZ}`}>
-        {/* Add crosshair for right eye view */}
-        <a-entity
-          position="0 0 -1"
-          geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.015"
-          material="color: white; shader: flat"
-        ></a-entity>
-      </a-camera>
-      <a-sky src={imageUrl || initialImageUrl} rotation={`${rotation.x} ${rotation.y} ${rotation.z}`}></a-sky>
-    </a-scene>
-  </div>
-) : (
-      <a-scene embedded style={{ height: '100vh', width: '100vw' }}>
-      <a-sky src={imageUrl || initialImageUrl} rotation={`${rotation.x} ${rotation.y} ${rotation.z}`} key={imageUrl}></a-sky>
-
-        <a-camera position={`0 0 ${cameraZ}`}></a-camera>
-      </a-scene>)}
-
-      {showGallery && (
-        <Gallery images={additionalImages} onClose={() => setShowGallery(false)} />
-      )}
-    </div>
+      </div>
+   
   );
 };
 
 export default PhotoSphere;
+

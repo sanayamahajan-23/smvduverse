@@ -1,4 +1,4 @@
-.photosphere-overlay {
+.viewer {
     position: fixed;
     top: 0;
     left: 0;
@@ -10,6 +10,40 @@
     align-items: center;
     z-index: 1000;
   }
+  #viewer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Prevent overflow */
+}
+
+.photosphere-overlay {
+    z-index: 10; /* Ensure overlay elements are on top */
+}
+
+.hotspot-marker {
+    /* Example styling for your markers */
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+  .hotspot-marker, .arrow-marker {
+    font-size: 20px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+  }
+  
+  .arrow-marker {
+    color: yellow;
+    font-size: 18px;
+  }
+  
   
   .close-button {
     position: absolute;
@@ -21,6 +55,6 @@
     font-size: 24px;
     cursor: pointer;
   }
-  a-scene > .a-enter-vr {
+  .a-enter-vr, .a-vr-mode-ui {
     display: none !important;
   }

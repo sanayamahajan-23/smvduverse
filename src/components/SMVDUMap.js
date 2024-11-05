@@ -21,47 +21,74 @@ const SMVDUMap = () => {
   const [suggestions, setSuggestions] = useState([]);
   const mapRef = useRef(null); 
   const hotspots = [
-    { x: 120, y: 570, imageUrl: `${process.env.PUBLIC_URL}/assets/photo1.png`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.png`, `${process.env.PUBLIC_URL}/assets/photo1.png`], label: 'Gate 2' },
-    { x: 90, y: 280, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Sports Complex' },
-    { x: 300, y: 390, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'New Basholi' },
-    { x: 359, y:323, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Nilgiri' },
-    { x: 350, y: 190, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Vindhyachal' },
-    { x: 435, y: 225, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Trikuta' },
-    { x: 439, y: 270, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Kailash' },
-    { x: 400, y: 247, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Central Gym/Mess' },
-    { x: 595, y: 242, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Red Rocks' },
-    { x: 640, y: 242, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Fountain Area' },
-    { x: 620, y: 310, imageUrl: `${process.env.PUBLIC_URL}/assets/photo1.png`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.png`, `${process.env.PUBLIC_URL}/assets/photo1.png`], label: 'Central Library' },
-    { x: 980, y: 450, imageUrl: `${process.env.PUBLIC_URL}/assets/vaishnavi.jpeg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/Vaishnavi-1.jpeg`, `${process.env.PUBLIC_URL}/assets/Vaishnavi-2.jpeg`, `${process.env.PUBLIC_URL}/assets/Vaishnavi-3.jpeg`], label: 'Vaishnavi' },
-    { x: 1030, y: 380, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Guest House' },
-    { x: 1100, y: 390, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Residential Area' },
-    { x:910, y: 305, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Medical Aid Center' },
-    { x:925, y: 290, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Grocery' },
-    { x:910, y: 245, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Shivalik A' },
-    { x:910, y: 180, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Shivalik B' },
-    { x:1050, y: 80, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Helipad'},
-    { x:810, y: 110, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Tennis Court'},
-    { x:790, y: 60, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Workshop'},
-    { x:710, y: 40, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Civil Building'},
-    { x:630, y: 20, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'School Of Architecture & Design'},
-    { x:540, y: 40, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Parking'},
-    { x:550, y: 130, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Matrika'},
-    { x:610, y: 170, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Administrative Block'},
-    { x:660, y: 160, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'School of Computer Science'},
-    { x:700, y: 150, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'LT3/4'},
-    { x:700, y: 210, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'School of Business Management'},
-    { x:700, y: 240, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'School of Language/Philosophy'},
-    { x:710, y: 305, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'LT1/2'},
-    { x:750, y: 300, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Block A'},
-    { x:755, y: 265, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Block B'},
-    { x:775, y: 225, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'BC Junction/TBIC'},
-    { x:755, y: 195, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Block C'},
-    { x:745, y: 155, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Block D'},
-    { x:720, y: 150, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'J&K Bank'},
-    { x:680, y: 300, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Research Block'},
-    { x:840, y: 430, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Gate 1' },
+    { x: 120, y: 570, imageUrl: `${process.env.PUBLIC_URL}/assets/photo1.png`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.png`, `${process.env.PUBLIC_URL}/assets/photo1.png`], label: 'Gate 2' ,linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x: 90, y: 280, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Sports Complex' ,linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x: 300, y: 390, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'New Basholi',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ] },
+    { x: 359, y:323, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Nilgiri',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ] },
+    { x: 350, y: 190, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Vindhyachal' ,linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x: 435, y: 225, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Trikuta' ,linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x: 439, y: 270, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Kailash',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ] },
+    { x: 400, y: 247, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Central Gym/Mess',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ] },
+    { x: 595, y: 242, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Red Rocks',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ] },
+    { x: 640, y: 242, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Fountain Area',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ] },
+    { x: 620, y: 310, imageUrl: `${process.env.PUBLIC_URL}/assets/photo1.png`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.png`, `${process.env.PUBLIC_URL}/assets/photo1.png`], label: 'Central Library',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ] },
+    { x: 980, y: 450, imageUrl: `${process.env.PUBLIC_URL}/assets/vaishnavi.jpeg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/Vaishnavi-1.jpeg`, `${process.env.PUBLIC_URL}/assets/Vaishnavi-2.jpeg`, `${process.env.PUBLIC_URL}/assets/Vaishnavi-3.jpeg`], label: 'Vaishnavi',linkedHotspots: [  { id: 'a',  latitude: 0,longitude: 0 } ] },
+    { x: 1030, y: 380, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Guest House',linkedHotspots: [  { id: 'a',  latitude: 45,longitude: 10   } ] },
+    { x: 1100, y: 390, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Residential Area' ,linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:910, y: 305, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Medical Aid Center',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ] },
+    { x:925, y: 290, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Grocery' ,linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:910, y: 245, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Shivalik A',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ] },
+    { x:910, y: 180, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Shivalik B',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ] },
+    { x:1050, y: 80, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Helipad',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:810, y: 110, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Tennis Court',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:790, y: 60, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Workshop',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:710, y: 40, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Civil Building',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:630, y: 20, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'School Of Architecture & Design',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:540, y: 40, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Parking',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:550, y: 130, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Matrika',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:610, y: 170, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Administrative Block',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:660, y: 160, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'School of Computer Science',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:700, y: 150, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'LT3/4',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:700, y: 210, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'School of Business Management',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:700, y: 240, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'School of Language/Philosophy',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:710, y: 305, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'LT1/2',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:750, y: 300, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Block A',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:755, y: 265, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Block B',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:775, y: 225, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'BC Junction/TBIC',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:755, y: 195, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Block C',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:745, y: 155, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Block D',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:720, y: 150, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'J&K Bank',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:680, y: 300, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Research Block',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ]},
+    { x:840, y: 430, imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,galleryImages: [`${process.env.PUBLIC_URL}/assets/photo1.jpg`, `${process.env.PUBLIC_URL}/assets/photo2.jpg`], label: 'Gate 1',linkedHotspots: [  { id: 'a',  latitude: 30,longitude: 45   } ] },
   ];
-
+  const nonMappedHotspots = [
+    {
+      id: 'a',
+      imageUrl: `${process.env.PUBLIC_URL}/assets/vaishnavigate.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`
+      ],
+      label: 'Hidden Garden',
+      linkedHotspots: [
+        { id: 1,  latitude: 30,longitude: 45 },
+        { id: 'b', latitude: 30,longitude: 45 }
+    ]},
+    {
+      id: 'b',
+      imageUrl: `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped3.jpg`
+      ],
+      label: 'Secret Courtyard',
+      linkedHotspots: [
+        { id: 1, position: { x: 10, y: 20, z: 0 } },
+        { id: 'b', position: { x: 30, y: 40, z: 0 } }
+    ]
+    },
+    // Add more non-mapped hotspots as needed
+  ];
   const handleHotspotClick = (index) => {
     setCurrentHotspotIndex(index);
     setSelectedPhoto(hotspots[index].imageUrl); // Set the selected image
@@ -274,7 +301,7 @@ const SMVDUMap = () => {
           ))}
         </div>
       )}
-       <div className="search-container" style={{ position: 'absolute', top: '20px', left: '20px', zIndex: 1000 }}>
+     {!selectedPhoto && (<div className="search-container" style={{ position: 'absolute', top: '20px', left: '20px', zIndex: 1 }}>
         <input
           type="text"
           value={searchText}
@@ -296,11 +323,11 @@ const SMVDUMap = () => {
             ))}
           </div>
         )}
-      </div>
+      </div>)}
       
       {/* Show the Photo Sphere when a photo is selected */}
       {selectedPhoto && (
-        <PhotoSphere imageUrl={selectedPhoto}   additionalImages={selectedGalleryImages}  hotspots={hotspots}  currentHotspotIndex={currentHotspotIndex}     setCurrentHotspotIndex={setCurrentHotspotIndex}  onClose={closePhotoSphere} />
+        <PhotoSphere imageUrl={selectedPhoto}   additionalImages={selectedGalleryImages}  hotspots={hotspots}  currentHotspotIndex={currentHotspotIndex}     setCurrentHotspotIndex={setCurrentHotspotIndex}  nonMappedHotspots={nonMappedHotspots}  onClose={closePhotoSphere} />
       )}
 
       {/* Conditionally render zoom controls and figurine */}
