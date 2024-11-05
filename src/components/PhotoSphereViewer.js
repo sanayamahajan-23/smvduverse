@@ -5,8 +5,6 @@ import './PhotoSphereViewer.css';
 import Gallery from './Gallery'; 
 
 const PhotoSphere = ({
-  imageUrl,
-  additionalImages,
   hotspots,
   nonMappedHotspots,
   currentHotspotIndex,
