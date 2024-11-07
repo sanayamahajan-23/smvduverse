@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css"; 
+import React, { useState } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import './Gallery.css';
+import "./Gallery.css";
 
 const Gallery = ({ images, onClose }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -33,10 +33,16 @@ const Gallery = ({ images, onClose }) => {
     <div>
       {/* Gallery panel */}
       <div className="gallery-panel">
-        <button className="close-gallery" onClick={onClose}>X</button>
+        <button className="close-gallery" onClick={onClose}>
+          X
+        </button>
         <Slider {...settings}>
           {images.map((image, index) => (
-            <div key={index} className="gallery-image" onClick={() => openFullscreen(image)}>
+            <div
+              key={index}
+              className="gallery-image"
+              onClick={() => openFullscreen(image)}
+            >
               <img src={image} alt={`Slide ${index + 1}`} />
             </div>
           ))}
@@ -46,8 +52,14 @@ const Gallery = ({ images, onClose }) => {
       {/* Fullscreen modal */}
       {isFullscreen && (
         <div className="fullscreen-modal" onClick={closeFullscreen}>
-          <img src={selectedImage} alt="Fullscreen view" className="fullscreen-image" />
-          <button className="close-fullscreen" onClick={closeFullscreen}>X</button>
+          <img
+            src={selectedImage}
+            alt="Fullscreen view"
+            className="fullscreen-image"
+          />
+          <button className="close-fullscreen" onClick={closeFullscreen}>
+            X
+          </button>
         </div>
       )}
     </div>
@@ -55,4 +67,3 @@ const Gallery = ({ images, onClose }) => {
 };
 
 export default Gallery;
-

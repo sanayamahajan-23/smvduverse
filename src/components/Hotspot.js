@@ -1,5 +1,5 @@
-import React from 'react';
-import './Hotspot.css';
+import React from "react";
+import "./Hotspot.css";
 
 const Hotspot = ({ x, y, onClick, label, scale, position }) => {
   return (
@@ -10,9 +10,9 @@ const Hotspot = ({ x, y, onClick, label, scale, position }) => {
         left: `${x * scale + position.x}px`,
         top: `${y * scale + position.y}px`,
         transform: `scale(${scale}) translate(-50%, -100%)`,
-        position: 'absolute',
-        cursor: 'pointer',
-        transition: 'transform 0.3s ease',
+        position: "absolute",
+        cursor: "pointer",
+        transition: "transform 0.3s ease",
       }}
       title={label}
     >
@@ -20,8 +20,8 @@ const Hotspot = ({ x, y, onClick, label, scale, position }) => {
         src={`${process.env.PUBLIC_URL}/assets/hotspot.png`}
         alt={label}
         style={{
-          width: '32px',
-          height: '32px',
+          width: "32px",
+          height: "32px",
         }}
       />
     </div>
@@ -29,4 +29,3 @@ const Hotspot = ({ x, y, onClick, label, scale, position }) => {
 };
 
 export default Hotspot;
-

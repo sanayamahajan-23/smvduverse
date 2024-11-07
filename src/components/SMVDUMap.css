@@ -1,47 +1,48 @@
 .zoom-controls {
-    position: fixed;
-    bottom: 20px; 
-    left: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    z-index: 5000; 
-  }
-  
-  .zoom-button {
-    background-color: rgba(255, 255, 255, 0.8); 
-    border: none;
-    padding: 10px;
-    font-size: 24px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    width: 40px;
-    height: 40px;
-    display: block;
-  }
-  
-  .zoom-button:first-child {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-  }
-  
-  .zoom-button:last-child {
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-  }
-  
-  .zoom-button:hover {
-    background-color: rgba(255, 255, 255, 1);
-    transform: scale(1.1);
-  }
-  /* Ensure the parent container takes the full height of the viewport */
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  z-index: 5000;
+}
+
+.zoom-button {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  padding: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+
+.zoom-button:first-child {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.zoom-button:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.zoom-button:hover {
+  background-color: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+}
+/* Ensure the parent container takes the full height of the viewport */
 .zoom-container {
   height: 100%;
   width: 100%;
   overflow: hidden; /* Prevent overflow issues */
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -54,7 +55,7 @@ html, body {
 
 div[style="height:100vh;width:100vw;position:relative;background-color:black"] {
   height: 100vh; /* Use the full viewport height */
-  width: 100vw;  /* Use the full viewport width */
+  width: 100vw; /* Use the full viewport width */
   overflow: hidden; /* Prevent scrollbars from appearing */
 }
 /* Ensure figurine is always on top */
@@ -74,8 +75,12 @@ div[style="height:100vh;width:100vw;position:relative;background-color:black"] {
 }
 /* Hotspot hover when figurine is over it */
 .hotspot-hovered {
-  background-color: rgba(255, 0, 0, 0.7); /* Slightly transparent to give feedback */
+  background-color: rgba(
+    255,
+    0,
+    0,
+    0.7
+  ); /* Slightly transparent to give feedback */
   border-radius: 50%;
   z-index: 90;
 }
-

@@ -30,7 +30,8 @@
   cursor: pointer;
 }
 
-.slick-prev:before, .slick-next:before {
+.slick-prev:before,
+.slick-next:before {
   color: white;
 }
 

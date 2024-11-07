@@ -32,57 +32,59 @@
 }
 @keyframes float {
   0% {
-      transform: translateY(0);
+    transform: translateY(0);
   }
   50% {
-      transform: translateY(-10px);
+    transform: translateY(-10px);
   }
   100% {
     transform: translateY(0);
-}}
+  }
+}
 @keyframes reveal-left {
   0% {
-      transform: translateX(0);
-      opacity: 0.9;
+    transform: translateX(0);
+    opacity: 0.9;
   }
   40% {
     transform: translateX(-500%); /* Move slightly */
     opacity: 0.9;
-}
-60% {
-  transform: translateX(-1000%); /* Move further */
-  opacity: 0.7; /* Start fading */
-}
-80% {
-  transform: translateX(-1400%); /* Nearly off-screen */
-  opacity: 0.3; /* Increase fading */
-}
-100% {
-  transform: translateX(-1800%); /* Fully off-screen */
-  opacity: 0; /* Fully transparent */
-}
   }
-  
-  @keyframes reveal-right {
-    0% {
-      transform: translateX(0); 
-      opacity: 0.9;
-    }
-    40% {
-        transform: translateX(500%); /* Move slightly */
-        opacity: 0.9;
-    }
-    60% {
-      transform: translateX(1000%); /* Move further */
-      opacity: 0.7; /* Start fading */
+  60% {
+    transform: translateX(-1000%); /* Move further */
+    opacity: 0.7; /* Start fading */
+  }
+  80% {
+    transform: translateX(-1400%); /* Nearly off-screen */
+    opacity: 0.3; /* Increase fading */
+  }
+  100% {
+    transform: translateX(-1800%); /* Fully off-screen */
+    opacity: 0; /* Fully transparent */
+  }
+}
+
+@keyframes reveal-right {
+  0% {
+    transform: translateX(0);
+    opacity: 0.9;
+  }
+  40% {
+    transform: translateX(500%); /* Move slightly */
+    opacity: 0.9;
+  }
+  60% {
+    transform: translateX(1000%); /* Move further */
+    opacity: 0.7; /* Start fading */
   }
   80% {
     transform: translateX(1400%); /* Nearly off-screen */
     opacity: 0.3; /* Increase fading */
-}100% {
-  transform: translateX(1800%); /* Fully off-screen */
-  opacity: 0; /* Fully transparent */
-}
+  }
+  100% {
+    transform: translateX(1800%); /* Fully off-screen */
+    opacity: 0; /* Fully transparent */
+  }
 }
 .reveal-left {
   animation: reveal-left 25s forwards ease-in-out; /* Extended duration */
