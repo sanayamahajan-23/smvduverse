@@ -160,7 +160,7 @@ const PhotoSphere = ({
   const addArrowMarker = (viewer, sourceHotspot, linkedHotspot) => {
     const arrowElement = document.createElement("div");
     arrowElement.className = "arrow-marker";
-    arrowElement.textContent = "➔";
+    arrowElement.textContent = "🡩";
     arrowElement.style.position = "absolute";
 
     const position = {

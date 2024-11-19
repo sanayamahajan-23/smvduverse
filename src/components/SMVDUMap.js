@@ -21,7 +21,7 @@ const SMVDUMap = () => {
   const [suggestions, setSuggestions] = useState([]);
   const mapRef = useRef(null);
   const hotspots = [
-    {
+    { id:1,
       x: 120,
       y: 570,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photo1.png`,
@@ -32,7 +32,7 @@ const SMVDUMap = () => {
       label: "Gate 2",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:2,
       x: 90,
       y: 280,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`,
@@ -43,7 +43,7 @@ const SMVDUMap = () => {
       label: "Sports Complex",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:3,
       x: 300,
       y: 390,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -54,7 +54,7 @@ const SMVDUMap = () => {
       label: "New Basholi",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:4,
       x: 359,
       y: 323,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`,
@@ -65,7 +65,7 @@ const SMVDUMap = () => {
       label: "Nilgiri",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:5,
       x: 350,
       y: 190,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -76,7 +76,7 @@ const SMVDUMap = () => {
       label: "Vindhyachal",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:6,
       x: 435,
       y: 225,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere1.jpg`,
@@ -87,7 +87,7 @@ const SMVDUMap = () => {
       label: "Trikuta",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:7,
       x: 439,
       y: 270,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -98,7 +98,7 @@ const SMVDUMap = () => {
       label: "Kailash",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:8,
       x: 400,
       y: 247,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -109,7 +109,7 @@ const SMVDUMap = () => {
       label: "Central Gym/Mess",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:9,
       x: 595,
       y: 242,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -120,7 +120,7 @@ const SMVDUMap = () => {
       label: "Red Rocks",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:10,
       x: 640,
       y: 242,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -131,7 +131,7 @@ const SMVDUMap = () => {
       label: "Fountain Area",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:11,
       x: 620,
       y: 310,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photo1.png`,
@@ -142,7 +142,7 @@ const SMVDUMap = () => {
       label: "Central Library",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:12,
       x: 980,
       y: 450,
       imageUrl: `${process.env.PUBLIC_URL}/assets/vaishnavi.jpeg`,
@@ -152,20 +152,34 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/Vaishnavi-3.jpeg`,
       ],
       label: "Vaishnavi",
-      linkedHotspots: [{ id: "a", latitude: 0, longitude: 0 }],
+      linkedHotspots: [{ id: "a", latitude: 0, longitude: 0 },],
     },
-    {
+    { id:13,
       x: 1030,
       y: 380,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/guesthouse.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
         `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
       ],
       label: "Guest House",
-      linkedHotspots: [{ id: "a", latitude: 45, longitude: 10 }],
+      linkedHotspots: [{ id: 14, latitude: 10 , longitude: 130 },
+        { id: "c", latitude: 10, longitude: -60 }
+      ],
+      
     },
-    {
+    { id:14,
+      x: 1070,
+      y: 360,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/park.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Guest House Park",
+      linkedHotspots: [{ id: 13, latitude: 10, longitude: 250},],
+    },
+    { id:15,
       x: 1100,
       y: 390,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -176,7 +190,7 @@ const SMVDUMap = () => {
       label: "Residential Area",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:16,
       x: 910,
       y: 305,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -187,7 +201,7 @@ const SMVDUMap = () => {
       label: "Medical Aid Center",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:17,
       x: 925,
       y: 290,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -198,7 +212,7 @@ const SMVDUMap = () => {
       label: "Grocery",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:18,
       x: 910,
       y: 245,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -209,7 +223,7 @@ const SMVDUMap = () => {
       label: "Shivalik A",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:19,
       x: 910,
       y: 180,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -220,7 +234,7 @@ const SMVDUMap = () => {
       label: "Shivalik B",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:20,
       x: 1050,
       y: 80,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -231,7 +245,7 @@ const SMVDUMap = () => {
       label: "Helipad",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:21,
       x: 810,
       y: 110,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -242,7 +256,7 @@ const SMVDUMap = () => {
       label: "Tennis Court",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:22,
       x: 790,
       y: 60,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -253,7 +267,7 @@ const SMVDUMap = () => {
       label: "Workshop",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:23,
       x: 710,
       y: 40,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -264,7 +278,7 @@ const SMVDUMap = () => {
       label: "Civil Building",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:24,
       x: 630,
       y: 20,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -275,7 +289,7 @@ const SMVDUMap = () => {
       label: "School Of Architecture & Design",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:25,
       x: 540,
       y: 40,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -286,7 +300,7 @@ const SMVDUMap = () => {
       label: "Parking",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:26,
       x: 550,
       y: 130,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -297,7 +311,7 @@ const SMVDUMap = () => {
       label: "Matrika",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:27,
       x: 610,
       y: 170,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -308,7 +322,7 @@ const SMVDUMap = () => {
       label: "Administrative Block",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:28,
       x: 660,
       y: 160,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -319,7 +333,7 @@ const SMVDUMap = () => {
       label: "School of Computer Science",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:29,
       x: 700,
       y: 150,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -330,7 +344,7 @@ const SMVDUMap = () => {
       label: "LT3/4",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:30,
       x: 700,
       y: 210,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -341,7 +355,7 @@ const SMVDUMap = () => {
       label: "School of Business Management",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:31,
       x: 700,
       y: 240,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -352,7 +366,7 @@ const SMVDUMap = () => {
       label: "School of Language/Philosophy",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:32,
       x: 710,
       y: 305,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -363,7 +377,7 @@ const SMVDUMap = () => {
       label: "LT1/2",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:33,
       x: 750,
       y: 300,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -374,7 +388,7 @@ const SMVDUMap = () => {
       label: "Block A",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:34,
       x: 755,
       y: 265,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -385,7 +399,7 @@ const SMVDUMap = () => {
       label: "Block B",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:35,
       x: 775,
       y: 225,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -396,7 +410,7 @@ const SMVDUMap = () => {
       label: "BC Junction/TBIC",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:36,
       x: 755,
       y: 195,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -407,7 +421,7 @@ const SMVDUMap = () => {
       label: "Block C",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:37,
       x: 745,
       y: 155,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -418,7 +432,7 @@ const SMVDUMap = () => {
       label: "Block D",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:38,
       x: 720,
       y: 150,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -429,7 +443,7 @@ const SMVDUMap = () => {
       label: "J&K Bank",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:39,
       x: 680,
       y: 300,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -440,7 +454,7 @@ const SMVDUMap = () => {
       label: "Research Block",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
-    {
+    { id:40,
       x: 840,
       y: 430,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -455,31 +469,44 @@ const SMVDUMap = () => {
   const nonMappedHotspots = [
     {
       id: "a",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/vaishnavigate.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/routetomargs.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
       ],
-      label: "Hidden Garden",
+      label: "outside vaishnavi",
       linkedHotspots: [
-        { id: 1, latitude: 30, longitude: 45 },
-        { id: "b", latitude: 30, longitude: 45 },
+        // { id: 1, latitude: 30, longitude: 45 },
+        { id: "b", latitude: 10, longitude: 0 },
+        { id: "c", latitude: 10, longitude: 140 },
       ],
     },
     {
       id: "b",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/vaishnavigate.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
         `${process.env.PUBLIC_URL}/assets/nonMapped3.jpg`,
       ],
-      label: "Secret Courtyard",
+      label: "Entrance of hostel,guest house and residential area",
       linkedHotspots: [
-        { id: 1, position: { x: 10, y: 20, z: 0 } },
-        { id: "b", position: { x: 30, y: 40, z: 0 } },
+        // { id: 1, position: { x: 10, y: 20, z: 0 } },
+        { id: "a", latitude: 10, longitude: 100 },
       ],
     },
-    // Add more non-mapped hotspots as needed
+    {
+      id: "c",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/routetoguest,marg.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      ],
+      label: "outside vaishnavi",
+      linkedHotspots: [
+        { id: 13, latitude: 10, longitude: 80 },
+        { id: "a", latitude: 10, longitude: 0 },
+      ],
+    },
   ];
   const handleHotspotClick = (index) => {
     setCurrentHotspotIndex(index);
