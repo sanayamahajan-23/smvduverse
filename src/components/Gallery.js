@@ -6,8 +6,17 @@ import "./Gallery.css";
 
 const Gallery = ({ images, onClose }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
-
+  const [fullscreenIndex, setFullscreenIndex] = useState(0);
+  const fullscreenSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    initialSlide: fullscreenIndex,
+    arrows: true,
+    beforeChange: (current, next) => setFullscreenIndex(next),
+  };
   const settings = {
     dots: true,
     infinite: true,
@@ -17,16 +26,15 @@ const Gallery = ({ images, onClose }) => {
     arrows: true,
   };
 
-  // Function to open fullscreen modal with selected image
-  const openFullscreen = (image) => {
-    setSelectedImage(image);
+  const openFullscreen = (index) => {
+    setFullscreenIndex(index);
     setIsFullscreen(true);
   };
 
-  // Function to close the fullscreen modal
-  const closeFullscreen = () => {
-    setSelectedImage(null);
+  // Close fullscreen modal
+  const closeFullscreen = (e) => {
     setIsFullscreen(false);
+    e.stopPropagation();
   };
 
   return (
@@ -41,7 +49,7 @@ const Gallery = ({ images, onClose }) => {
             <div
               key={index}
               className="gallery-image"
-              onClick={() => openFullscreen(image)}
+              onClick={() => openFullscreen(index)}
             >
               <img src={image} alt={`Slide ${index + 1}`} />
             </div>
@@ -52,14 +60,25 @@ const Gallery = ({ images, onClose }) => {
       {/* Fullscreen modal */}
       {isFullscreen && (
         <div className="fullscreen-modal" onClick={closeFullscreen}>
-          <img
-            src={selectedImage}
-            alt="Fullscreen view"
-            className="fullscreen-image"
-          />
           <button className="close-fullscreen" onClick={closeFullscreen}>
             X
           </button>
+          <div
+            className="fullscreen-slider-container"
+            onClick={(e) => e.stopPropagation()} // Prevent propagation to modal close handler
+          >
+            <Slider {...fullscreenSettings}>
+              {images.map((image, index) => (
+                <div key={index} className="fullscreen-slide">
+                  <img
+                    src={image}
+                    alt={`Fullscreen Slide ${index + 1}`}
+                    className="fullscreen-image"
+                  />
+                </div>
+              ))}
+            </Slider>
+          </div>
         </div>
       )}
     </div>

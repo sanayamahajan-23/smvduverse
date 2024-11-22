@@ -12,7 +12,7 @@ const PhotoSphere = ({
   onClose,
 }) => {
   const [rotation, setRotation] = useState({ x: 0, y: -130, z: 0 }); // Initial rotation
-  const [cameraZ, setCameraZ] = useState(-5);
+  const [cameraZ, setCameraZ] = useState(10);
   const [isStereoVRMode, setIsStereoVRMode] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [lastMousePosition, setLastMousePosition] = useState(null);
@@ -24,12 +24,91 @@ const PhotoSphere = ({
   const [showGallery, setShowGallery] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [showHotspotsPanel, setShowHotspotsPanel] = useState(false);
-  const initialFov = 1.0; // Set your desired initial FOV value
-  const autorotateDelay = 3000; // Delay before autorotation starts (in milliseconds)
-  const autorotateSpeed = 0.001; // Adjust the rotation speed
+  const [isNarrating, setIsNarrating] = useState(false);
+  const [subtitle, setSubtitle] = useState("");
+  const [isSubtitleVisible, setIsSubtitleVisible] = useState(false);
+  const initialFov = 1.0;
+  const autorotateDelay = 3000;
+  const autorotateSpeed = 0.001;
   const combinedHotspots = [...hotspots, ...nonMappedHotspots];
-  // Timer reference for autorotation
+  const currentHotspot = combinedHotspots[currentHotspotIndex];
   const autorotationTimer = useRef(null);
+  const [hasAutoNarrationPlayed, setHasAutoNarrationPlayed] = useState(false);
+
+  // Function to handle speech synthesis for narration
+  const playNarration = (text) => {
+    if ("speechSynthesis" in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+
+      // Adjust the speech settings to sound natural and smooth
+      utterance.rate = 0.9; // Speed of speech
+      utterance.pitch = 1.1; // Slightly higher pitch for clarity and naturalness
+      utterance.volume = 1; // Maximum volume
+
+      // Get available voices
+      const voices = speechSynthesis.getVoices();
+
+      // Select a female voice if available, otherwise default to the first available voice
+      const preferredVoice = voices.find((voice) =>
+        voice.name.toLowerCase().includes("female")
+      );
+      utterance.voice = preferredVoice || voices[0];
+
+      // Start speaking
+      speechSynthesis.speak(utterance);
+    } else {
+      alert("Sorry, your browser does not support text-to-speech.");
+    }
+  };
+
+  // Automatically play narration after 1 second when 360 view is loaded
+  useEffect(() => {
+    // Only play automatic narration once
+    if (!hasAutoNarrationPlayed) {
+      const narrationDelay = setTimeout(() => {
+        playNarration(
+          `${currentHotspot.subtitle || "No additional details available."}`
+        );
+        setIsNarrating(true);
+        setHasAutoNarrationPlayed(true); // Mark that auto narration has played
+      }, 1000); // 1 second delay after component is mounted
+
+      // Cleanup the timeout if the component is unmounted or updated
+      return () => clearTimeout(narrationDelay);
+    }
+  }, [currentHotspot, hasAutoNarrationPlayed]);
+
+  // Toggle the narration (play narration and hide subtitle box)
+  const toggleNarration = () => {
+    const text = `${
+      currentHotspot.subtitle || "No additional details available."
+    }`;
+
+    if (isNarrating) {
+      // Stop narration
+      speechSynthesis.cancel();
+      setIsNarrating(false); // Mark as not narrating
+      setSubtitle(""); // Ensure subtitle box doesn't show
+    } else {
+      // Play narration
+      playNarration(text);
+      setIsNarrating(true); // Mark as narrating
+      setSubtitle(""); // Ensure subtitle box doesn't show
+    }
+  };
+
+  // Display subtitle only (without narration)
+  const showSubtitle = () => {
+    const text = `${
+      currentHotspot.subtitle || "No additional details available."
+    }`;
+    setSubtitle(text);
+    setIsSubtitleVisible(!isSubtitleVisible);
+  };
+  const closeSubtitle = () => {
+    setIsSubtitleVisible(false);
+    setSubtitle(""); // Close the subtitle box by setting the subtitle to an empty string
+  };
   const handleImageClick = (index) => {
     setCurrentHotspotIndex(index);
     setShowMenu(false); // Hide the menu when an image is clicked
@@ -243,7 +322,9 @@ const PhotoSphere = ({
   const handleUserInteraction = () => {
     resetAutorotation();
   };
-
+  const toggleHotspotsPanel = () => {
+    setShowHotspotsPanel(!showHotspotsPanel); // Toggle visibility of the hotspots panel
+  };
   useEffect(() => {
     if (isAutorotating) {
       const autoRotateInterval = setInterval(() => {
@@ -345,6 +426,71 @@ const PhotoSphere = ({
               >
                 Next
               </button>
+
+              {/* New Audio Button for Narration */}
+              <button
+                onClick={toggleNarration}
+                style={{
+                  position: "absolute",
+                  bottom: "40px",
+                  left: "50px",
+                  zIndex: 100,
+                }}
+              >
+                {isNarrating ? "Stop Narration" : "Play Narration"}
+              </button>
+
+              {/* New Subtitle Button to Display Subtitle */}
+              <button
+                onClick={showSubtitle}
+                style={{
+                  position: "absolute",
+                  bottom: "40px",
+                  left: "160px",
+                  zIndex: 100,
+                }}
+              >
+                {isSubtitleVisible ? "Show Subtitle" : "Show Subtitle"}
+              </button>
+
+              {/* Display Subtitle Box (only if narration is not playing) */}
+              {isSubtitleVisible && subtitle && (
+                <div
+                  className="subtitle-box"
+                  style={{
+                    position: "absolute",
+                    bottom: "100px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    color: "white",
+                    padding: "15px",
+                    borderRadius: "5px",
+                    textAlign: "center",
+                    zIndex: 100,
+                  }}
+                >
+                  <div>{subtitle}</div>
+                  {/* Close Button for Subtitle Box */}
+                  <button
+                    onClick={closeSubtitle}
+                    style={{
+                      position: "absolute",
+                      top: "5px",
+                      right: "5px",
+                      color: "white", // Text color for "X"
+                      background: "none", // Remove background
+                      border: "none", // Remove border
+                      padding: "10px",
+                      fontSize: "15px", // Optional: adjust the size of the "X"
+                      cursor: "pointer", // Ensure it's clickable
+                    }}
+                  >
+                    X
+                  </button>
+                </div>
+              )}
+
               <button
                 onClick={toggleStereoVRMode}
                 style={{
@@ -405,12 +551,29 @@ const PhotoSphere = ({
                     padding: "10px",
                     borderRadius: "5px",
                     boxShadow: "0 2px 10px rgba(0,0,0,0.3)",
-                    zIndex: 100,
+                    zIndex: 101, // Ensure this is higher than the background
                     maxHeight: "400px", // Limit the height of the panel
                     overflowY: "auto", // Enable vertical scrolling
                     width: "200px", // Set a width for the panel
                   }}
                 >
+                  {/* Close Button for Hotspots Panel */}
+                  <button
+                    onClick={toggleHotspotsPanel}
+                    style={{
+                      position: "absolute",
+                      top: "10px",
+                      right: "10px",
+                      color: "white",
+                      background: "none", // Transparent background
+                      border: "none", // No border
+                      fontSize: "20px", // Font size of "X"
+                      cursor: "pointer", // Pointer on hover
+                      zIndex: 102, // Ensure this is on top of other content
+                    }}
+                  >
+                    X
+                  </button>
                   {hotspots.map((hotspot, index) => {
                     const isSelected = index === currentHotspotIndex; // Check if this hotspot is selected
                     return (

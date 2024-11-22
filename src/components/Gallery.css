@@ -29,12 +29,6 @@
   font-size: 15px;
   cursor: pointer;
 }
-
-.slick-prev:before,
-.slick-next:before {
-  color: white;
-}
-/* Fullscreen modal */
 .fullscreen-modal {
   position: fixed;
   top: 0;
@@ -48,11 +42,16 @@
   z-index: 300;
 }
 
-.fullscreen-image {
-  max-width: 90%;
-  max-height: 90%;
+.fullscreen-slider-container {
+  width: 90%;
+  height: 90%;
+}
+
+.fullscreen-slide img {
+  max-width: 60%;
+  max-height: 40%;
   object-fit: contain;
-  cursor: pointer;
+  margin: auto;
 }
 
 .close-fullscreen {
@@ -64,4 +63,16 @@
   color: white;
   font-size: 24px;
   cursor: pointer;
+}
+
+/* Arrow styles for slider */
+.slick-prev:before,
+.slick-next:before {
+  color: white; /* Visible arrows in fullscreen */
+}
+
+.slick-slide {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
 }
