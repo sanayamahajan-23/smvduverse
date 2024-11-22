@@ -548,13 +548,14 @@ const PhotoSphere = ({
                     top: "50px",
                     right: "20px",
                     backgroundColor: "rgba(0, 0, 0, 0.8)",
-                    padding: "10px",
+                    padding: "15px",
                     borderRadius: "5px",
                     boxShadow: "0 2px 10px rgba(0,0,0,0.3)",
                     zIndex: 101, // Ensure this is higher than the background
                     maxHeight: "400px", // Limit the height of the panel
                     overflowY: "auto", // Enable vertical scrolling
                     width: "200px", // Set a width for the panel
+                    paddingRight: "20px",
                   }}
                 >
                   {/* Close Button for Hotspots Panel */}
@@ -562,14 +563,14 @@ const PhotoSphere = ({
                     onClick={toggleHotspotsPanel}
                     style={{
                       position: "absolute",
-                      top: "10px",
-                      right: "10px",
+                      top: "5px",
+                      right: "3px",
                       color: "white",
                       background: "none", // Transparent background
                       border: "none", // No border
-                      fontSize: "20px", // Font size of "X"
+                      fontSize: "15px", // Font size of "X"
                       cursor: "pointer", // Pointer on hover
-                      zIndex: 102, // Ensure this is on top of other content
+                      zIndex: 500, // Ensure this is on top of other content
                     }}
                   >
                     X
@@ -586,7 +587,7 @@ const PhotoSphere = ({
                           marginBottom: "10px", // Space between items
                           border: isSelected ? "2px solid white" : "none", // White outline if selected
                           borderRadius: "5px", // Rounded corners for the outline
-                          overflow: "hidden", // Ensures the outline follows the rounded corners
+                          overflow: "hidden", // Ensures the outline follows the rounded corner
                         }}
                       >
                         <img
