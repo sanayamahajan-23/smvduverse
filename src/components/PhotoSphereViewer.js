@@ -394,6 +394,7 @@ const PhotoSphere = ({
                   top: "20px",
                   right: "10px",
                   zIndex: 100,
+                  color: "black",
                 }}
               >
                 X

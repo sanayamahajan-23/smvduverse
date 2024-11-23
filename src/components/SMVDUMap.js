@@ -598,7 +598,7 @@ const SMVDUMap = () => {
       subtitle: "",
       linkedHotspots: [
         // { id: 1, position: { x: 10, y: 20, z: 0 } },
-        { id: "a", latitude: 10, longitude: 100 },
+        { id: "a", latitude: 10, longitude: 90 },
       ],
     },
     {
