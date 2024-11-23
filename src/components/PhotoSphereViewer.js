@@ -42,7 +42,7 @@ const PhotoSphere = ({
 
       // Adjust the speech settings to sound natural and smooth
       utterance.rate = 0.9; // Speed of speech
-      utterance.pitch = 1.1; // Slightly higher pitch for clarity and naturalness
+      utterance.pitch = 1.4; // Slightly higher pitch for clarity and naturalness
       utterance.volume = 1; // Maximum volume
 
       // Get available voices
@@ -60,29 +60,33 @@ const PhotoSphere = ({
       alert("Sorry, your browser does not support text-to-speech.");
     }
   };
-
-  // Automatically play narration after 1 second when 360 view is loaded
   useEffect(() => {
-    // Only play automatic narration once
-    if (!hasAutoNarrationPlayed) {
-      const narrationDelay = setTimeout(() => {
-        playNarration(
-          `${currentHotspot.subtitle || "No additional details available."}`
-        );
-        setIsNarrating(true);
-        setHasAutoNarrationPlayed(true); // Mark that auto narration has played
-      }, 1000); // 1 second delay after component is mounted
+    // Stop any ongoing narration if the current hotspot changes or is closed
+    if (isNarrating) {
+      // If the current hotspot is null or closed, stop the narration
+      if (!currentHotspot || !currentHotspot.subtitle) {
+        speechSynthesis.cancel();
+        setIsNarrating(false); // Reset narrating state
+        setSubtitle(""); // Clear subtitle
+        setIsSubtitleVisible(false); // Hide subtitle box
+      }
+    }
 
-      // Cleanup the timeout if the component is unmounted or updated
+    // Automatically play narration for the new hotspot after a small delay
+    if (currentHotspot && currentHotspot.subtitle) {
+      const narrationDelay = setTimeout(() => {
+        playNarration(currentHotspot.subtitle || "");
+        setIsNarrating(true); // Mark as narrating
+        setHasAutoNarrationPlayed(false); // Reset auto narration play status for next time
+      }, 1000); // 1-second delay after hotspot change
+
+      // Cleanup timeout on component unmount or when currentHotspotIndex changes
       return () => clearTimeout(narrationDelay);
     }
-  }, [currentHotspot, hasAutoNarrationPlayed]);
+  }, [currentHotspotIndex, currentHotspot]); // This will trigger when currentHotspotIndex changes or currentHotspot changes
 
-  // Toggle the narration (play narration and hide subtitle box)
   const toggleNarration = () => {
-    const text = `${
-      currentHotspot.subtitle || "No additional details available."
-    }`;
+    const text = `${currentHotspot.subtitle || ""}`;
 
     if (isNarrating) {
       // Stop narration
@@ -91,24 +95,27 @@ const PhotoSphere = ({
       setSubtitle(""); // Ensure subtitle box doesn't show
     } else {
       // Play narration
-      playNarration(text);
-      setIsNarrating(true); // Mark as narrating
-      setSubtitle(""); // Ensure subtitle box doesn't show
+      if (text) {
+        playNarration(text);
+        setIsNarrating(true); // Mark as narrating
+        setSubtitle(""); // Ensure subtitle box doesn't show
+      }
     }
   };
 
-  // Display subtitle only (without narration)
   const showSubtitle = () => {
     const text = `${
       currentHotspot.subtitle || "No additional details available."
     }`;
     setSubtitle(text);
-    setIsSubtitleVisible(!isSubtitleVisible);
+    setIsSubtitleVisible(true); // Ensure subtitle is visible
   };
+
   const closeSubtitle = () => {
-    setIsSubtitleVisible(false);
-    setSubtitle(""); // Close the subtitle box by setting the subtitle to an empty string
+    setIsSubtitleVisible(false); // Close the subtitle box
+    setSubtitle(""); // Clear subtitle
   };
+
   const handleImageClick = (index) => {
     setCurrentHotspotIndex(index);
     setShowMenu(false); // Hide the menu when an image is clicked

@@ -31,7 +31,8 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
       ],
       label: "Gate 2",
-      subtitle: "Main entrance to campus",
+      subtitle:
+        "This is the second entry point to the premises. It is designated exclusively for pedestrian use, and no vehicles are permitted to pass through this gate at any time.",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
     {
@@ -44,7 +45,8 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
       ],
       label: "Sports Complex",
-      subtitle: "Main entrance to campus",
+      subtitle:
+        "The Sports Complex serves as a hub for a variety of athletic activities. It is equipped with modern facilities. This area is a popular gathering spot for fitness enthusiasts, offering a space to engage in physical activity or simply relax and unwind.",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
     {
@@ -57,7 +59,8 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
       ],
       label: "New Basholi",
-      subtitle: "Main entrance to campus",
+      subtitle:
+        "New Basholi is a newly built boys' hostel with modern facilities, offering spacious rooms, a recreation area, and a comfortable living environment for students.",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
     {
@@ -70,7 +73,8 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
       ],
       label: "Nilgiri",
-      subtitle: "Main entrance to campus",
+      subtitle:
+        "Nilgiri serves as another boys' hostel on campus, offering a peaceful environment with spacious rooms, modern facilities, and a vibrant atmosphere that supports both academic and social activities.",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
     {
@@ -83,7 +87,8 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
       ],
       label: "Vindhyachal",
-      subtitle: "Main entrance to campus",
+      subtitle:
+        "Vindhyachal is yet another boys' hostel, known for its vibrant community, comfortable living spaces, and amenities that cater to both academic focus and leisure activities.",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
     {
@@ -96,7 +101,8 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
       ],
       label: "Trikuta",
-      subtitle: "Main entrance to campus",
+      subtitle:
+        "Trikuta is another well-equipped boys' hostel, providing a supportive environment for students with modern facilities and a lively atmosphere.",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
     {
@@ -109,7 +115,8 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
       ],
       label: "Kailash",
-      subtitle: "Main entrance to campus",
+      subtitle:
+        "Kailash is a boys' hostel offering a comfortable and convenient stay with all necessary amenities to support student life and learning.",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
     {
@@ -122,7 +129,8 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
       ],
       label: "Central Gym/Mess",
-      subtitle: "Main entrance to campus",
+      subtitle:
+        "The Central Gym/Mess serves as the hub for fitness and dining, providing students with state-of-the-art workout facilities and nutritious meals to support their physical and academic well-being.",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
     {
@@ -135,24 +143,12 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
       ],
       label: "Red Rocks",
-      subtitle: "Main entrance to campus",
+      subtitle:
+        "The Red Rocks are a popular spot where students gather to relax, enjoy the view, and socialize, offering a vibrant atmosphere with its distinctive red stairs.",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
     {
       id: 10,
-      x: 640,
-      y: 242,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Fountain Area",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 11,
       x: 620,
       y: 310,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photo1.png`,
@@ -161,11 +157,348 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
       ],
       label: "Central Library",
-      subtitle: "Main entrance to campus",
+      subtitle:
+        "A hub of knowledge and learning, the Central Library offers a peaceful environment for studying and research, with a vast collection of resources.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 11,
+      x: 680,
+      y: 300,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Research Block",
+      subtitle:
+        "A hub for academic research and innovation, providing state-of-the-art facilities and collaborative spaces for students and faculty.",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
     {
       id: 12,
+      x: 660,
+      y: 160,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "School of Computer Science",
+      subtitle:
+        "An academic center for computer science education and research, equipped with modern labs and a collaborative learning environment.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 13,
+      x: 700,
+      y: 150,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "LT3/4",
+      subtitle:
+        "Lecture halls designed for large classes, equipped with modern teaching aids and interactive learning facilities.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 14,
+      x: 700,
+      y: 210,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "School of Business Management",
+      subtitle:
+        "A center of excellence that offers cutting-edge business education, preparing students for leadership roles in the global market.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 15,
+      x: 700,
+      y: 240,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "School of Language/Philosophy",
+      subtitle:
+        "A hub for critical thinking and the study of languages, literature, and philosophy, fostering a deep understanding of culture and thought.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 16,
+      x: 710,
+      y: 305,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "LT1/2",
+      subtitle:
+        "Lecture halls designed to accommodate large classes, equipped with modern amenities for interactive learning and seminars.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 17,
+      x: 750,
+      y: 300,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Block A",
+      subtitle:
+        "Block A houses the Biotechnology Department and Physics classrooms. It is a space where students and faculty collaborate on innovative projects, fostering a deep understanding of science and technology.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 18,
+      x: 755,
+      y: 265,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Block B",
+      subtitle:
+        "Block B is dedicated to the Mechanical Engineering Department and the Energy Management program. It provides state-of-the-art facilities in mechanical systems and sustainable energy solutions.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 19,
+      x: 775,
+      y: 225,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "BC Junction/TBIC",
+      subtitle:
+        "BC Junction serves as the main entrance to the campus. It houses the Technology Business Incubator Centre (TBIC) above it, fostering innovation and entrepreneurship. The junction also includes an ATM for convenience.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 20,
+      x: 755,
+      y: 195,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Block C",
+      subtitle:
+        "Block C is home to the departments of Electronics Engineering, Electrical Engineering, and Economics. It serves as a key academic block within the campus, offering advanced learning in these fields.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 21,
+      x: 745,
+      y: 155,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Block D",
+      subtitle:
+        "Block D houses the Mathematics Department and several Computer Science Engineering (CSE) laboratories, providing essential facilities for research and learning in these disciplines.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 22,
+      x: 720,
+      y: 150,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "J&K Bank",
+      subtitle:
+        "The J&K Bank branch located at the main entrance to the campus offers various banking services for students, staff, and visitors.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 23,
+      x: 640,
+      y: 242,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Fountain Area",
+      subtitle:
+        "A peaceful and scenic spot featuring a beautiful fountain, perfect for relaxation and reflection amidst nature's tranquility.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 24,
+      x: 610,
+      y: 170,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Administrative Block",
+      subtitle:
+        "The Administrative Block houses various offices including student services, faculty administration, and management offices.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 25,
+      x: 550,
+      y: 130,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Matrika",
+      subtitle:
+        "Matrika is a large auditorium used for lectures, events, and conferences, hosting various academic and cultural activities.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 26,
+      x: 540,
+      y: 40,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Parking",
+      subtitle:
+        "The parking area is designated for SMVDU buses and visitors, providing convenient parking space for transportation and guests.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 27,
+      x: 630,
+      y: 20,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "School Of Architecture & Design",
+      subtitle:
+        "The School of Architecture & Design offers innovative programs in architecture and design, fostering creativity and technical skills.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 28,
+      x: 790,
+      y: 60,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Workshop",
+      subtitle:
+        "The Mechanical Workshop is renowned for its state-of-the-art machines and equipment, making it the best in Jammu's colleges.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 29,
+      x: 810,
+      y: 110,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Tennis Court",
+      subtitle:
+        "A well-maintained tennis court offering a great space for sports enthusiasts and students to enjoy recreational activities.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 30,
+      x: 1050,
+      y: 80,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Helipad",
+      subtitle:
+        "An essential facility for emergency evacuations and official visits, providing swift aerial access to the campus.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 31,
+      x: 910,
+      y: 180,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Shivalik B",
+      subtitle:
+        "A newly established girls' hostel, offering comfortable and secure accommodations for female students.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 32,
+      x: 910,
+      y: 245,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Shivalik A",
+      subtitle:
+        "Shivalik A is a modern girls' hostel offering a secure and comfortable environment with essential amenities for students.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 33,
+      x: 910,
+      y: 305,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Medical Aid Center",
+      subtitle:
+        "The Medical Aid Center provides immediate healthcare services and first-aid assistance to students and staff.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 34,
+      x: 925,
+      y: 290,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
+        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+      ],
+      label: "Grocery",
+      subtitle:
+        "A convenient on-campus grocery store offering a wide range of essential items, snacks, and daily necessities for students and faculty, ensuring easy access to everyday products.",
+      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+    },
+    {
+      id: 35,
       x: 980,
       y: 450,
       imageUrl: `${process.env.PUBLIC_URL}/assets/vaishnavi.jpeg`,
@@ -180,7 +513,7 @@ const SMVDUMap = () => {
       linkedHotspots: [{ id: "a", latitude: 0, longitude: 0 }],
     },
     {
-      id: 13,
+      id: 36,
       x: 1030,
       y: 380,
       imageUrl: `${process.env.PUBLIC_URL}/assets/guesthouse.jpeg`,
@@ -189,14 +522,15 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
       ],
       label: "Guest House",
-      subtitle: "Main entrance to campus",
+      subtitle:
+        "A comfortable stay for visitors and guests, offering a serene environment with all essential amenities for a restful visit.",
       linkedHotspots: [
-        { id: 14, latitude: 10, longitude: 130 },
+        { id: 37, latitude: 10, longitude: 130 },
         { id: "c", latitude: 10, longitude: -60 },
       ],
     },
     {
-      id: 14,
+      id: 37,
       x: 1070,
       y: 360,
       imageUrl: `${process.env.PUBLIC_URL}/assets/park.jpeg`,
@@ -205,11 +539,12 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
       ],
       label: "Guest House Park",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: 13, latitude: 10, longitude: 250 }],
+      subtitle:
+        "A peaceful outdoor park area located near the guest house, offering a relaxing environment with greenery and seating spaces, ideal for leisure and casual gatherings.",
+      linkedHotspots: [{ id: 36, latitude: 10, longitude: 250 }],
     },
     {
-      id: 15,
+      id: 38,
       x: 1100,
       y: 390,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -218,323 +553,12 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
       ],
       label: "Residential Area",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 16,
-      x: 910,
-      y: 305,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Medical Aid Center",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 17,
-      x: 925,
-      y: 290,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Grocery",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 18,
-      x: 910,
-      y: 245,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Shivalik A",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 19,
-      x: 910,
-      y: 180,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Shivalik B",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 20,
-      x: 1050,
-      y: 80,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Helipad",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 21,
-      x: 810,
-      y: 110,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Tennis Court",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 22,
-      x: 790,
-      y: 60,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Workshop",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 23,
-      x: 710,
-      y: 40,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Civil Building",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 24,
-      x: 630,
-      y: 20,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "School Of Architecture & Design",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 25,
-      x: 540,
-      y: 40,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Parking",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 26,
-      x: 550,
-      y: 130,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Matrika",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 27,
-      x: 610,
-      y: 170,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Administrative Block",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 28,
-      x: 660,
-      y: 160,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "School of Computer Science",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 29,
-      x: 700,
-      y: 150,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "LT3/4",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 30,
-      x: 700,
-      y: 210,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "School of Business Management",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 31,
-      x: 700,
-      y: 240,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "School of Language/Philosophy",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 32,
-      x: 710,
-      y: 305,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "LT1/2",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 33,
-      x: 750,
-      y: 300,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Block A",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 34,
-      x: 755,
-      y: 265,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Block B",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 35,
-      x: 775,
-      y: 225,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "BC Junction/TBIC",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 36,
-      x: 755,
-      y: 195,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Block C",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 37,
-      x: 745,
-      y: 155,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Block D",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 38,
-      x: 720,
-      y: 150,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "J&K Bank",
-      subtitle: "Main entrance to campus",
+      subtitle:
+        "This area is designated for the accommodation of staff members, providing comfortable living spaces with essential amenities for faculty and employees.",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
     {
       id: 39,
-      x: 680,
-      y: 300,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
-      ],
-      label: "Research Block",
-      subtitle: "Main entrance to campus",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
-    },
-    {
-      id: 40,
       x: 840,
       y: 430,
       imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
@@ -543,7 +567,8 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
       ],
       label: "Gate 1",
-      subtitle: "Main entrance to campus",
+      subtitle:
+        "Main entrance to the campus, welcoming visitors and providing access to the academic and residential areas of the university.",
       linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
     },
   ];
@@ -556,9 +581,8 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
       ],
       label: "outside vaishnavi",
-      subtitle: "Main entrance to campus",
+      subtitle: "",
       linkedHotspots: [
-        // { id: 1, latitude: 30, longitude: 45 },
         { id: "b", latitude: 10, longitude: 0 },
         { id: "c", latitude: 10, longitude: 140 },
       ],
@@ -571,7 +595,7 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/nonMapped3.jpg`,
       ],
       label: "Entrance of hostel,guest house and residential area",
-      subtitle: "Main entrance to campus",
+      subtitle: "",
       linkedHotspots: [
         // { id: 1, position: { x: 10, y: 20, z: 0 } },
         { id: "a", latitude: 10, longitude: 100 },
@@ -585,9 +609,9 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
       ],
       label: "outside vaishnavi",
-      subtitle: "Main entrance to campus",
+      subtitle: "",
       linkedHotspots: [
-        { id: 13, latitude: 10, longitude: 80 },
+        { id: 36, latitude: 10, longitude: 80 },
         { id: "a", latitude: 10, longitude: 0 },
       ],
     },
