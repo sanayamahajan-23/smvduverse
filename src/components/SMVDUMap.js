@@ -575,7 +575,7 @@ const SMVDUMap = () => {
   const nonMappedHotspots = [
     {
       id: "a",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/routetomargs.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/routeto2pathsfromvaishnavi.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
@@ -585,6 +585,7 @@ const SMVDUMap = () => {
       linkedHotspots: [
         { id: "b", latitude: 10, longitude: 0 },
         { id: "c", latitude: 10, longitude: 140 },
+        { id: "d", latitude: 5, longitude: 210 },
       ],
     },
     {
@@ -608,11 +609,96 @@ const SMVDUMap = () => {
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
       ],
-      label: "outside vaishnavi",
+      label: "path to guest house or margs",
       subtitle: "",
       linkedHotspots: [
         { id: 36, latitude: 10, longitude: 80 },
         { id: "a", latitude: 10, longitude: 0 },
+        { id: "i", latitude: 10, longitude: 180 },
+      ],
+    },
+    {
+      id: "d",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/gate2vaishnavi.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      ],
+      label: "Path 2 from vaishnavi",
+      subtitle: "",
+      linkedHotspots: [
+        { id:"a", latitude: 10, longitude: 185 },
+        { id:"e", latitude: 10, longitude: 0 },
+      ],
+    },
+    {
+      id: "e",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/pathAmbikasadan.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      ],
+      label: "Path of Ambika sadan",
+      subtitle: "",
+      linkedHotspots: [
+        { id:"d", latitude: 10, longitude: 190 },
+        { id:"f", latitude: 10, longitude: 0 },
+      ],
+    },
+    {
+      id: "f",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/durgasadanpath.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      ],
+      label: "path of durga sadan",
+      subtitle: "",
+      linkedHotspots: [
+        { id:"e", latitude: 10, longitude: 185 },
+        { id: "g", latitude: 10, longitude: 0 },
+      ],
+    },
+    {
+      id: "g",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/path to sadan.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      ],
+      label: "Path to sadan",
+      subtitle: "",
+      linkedHotspots: [
+        { id:"f", latitude: 10, longitude: 185 },
+        { id: "h", latitude: 10, longitude: 0 },
+      ],
+    },
+    {
+      id: "h",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/pathtoganga,kautalya.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      ],
+      label: "Path to ganga and kautalya",
+      subtitle: "",
+      linkedHotspots: [
+        { id:"i", latitude: 10, longitude: 10 },
+        { id: "g", latitude: 10, longitude: 180 },
+      ],
+    },
+    {
+      id: "i",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/pathtovishishtandchanakya.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      ],
+      label: "Path to chanakya and vashisht",
+      subtitle: "",
+      linkedHotspots: [
+        { id:"h", latitude: 10, longitude: 10 },
+        { id: "c", latitude: 10, longitude: 180 },
       ],
     },
   ];
