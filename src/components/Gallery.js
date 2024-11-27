@@ -24,6 +24,8 @@ const Gallery = ({ images, onClose }) => {
     slidesToShow: 3,
     slidesToScroll: 1,
     arrows: true,
+    vertical: true, // Enable vertical sliding
+    verticalSwiping: true,
   };
 
   const openFullscreen = (index) => {
@@ -31,7 +33,6 @@ const Gallery = ({ images, onClose }) => {
     setIsFullscreen(true);
   };
 
-  // Close fullscreen modal
   const closeFullscreen = (e) => {
     setIsFullscreen(false);
     e.stopPropagation();
@@ -63,21 +64,12 @@ const Gallery = ({ images, onClose }) => {
           <button className="close-fullscreen" onClick={closeFullscreen}>
             X
           </button>
-          <div
-            className="fullscreen-slider-container"
-            onClick={(e) => e.stopPropagation()} // Prevent propagation to modal close handler
-          >
-            <Slider {...fullscreenSettings}>
-              {images.map((image, index) => (
-                <div key={index} className="fullscreen-slide">
-                  <img
-                    src={image}
-                    alt={`Fullscreen Slide ${index + 1}`}
-                    className="fullscreen-image"
-                  />
-                </div>
-              ))}
-            </Slider>
+          <div className="fullscreen-slider-container">
+            <img
+              src={images[fullscreenIndex]}
+              alt={`Fullscreen Slide ${fullscreenIndex + 1}`}
+              className="fullscreen-image"
+            />
           </div>
         </div>
       )}

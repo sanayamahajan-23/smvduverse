@@ -59,3 +59,66 @@
 .a-vr-mode-ui {
   display: none !important;
 }
+.control-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 15px;
+  border-radius: 10px;
+  z-index: 200;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.control-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.control-button:hover {
+  transform: scale(1.1);
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+.bottom-panel {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 5px;
+  border-radius: 10px;
+  z-index: 200;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.bottom-panel button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.bottom-panel button:hover {
+  transform: scale(1.1);
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+.bottom-panel button i {
+  font-size: 24px; /* Adjust size of icons */
+}

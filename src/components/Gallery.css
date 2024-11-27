@@ -1,24 +1,34 @@
-/* Gallery panel */
+/* Gallery Panel */
 .gallery-panel {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: fixed; /* Use fixed to align relative to the viewport */
+  top: 6%; /* Position it slightly below the top */
+  left: 0; /* Align it to the leftmost side of the viewport */
   z-index: 200;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 15px 15px 10px 15px;
-  border-radius: 10px;
-  width: 50%;
-  max-height: 200px;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  padding: 10px; /* Compact padding */
+  border-radius: 0 10px 10px 0; /* Rounded corners on the right */
+  width: 15%; /* Take up 1/5 of screen width */
+  height: 80%; /* Cover most of the screen height */
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  gap: 10px; /* Add space between images */
+  overflow-y: auto; /* Enable vertical scrolling for extra images */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* Add shadow for visual depth */
 }
 
 .gallery-image img {
-  width: 95%;
-  height: auto;
-  object-fit: cover;
-  cursor: pointer; /* Indicate clickable images */
+  width: 100%; /* Fit within the panel's width */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Cover the available space */
+  border-radius: 5px; /* Add rounded edges */
+  cursor: pointer; /* Indicate interactivity */
+  transition: transform 0.3s, box-shadow 0.3s; /* Smooth hover effects */
 }
 
+.gallery-image img:hover {
+  transform: scale(1.05); /* Slight zoom on hover */
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3); /* Highlight effect */
+}
 .close-gallery {
   position: absolute;
   top: 5px;
@@ -28,7 +38,9 @@
   color: white;
   font-size: 15px;
   cursor: pointer;
+  z-index: 1000;
 }
+/* Fullscreen Modal */
 .fullscreen-modal {
   position: fixed;
   top: 0;
@@ -42,25 +54,33 @@
   z-index: 300;
 }
 
+/* Fullscreen Image Slider Container */
 .fullscreen-slider-container {
-  width: 90%;
-  height: 90%;
+  width: 80vw; /* Adjust width to leave space on the sides */
+  height: 80vh; /* Adjust height to leave space on the top/bottom */
+  background: #fff; /* Optional background color */
+  padding: 20px; /* Add padding to leave space from all sides */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px; /* Optional rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Optional shadow for depth */
 }
 
 .fullscreen-slide img {
-  max-width: 60%;
-  max-height: 40%;
-  object-fit: contain;
-  margin: auto;
+  width: 100%; /* Limit the image width */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Ensure the image fits within the container without distortion */
+  margin: auto; /* Center the image */
+  border-radius: 10px; /* Optional rounded corners */
 }
-
 .close-fullscreen {
   position: absolute;
   top: 20px;
   right: 20px;
-  background: none;
+  background: white;
   border: none;
-  color: white;
+  color: rgb(0, 0, 0);
   font-size: 24px;
   cursor: pointer;
 }
