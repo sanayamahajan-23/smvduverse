@@ -1,0 +1,60 @@
+/* Import Font Awesome in your CSS file */
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+/* Navbar Styling */
+.navbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(90deg, #333, #444); /* Modern gradient */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 15px 0;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3); /* Slight elevation */
+  z-index: 10; /* Ensure it's above other content */
+}
+
+/* Buttons within the Navbar */
+.nav-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px; /* Icon size */
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%; /* Circular hover area */
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Hover Effect */
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.2); /* Slightly transparent background */
+  transform: scale(1.2); /* Scale up */
+}
+
+/* Icon Styling (Optional, for better control) */
+.nav-button i {
+  pointer-events: none;
+  font-size: inherit; /* Ensures it matches the button's font size */
+}
+
+/* Close Button Styling (from your provided code) */
+.close-button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: black;
+}
+
+.close-button:hover {
+  color: red; /* Highlight on hover */
+}
+
+/* Responsive Scaling (Optional) */
+@media (max-width: 768px) {
+  .nav-button {
+    font-size: 18px; /* Adjust icon size */
+    padding: 8px;
+  }
+}

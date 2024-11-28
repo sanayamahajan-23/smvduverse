@@ -35,31 +35,58 @@ const PhotoSphere = ({
   const autorotationTimer = useRef(null);
   const [hasAutoNarrationPlayed, setHasAutoNarrationPlayed] = useState(false);
 
-  // Function to handle speech synthesis for narration
+  useEffect(() => {
+    // Stop narration whenever the component unmounts or the hotspot/view changes
+    return () => {
+      speechSynthesis.cancel();
+      setIsNarrating(false); // Reset narrating state
+    };
+  }, [currentHotspotIndex, onClose]); // Run when hotspot index changes or when the component is unmounted
+
   const playNarration = (text) => {
-    if ("speechSynthesis" in window) {
+    if (!("speechSynthesis" in window)) {
+      alert("Sorry, your browser does not support text-to-speech.");
+      return;
+    }
+
+    // Stop any existing narration
+    speechSynthesis.cancel();
+
+    if (text) {
       const utterance = new SpeechSynthesisUtterance(text);
 
-      // Adjust the speech settings to sound natural and smooth
-      utterance.rate = 0.9; // Speed of speech
-      utterance.pitch = 1.4; // Slightly higher pitch for clarity and naturalness
-      utterance.volume = 1; // Maximum volume
+      // Speech settings
+      utterance.rate = 0.9;
+      utterance.pitch = 1.4;
+      utterance.volume = 1;
 
-      // Get available voices
+      // Select a preferred voice
       const voices = speechSynthesis.getVoices();
-
-      // Select a female voice if available, otherwise default to the first available voice
       const preferredVoice = voices.find((voice) =>
         voice.name.toLowerCase().includes("female")
       );
       utterance.voice = preferredVoice || voices[0];
 
-      // Start speaking
+      // Start narration
       speechSynthesis.speak(utterance);
-    } else {
-      alert("Sorry, your browser does not support text-to-speech.");
+
+      // Set narration end handler to update state
+      utterance.onend = () => {
+        setIsNarrating(false);
+      };
+
+      setIsNarrating(true);
     }
   };
+
+  // Trigger narration on hotspot change
+  useEffect(() => {
+    if (currentHotspot && currentHotspot.subtitle) {
+      playNarration(currentHotspot.subtitle);
+    } else {
+      speechSynthesis.cancel();
+    }
+  }, [currentHotspot]);
   useEffect(() => {
     // Stop any ongoing narration if the current hotspot changes or is closed
     if (isNarrating) {
@@ -377,105 +404,73 @@ const PhotoSphere = ({
     setCurrentHotspotIndex(nextIndex);
   };
   return (
-    <div>
-      {!isStereoVRMode && (
-        <div
-          ref={viewerContainerRef}
-          id="viewer"
-          style={{ height: "100vh", width: "100vw", position: "relative" }}
-        >
-          <div className="photosphere-overlay">
-            <>
+    <>
+      <div>
+        {!isStereoVRMode && (
+          <div
+            ref={viewerContainerRef}
+            id="viewer"
+            style={{ height: "100vh", width: "100vw", position: "relative" }}
+          >
+            <div className="control-panel">
               <button
-                className="close-button"
+                className="control-button"
                 onClick={onClose}
-                style={{
-                  position: "absolute",
-                  top: "20px",
-                  right: "10px",
-                  zIndex: 100,
-                  color: "black",
-                }}
+                title="Close"
               >
-                X
+                <i className="fas fa-times"></i>
               </button>
               <button
-                className="fullscreen-button"
+                className="control-button"
                 onClick={toggleFullscreen}
-                style={{
-                  position: "absolute",
-                  top: "20px",
-                  right: "50px",
-                  zIndex: 100,
-                }}
+                title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
               >
-                {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+                <i
+                  className={isFullscreen ? "fas fa-compress" : "fas fa-expand"}
+                ></i>
               </button>
-              {/* Navigation Buttons */}
               <button
+                className="control-button"
                 onClick={handlePrev}
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "10px",
-                  zIndex: 100,
-                }}
+                title="Previous"
               >
-                Prev
+                <i className="fas fa-arrow-left"></i>
               </button>
               <button
+                className="control-button"
                 onClick={handleNext}
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  right: "10px",
-                  zIndex: 100,
-                }}
+                title="Next"
               >
-                Next
+                <i className="fas fa-arrow-right"></i>
               </button>
-
-              {/* New Audio Button for Narration */}
               <button
+                className="control-button"
                 onClick={toggleNarration}
-                style={{
-                  position: "absolute",
-                  bottom: "40px",
-                  left: "50px",
-                  zIndex: 100,
-                }}
+                title={isNarrating ? "Stop Narration" : "Play Narration"}
               >
-                {isNarrating ? "Stop Narration" : "Play Narration"}
+                <i className={isNarrating ? "fas fa-stop" : "fas fa-play"}></i>
               </button>
-
-              {/* New Subtitle Button to Display Subtitle */}
               <button
+                className="control-button"
                 onClick={showSubtitle}
-                style={{
-                  position: "absolute",
-                  bottom: "40px",
-                  left: "160px",
-                  zIndex: 100,
-                }}
+                title="Show Subtitle"
               >
-                {isSubtitleVisible ? "Show Subtitle" : "Show Subtitle"}
+                <i className="fas fa-closed-captioning"></i>
               </button>
-
-              {/* Display Subtitle Box (only if narration is not playing) */}
               {isSubtitleVisible && subtitle && (
                 <div
                   className="subtitle-box"
                   style={{
-                    position: "absolute",
-                    bottom: "100px",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    backgroundColor: "rgba(0, 0, 0, 0.7)",
+                    position: "fixed", // Use fixed to anchor to the viewport
+                    bottom: "100px", // Adjust as needed for spacing
+                    left: "50%", // Center horizontally
+                    transform: "translateX(-50%)", // Perfect horizontal centering
+                    backgroundColor: "rgba(0, 0, 0, 0.8)", // Slightly darker for contrast
                     color: "white",
                     padding: "15px",
                     borderRadius: "5px",
                     textAlign: "center",
-                    zIndex: 100,
+                    zIndex: 1000, // Make sure it stays above everything else
                   }}
                 >
                   <div>{subtitle}</div>
@@ -498,172 +493,162 @@ const PhotoSphere = ({
                   </button>
                 </div>
               )}
-
               <button
+                className="control-button"
                 onClick={toggleStereoVRMode}
-                style={{
-                  position: "absolute",
-                  top: "20PX",
-                  left: "10px",
-                  zIndex: 100,
-                }}
+                title="Enter VR Mode"
               >
-                Enter VR
+                <i className="fas fa-vr-cardboard"></i>
               </button>
               <button
-                className="gallery-button"
+                className="control-button"
                 onClick={() => setShowGallery(!showGallery)}
-                style={{
-                  position: "absolute",
-                  bottom: "20px",
-                  right: "100px",
-                  zIndex: 100,
-                }}
+                title={showGallery ? "Hide Gallery" : "Show Gallery"}
               >
-                {showGallery ? "Hide Gallery" : "Show Gallery"}
+                <i className="fas fa-images"></i>
               </button>
               <button
-                className="menu-button"
-                onClick={() => setShowHotspotsPanel(!showHotspotsPanel)} // Toggle the menu visibility
-                style={{
-                  position: "absolute",
-                  bottom: "20px",
-                  right: "200px",
-                  zIndex: 100,
-                }}
+                className="control-button"
+                onClick={() => setShowHotspotsPanel(!showHotspotsPanel)}
+                title="Toggle Hotspots"
               >
-                {showHotspotsPanel ? "Hide Hotspots" : "Show Hotspots"}
+                <i className="fas fa-map-marker-alt"></i>
               </button>
-              {/* Gallery Component */}
               {showGallery && (
                 <Gallery
                   images={
-                    Array.isArray(
-                      combinedHotspots[currentHotspotIndex]?.galleryImages
-                    )
-                      ? combinedHotspots[currentHotspotIndex].galleryImages
-                      : []
+                    combinedHotspots[currentHotspotIndex]?.galleryImages || []
                   }
                   onClose={() => setShowGallery(false)}
                 />
               )}
-              {/* Hotspot Menu Panel */}
               {showHotspotsPanel && (
                 <div
                   className="hotspots-panel"
                   style={{
                     position: "absolute",
-                    top: "50px",
-                    right: "20px",
-                    backgroundColor: "rgba(0, 0, 0, 0.8)",
+                    top: "20px", // Distance from the top
+                    left: "-230px", // Align to the left side of the viewport
+                    backgroundColor: "rgba(0, 0, 0, 0.8)", // Dark semi-transparent background
                     padding: "15px",
                     borderRadius: "5px",
-                    boxShadow: "0 2px 10px rgba(0,0,0,0.3)",
-                    zIndex: 101, // Ensure this is higher than the background
-                    maxHeight: "400px", // Limit the height of the panel
-                    overflowY: "auto", // Enable vertical scrolling
-                    width: "200px", // Set a width for the panel
-                    paddingRight: "20px",
+                    boxShadow: "0 2px 10px rgba(0,0,0,0.3)", // Add subtle shadow
+                    zIndex: 101,
+                    maxHeight: "400px", // Limit height with scrollable content
+                    overflowY: "auto",
+                    width: "200px", // Fixed width
                   }}
                 >
-                  {/* Close Button for Hotspots Panel */}
+                  {/* Close Button */}
                   <button
                     onClick={toggleHotspotsPanel}
                     style={{
                       position: "absolute",
                       top: "5px",
-                      right: "3px",
+                      right: "5px",
                       color: "white",
-                      background: "none", // Transparent background
-                      border: "none", // No border
-                      fontSize: "15px", // Font size of "X"
-                      cursor: "pointer", // Pointer on hover
-                      zIndex: 500, // Ensure this is on top of other content
+                      background: "none",
+                      border: "none",
+                      fontSize: "15px",
+                      cursor: "pointer",
+                      zIndex: 500,
                     }}
                   >
                     X
                   </button>
-                  {hotspots.map((hotspot, index) => {
-                    const isSelected = index === currentHotspotIndex; // Check if this hotspot is selected
-                    return (
-                      <div
-                        key={index}
-                        onClick={() => handleImageClick(index)}
+                  {/* List of Hotspots */}
+                  {hotspots.map((hotspot, index) => (
+                    <div
+                      key={index}
+                      onClick={() => handleImageClick(index)}
+                      style={{
+                        cursor: "pointer",
+                        marginBottom: "10px",
+                        border:
+                          index === currentHotspotIndex
+                            ? "2px solid white"
+                            : "none", // Highlight selected
+                        borderRadius: "5px",
+                        position: "relative",
+                      }}
+                    >
+                      {/* Image */}
+                      <img
+                        src={hotspot.imageUrl}
+                        alt={hotspot.label}
                         style={{
-                          position: "relative", // Position for absolute children
-                          cursor: "pointer",
-                          marginBottom: "10px", // Space between items
-                          border: isSelected ? "2px solid white" : "none", // White outline if selected
-                          borderRadius: "5px", // Rounded corners for the outline
-                          overflow: "hidden", // Ensures the outline follows the rounded corner
+                          width: "100%",
+                          height: "auto",
+                          borderRadius: "5px",
+                        }}
+                      />
+                      {/* Label over the image */}
+                      <span
+                        style={{
+                          position: "absolute", // Position label over the image
+                          bottom: "5px", // Slight padding from the bottom
+                          left: "5px", // Slight padding from the left
+                          color: "white",
+                          backgroundColor: "rgba(0, 0, 0, 0.7)", // Semi-transparent black background
+                          padding: "5px 10px", // Padding for the label
+                          borderRadius: "3px", // Rounded edges for label
+                          fontSize: "12px", // Adjust font size
                         }}
                       >
-                        <img
-                          src={hotspot.imageUrl}
-                          alt={hotspot.label}
-                          style={{
-                            width: "100%", // Full width of the container
-                            height: "auto", // Maintain aspect ratio
-                            borderRadius: "5px", // Rounded corners for images
-                          }}
-                        />
-                        <span
-                          style={{
-                            position: "absolute",
-                            bottom: "0", // Position the label at the bottom of the image
-                            left: "0", // Align to the left
-                            width: "100%", // Full width of the container
-                            color: "white", // Label text color
-                            backgroundColor: "rgba(0, 0, 0, 0.7)", // Darker semi-transparent background
-                            padding: "10px 5px", // Padding around the text
-                            borderRadius: "0 0 5px 5px", // Rounded corners at the bottom
-                            boxSizing: "border-box", // Include padding in width calculation
-                            border: isSelected ? "2px solid white" : "none", // White outline if selected
-                          }}
-                        >
-                          {hotspot.label}
-                        </span>
-                      </div>
-                    );
-                  })}
+                        {hotspot.label}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               )}
-
-              {/* Rotation Controls */}
-              <div
-                className="rotation-controls"
-                style={{
-                  position: "absolute",
-                  bottom: "20px",
-                  left: "20px",
-                  zIndex: 100,
-                }}
-              >
-                <button onClick={() => rotateView(0, 0.1)}>Down</button>
-                <button onClick={() => rotateView(0.1, 0)}>Right</button>
-                <button onClick={() => rotateView(-0.1, 0)}>Left</button>
-                <button onClick={() => rotateView(0, -0.1)}>Up</button>
-              </div>
-
-              <div
-                className="zoom-controls"
-                style={{
-                  position: "absolute",
-                  bottom: "80px",
-                  left: "20px",
-                  zIndex: 100,
-                }}
-              >
-                <button onClick={() => zoomView(-0.2)}>Zoom In</button>{" "}
-                {/* Small zoom in increment */}
-                <button onClick={() => zoomView(0.2)}>Zoom Out</button>{" "}
-                {/* Small zoom out increment */}
-                <button onClick={refreshView}>Refresh</button>
-              </div>
-            </>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+        {!isStereoVRMode && (
+          <div
+            className="bottom-panel"
+            style={{
+              position: "absolute",
+              bottom: "20px", // Position from bottom of the viewport
+              left: "50%", // Center the panel horizontally
+              transform: "translateX(-50%)", // Adjust for perfect centering
+              display: "flex", // Flexbox layout to arrange buttons horizontally
+              justifyContent: "space-evenly", // Evenly spaced buttons
+              width: "50%", // Set the width of the panel to 80% of the viewport
+              backgroundColor: "rgba(0, 0, 0, 0.7)", // Black translucent background
+              borderRadius: "8px", // Optional: rounded corners for the panel
+              padding: "10px", // Padding inside the panel
+              zIndex: 100,
+            }}
+          >
+            {/* Rotation Controls */}
+            <button onClick={() => rotateView(0, 0.1)} title="Down">
+              <i className="fas fa-arrow-down"></i> {/* Icon for Down */}
+            </button>
+            <button onClick={() => rotateView(-0.1, 0)} title="Left">
+              <i className="fas fa-arrow-left"></i> {/* Icon for Left */}
+            </button>
+            <button onClick={() => rotateView(0.1, 0)} title="Right">
+              <i className="fas fa-arrow-right"></i> {/* Icon for Right */}
+            </button>
+            <button onClick={() => rotateView(0, -0.1)} title="Up">
+              <i className="fas fa-arrow-up"></i> {/* Icon for Up */}
+            </button>
+
+            {/* Zoom Controls */}
+            <button onClick={() => zoomView(-0.2)} title="Zoom In">
+              <i className="fas fa-search-plus"></i> {/* Icon for Zoom In */}
+            </button>
+            <button onClick={() => zoomView(0.2)} title="Zoom Out">
+              <i className="fas fa-search-minus"></i> {/* Icon for Zoom Out */}
+            </button>
+            <button onClick={refreshView} title="Refresh">
+              <i className="fas fa-sync-alt"></i> {/* Icon for Refresh */}
+            </button>
+          </div>
+        )}
+      </div>
+
       {isStereoVRMode && (
         <div
           className="stereo-vr-container"
@@ -671,7 +656,6 @@ const PhotoSphere = ({
         >
           <a-scene embedded style={{ width: "50vw", height: "100vh" }}>
             <a-camera position={`-0.03 0 ${cameraZ}`}>
-              {/* Add crosshair for left eye view */}
               <a-entity
                 position="0 0 -1"
                 geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.015"
@@ -685,7 +669,6 @@ const PhotoSphere = ({
           </a-scene>
           <a-scene embedded style={{ width: "50vw", height: "100vh" }}>
             <a-camera position={`0.03 0 ${cameraZ}`}>
-              {/* Add crosshair for right eye view */}
               <a-entity
                 position="0 0 -1"
                 geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.015"
@@ -710,7 +693,7 @@ const PhotoSphere = ({
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
