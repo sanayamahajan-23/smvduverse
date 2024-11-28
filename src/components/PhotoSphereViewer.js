@@ -579,47 +579,126 @@ const PhotoSphere = ({
         )}
         {!isStereoVRMode && (
           <div
-            className="bottom-panel"
             style={{
               position: "absolute",
-              bottom: "20px", // Position from bottom of the viewport
-              left: "50%", // Center the panel horizontally
+              bottom: "-10px", // Position from bottom of the viewport
+              left: "38%", // Center the panel horizontally
               transform: "translateX(-50%)", // Adjust for perfect centering
-              display: "flex", // Flexbox layout to arrange buttons horizontally
-              justifyContent: "space-evenly", // Evenly spaced buttons
-              width: "50%", // Set the width of the panel to 80% of the viewport
-              backgroundColor: "rgba(0, 0, 0, 0.7)", // Black translucent background
-              borderRadius: "8px", // Optional: rounded corners for the panel
-              padding: "10px", // Padding inside the panel
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
               zIndex: 100,
             }}
           >
-            {/* Rotation Controls */}
-            <button onClick={() => rotateView(0, 0.1)} title="Down">
-              <i className="fas fa-arrow-down"></i> {/* Icon for Down */}
-            </button>
-            <button onClick={() => rotateView(-0.1, 0)} title="Left">
-              <i className="fas fa-arrow-left"></i> {/* Icon for Left */}
-            </button>
-            <button onClick={() => rotateView(0.1, 0)} title="Right">
-              <i className="fas fa-arrow-right"></i> {/* Icon for Right */}
-            </button>
-            <button onClick={() => rotateView(0, -0.1)} title="Up">
-              <i className="fas fa-arrow-up"></i> {/* Icon for Up */}
-            </button>
+            {/* Circular Disc for Directional Controls */}
+            <div
+              style={{
+                width: "150px",
+                height: "150px",
+                borderRadius: "50%",
+                backgroundColor: "rgba(0, 0, 0, 0.7)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                position: "relative",
+                marginBottom: "15px", // Space between the disc and bottom panel
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+              }}
+            >
+              {/* Directional Buttons */}
+              <button
+                onClick={() => rotateView(0, -0.1)}
+                style={{
+                  position: "absolute",
+                  top: "10px",
+                  background: "transparent",
+                  border: "none",
+                  color: "white",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                }}
+                title="Up"
+              >
+                <i className="fas fa-arrow-up"></i>
+              </button>
 
-            {/* Zoom Controls */}
-            <button onClick={() => zoomView(-0.2)} title="Zoom In">
-              <i className="fas fa-search-plus"></i> {/* Icon for Zoom In */}
-            </button>
-            <button onClick={() => zoomView(0.2)} title="Zoom Out">
-              <i className="fas fa-search-minus"></i> {/* Icon for Zoom Out */}
-            </button>
-            <button onClick={refreshView} title="Refresh">
-              <i className="fas fa-sync-alt"></i> {/* Icon for Refresh */}
-            </button>
+              <button
+                onClick={() => rotateView(0.1, 0)}
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  background: "transparent",
+                  border: "none",
+                  color: "white",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                }}
+                title="Right"
+              >
+                <i className="fas fa-arrow-right"></i>
+              </button>
+
+              <button
+                onClick={() => rotateView(0, 0.1)}
+                style={{
+                  position: "absolute",
+                  bottom: "10px",
+                  background: "transparent",
+                  border: "none",
+                  color: "white",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                }}
+                title="Down"
+              >
+                <i className="fas fa-arrow-down"></i>
+              </button>
+
+              <button
+                onClick={() => rotateView(-0.1, 0)}
+                style={{
+                  position: "absolute",
+                  left: "10px",
+                  background: "transparent",
+                  border: "none",
+                  color: "white",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                }}
+                title="Left"
+              >
+                <i className="fas fa-arrow-left"></i>
+              </button>
+            </div>
           </div>
         )}
+        <div
+          className="bottom-panel"
+          style={{
+            position: "absolute",
+            bottom: "42px", // Position from bottom of the viewport
+            left: "60%", // Center the panel horizontally
+            transform: "translateX(-50%)", // Adjust for perfect centering
+            display: "flex", // Flexbox layout to arrange buttons horizontally
+            justifyContent: "space-evenly", // Evenly spaced buttons
+            width: "30%", // Set the width of the panel to 80% of the viewport
+            backgroundColor: "rgba(0, 0, 0, 0.7)", // Black translucent background
+            borderRadius: "8px", // Optional: rounded corners for the panel
+            padding: "10px", // Padding inside the panel
+            zIndex: 100,
+          }}
+        >
+          {/* Zoom Controls */}
+          <button onClick={() => zoomView(-0.2)} title="Zoom In">
+            <i className="fas fa-search-plus"></i> {/* Icon for Zoom In */}
+          </button>
+          <button onClick={() => zoomView(0.2)} title="Zoom Out">
+            <i className="fas fa-search-minus"></i> {/* Icon for Zoom Out */}
+          </button>
+          <button onClick={refreshView} title="Refresh">
+            <i className="fas fa-sync-alt"></i> {/* Icon for Refresh */}
+          </button>
+        </div>
       </div>
 
       {isStereoVRMode && (
