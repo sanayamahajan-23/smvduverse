@@ -35,31 +35,58 @@ const PhotoSphere = ({
   const autorotationTimer = useRef(null);
   const [hasAutoNarrationPlayed, setHasAutoNarrationPlayed] = useState(false);
 
-  // Function to handle speech synthesis for narration
+  useEffect(() => {
+    // Stop narration whenever the component unmounts or the hotspot/view changes
+    return () => {
+      speechSynthesis.cancel();
+      setIsNarrating(false); // Reset narrating state
+    };
+  }, [currentHotspotIndex, onClose]); // Run when hotspot index changes or when the component is unmounted
+
   const playNarration = (text) => {
-    if ("speechSynthesis" in window) {
+    if (!("speechSynthesis" in window)) {
+      alert("Sorry, your browser does not support text-to-speech.");
+      return;
+    }
+
+    // Stop any existing narration
+    speechSynthesis.cancel();
+
+    if (text) {
       const utterance = new SpeechSynthesisUtterance(text);
 
-      // Adjust the speech settings to sound natural and smooth
-      utterance.rate = 0.9; // Speed of speech
-      utterance.pitch = 1.4; // Slightly higher pitch for clarity and naturalness
-      utterance.volume = 1; // Maximum volume
+      // Speech settings
+      utterance.rate = 0.9;
+      utterance.pitch = 1.4;
+      utterance.volume = 1;
 
-      // Get available voices
+      // Select a preferred voice
       const voices = speechSynthesis.getVoices();
-
-      // Select a female voice if available, otherwise default to the first available voice
       const preferredVoice = voices.find((voice) =>
         voice.name.toLowerCase().includes("female")
       );
       utterance.voice = preferredVoice || voices[0];
 
-      // Start speaking
+      // Start narration
       speechSynthesis.speak(utterance);
-    } else {
-      alert("Sorry, your browser does not support text-to-speech.");
+
+      // Set narration end handler to update state
+      utterance.onend = () => {
+        setIsNarrating(false);
+      };
+
+      setIsNarrating(true);
     }
   };
+
+  // Trigger narration on hotspot change
+  useEffect(() => {
+    if (currentHotspot && currentHotspot.subtitle) {
+      playNarration(currentHotspot.subtitle);
+    } else {
+      speechSynthesis.cancel();
+    }
+  }, [currentHotspot]);
   useEffect(() => {
     // Stop any ongoing narration if the current hotspot changes or is closed
     if (isNarrating) {
