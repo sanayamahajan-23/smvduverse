@@ -501,11 +501,12 @@ const SMVDUMap = () => {
       id: 35,
       x: 980,
       y: 450,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/vaishnavi.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Vaishnavi/vaishnavi.jpeg`,
       galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/Vaishnavi-1.jpeg`,
-        `${process.env.PUBLIC_URL}/assets/Vaishnavi-2.jpeg`,
-        `${process.env.PUBLIC_URL}/assets/Vaishnavi-3.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Vaishnavi/Vaishnavi-2.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Vaishnavi/Vaishnavi-3.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Vaishnavi/Vaishnavi-1.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Vaishnavi/Vaishnavi-5.jpeg`,
       ],
       label: "Vaishnavi",
       subtitle:
@@ -516,10 +517,12 @@ const SMVDUMap = () => {
       id: 36,
       x: 1030,
       y: 380,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/guesthouse.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/GuestHouse/guesthouse.jpeg`,
       galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+        // `${process.env.PUBLIC_URL}/assets/Residential Area/GuestHouse/Guesthouse1.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/GuestHouse/guesthouse2.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/GuestHouse/guesthouse3.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/GuestHouse/guesthouse4.jpeg`,
       ],
       label: "Guest House",
       subtitle:
@@ -533,10 +536,11 @@ const SMVDUMap = () => {
       id: 37,
       x: 1070,
       y: 360,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/park.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Park/park.jpeg`,
       galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Park/park1.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Park/park2.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Park/park3.jpeg`,
       ],
       label: "Guest House Park",
       subtitle:
@@ -575,7 +579,7 @@ const SMVDUMap = () => {
   const nonMappedHotspots = [
     {
       id: "a",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/routeto2pathsfromvaishnavi.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/routeto2pathsfromvaishnavi.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
@@ -604,7 +608,7 @@ const SMVDUMap = () => {
     },
     {
       id: "c",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/routetoguest,marg.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/routetoguest,marg.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
@@ -619,7 +623,7 @@ const SMVDUMap = () => {
     },
     {
       id: "d",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/gate2vaishnavi.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/gate2vaishnavi.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
@@ -633,7 +637,7 @@ const SMVDUMap = () => {
     },
     {
       id: "e",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/pathAmbikasadan.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/pathAmbikasadan.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
@@ -647,7 +651,7 @@ const SMVDUMap = () => {
     },
     {
       id: "f",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/durgasadanpath.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/durgasadanpath.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
@@ -661,7 +665,7 @@ const SMVDUMap = () => {
     },
     {
       id: "g",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/path to sadan.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/path to sadan.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
@@ -675,7 +679,7 @@ const SMVDUMap = () => {
     },
     {
       id: "h",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/pathtoganga,kautalya.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/pathtoganga,kautalya.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
@@ -689,12 +693,96 @@ const SMVDUMap = () => {
     },
     {
       id: "i",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/pathtovishishtandchanakya.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/pathtovishishtandchanakya.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
       ],
       label: "Path to chanakya and vashisht",
+      subtitle: "",
+      linkedHotspots: [
+        { id:"h", latitude: 10, longitude: 10 },
+        { id: "c", latitude: 10, longitude: 180 },
+      ],
+    },
+    {
+      id: "j",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/pathtovishishtandchanakya.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      ],
+      label: "Manu marg",
+      subtitle: "",
+      linkedHotspots: [
+        { id:"h", latitude: 10, longitude: 10 },
+        { id: "c", latitude: 10, longitude: 180 },
+      ],
+    },
+    {
+      id: "k",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/pathtovishishtandchanakya.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      ],
+      label: "chanakya marg",
+      subtitle: "",
+      linkedHotspots: [
+        { id:"h", latitude: 10, longitude: 10 },
+        { id: "c", latitude: 10, longitude: 180 },
+      ],
+    },
+    {
+      id: "l",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/pathtovishishtandchanakya.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      ],
+      label: "vashisht marg",
+      subtitle: "",
+      linkedHotspots: [
+        { id:"h", latitude: 10, longitude: 10 },
+        { id: "c", latitude: 10, longitude: 180 },
+      ],
+    },
+    {
+      id: "m",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/pathtovishishtandchanakya.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      ],
+      label: "Path to chanakya and vashisht",
+      subtitle: "",
+      linkedHotspots: [
+        { id:"h", latitude: 10, longitude: 10 },
+        { id: "c", latitude: 10, longitude: 180 },
+      ],
+    },
+    {
+      id: "n",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/pathtovishishtandchanakya.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      ],
+      label: "ganga 1 sadan",
+      subtitle: "",
+      linkedHotspots: [
+        { id:"h", latitude: 10, longitude: 10 },
+        { id: "c", latitude: 10, longitude: 180 },
+      ],
+    },
+    {
+      id: "o",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/pathtovishishtandchanakya.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      ],
+      label: "kautalya marg",
       subtitle: "",
       linkedHotspots: [
         { id:"h", latitude: 10, longitude: 10 },
