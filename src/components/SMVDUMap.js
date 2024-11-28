@@ -551,7 +551,7 @@ const SMVDUMap = () => {
       id: 38,
       x: 1100,
       y: 390,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/manumarg.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
         `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
@@ -559,13 +559,16 @@ const SMVDUMap = () => {
       label: "Residential Area",
       subtitle:
         "This area is designated for the accommodation of staff members, providing comfortable living spaces with essential amenities for faculty and employees.",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+      linkedHotspots: [
+        // { id: "a", latitude: 30, longitude: 45 },
+        { id: "c", latitude: 10, longitude: 0 },
+      ],
     },
     {
       id: 39,
       x: 840,
       y: 430,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/gate1.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
         `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
@@ -573,7 +576,7 @@ const SMVDUMap = () => {
       label: "Gate 1",
       subtitle:
         "Main entrance to the campus, welcoming visitors and providing access to the academic and residential areas of the university.",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+      linkedHotspots: [{ id: "p", latitude: 30, longitude: 5 }],
     },
   ];
   const nonMappedHotspots = [
@@ -776,6 +779,34 @@ const SMVDUMap = () => {
       label: "Ambika sadan",
       subtitle: "",
       linkedHotspots: [{ id: "e", latitude: 10, longitude: 290 }],
+    },
+    {
+      id: "p",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/pathfromg1.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      ],
+      label: "path from G1",
+      subtitle: "",
+      linkedHotspots: [
+        { id: "q", latitude: 10, longitude: 350 },
+        { id: "b", latitude: 10, longitude: 50 },
+      ],
+    },
+    {
+      id: "q",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/pathtogrocery,mac,departments.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      ],
+      label: "path to grocery",
+      subtitle: "",
+      linkedHotspots: [
+        // { id: "e", latitude: 10, longitude: 290 },
+        // { id: "e", latitude: 10, longitude: 290 },
+      ],
     },
   ];
   const handleHotspotClick = (index) => {
