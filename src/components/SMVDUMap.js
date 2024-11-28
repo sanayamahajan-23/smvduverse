@@ -619,6 +619,7 @@ const SMVDUMap = () => {
         { id: 36, latitude: 10, longitude: 80 },
         { id: "a", latitude: 10, longitude: 0 },
         { id: "i", latitude: 10, longitude: 180 },
+        { id: "j", latitude: 10, longitude: 230 },
       ],
     },
     {
@@ -631,8 +632,8 @@ const SMVDUMap = () => {
       label: "Path 2 from vaishnavi",
       subtitle: "",
       linkedHotspots: [
-        { id:"a", latitude: 10, longitude: 185 },
-        { id:"e", latitude: 10, longitude: 0 },
+        { id: "a", latitude: 10, longitude: 185 },
+        { id: "e", latitude: 10, longitude: 0 },
       ],
     },
     {
@@ -645,8 +646,9 @@ const SMVDUMap = () => {
       label: "Path of Ambika sadan",
       subtitle: "",
       linkedHotspots: [
-        { id:"d", latitude: 10, longitude: 190 },
-        { id:"f", latitude: 10, longitude: 0 },
+        { id: "d", latitude: 10, longitude: 190 },
+        { id: "f", latitude: 10, longitude: 0 },
+        { id: "o", latitude: 10, longitude: 60 },
       ],
     },
     {
@@ -659,7 +661,7 @@ const SMVDUMap = () => {
       label: "path of durga sadan",
       subtitle: "",
       linkedHotspots: [
-        { id:"e", latitude: 10, longitude: 185 },
+        { id: "e", latitude: 10, longitude: 185 },
         { id: "g", latitude: 10, longitude: 0 },
       ],
     },
@@ -673,7 +675,7 @@ const SMVDUMap = () => {
       label: "Path to sadan",
       subtitle: "",
       linkedHotspots: [
-        { id:"f", latitude: 10, longitude: 185 },
+        { id: "f", latitude: 10, longitude: 185 },
         { id: "h", latitude: 10, longitude: 0 },
       ],
     },
@@ -687,8 +689,10 @@ const SMVDUMap = () => {
       label: "Path to ganga and kautalya",
       subtitle: "",
       linkedHotspots: [
-        { id:"i", latitude: 10, longitude: 10 },
+        { id: "i", latitude: 10, longitude: 10 },
         { id: "g", latitude: 10, longitude: 180 },
+        { id: "m", latitude: 10, longitude: 120 },
+        { id: "n", latitude: 10, longitude: 280 },
       ],
     },
     {
@@ -701,93 +705,77 @@ const SMVDUMap = () => {
       label: "Path to chanakya and vashisht",
       subtitle: "",
       linkedHotspots: [
-        { id:"h", latitude: 10, longitude: 10 },
+        { id: "h", latitude: 10, longitude: 10 },
         { id: "c", latitude: 10, longitude: 180 },
+        { id: "l", latitude: 10, longitude: 90 },
+        { id: "k", latitude: 0, longitude: -10 },
       ],
     },
     {
       id: "j",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/pathtovishishtandchanakya.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/manumarg.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
       ],
       label: "Manu marg",
       subtitle: "",
-      linkedHotspots: [
-        { id:"h", latitude: 10, longitude: 10 },
-        { id: "c", latitude: 10, longitude: 180 },
-      ],
+      linkedHotspots: [{ id: "c", latitude: 10, longitude: 0 }],
     },
     {
       id: "k",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/pathtovishishtandchanakya.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/chanakayamarg.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
       ],
       label: "chanakya marg",
       subtitle: "",
-      linkedHotspots: [
-        { id:"h", latitude: 10, longitude: 10 },
-        { id: "c", latitude: 10, longitude: 180 },
-      ],
+      linkedHotspots: [{ id: "i", latitude: 10, longitude: 180 }],
     },
     {
       id: "l",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/pathtovishishtandchanakya.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/vashishtmarg.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
       ],
       label: "vashisht marg",
       subtitle: "",
-      linkedHotspots: [
-        { id:"h", latitude: 10, longitude: 10 },
-        { id: "c", latitude: 10, longitude: 180 },
-      ],
+      linkedHotspots: [{ id: "i", latitude: 10, longitude: 0 }],
     },
     {
       id: "m",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/pathtovishishtandchanakya.jpeg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.png`,
-        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
-      ],
-      label: "Path to chanakya and vashisht",
-      subtitle: "",
-      linkedHotspots: [
-        { id:"h", latitude: 10, longitude: 10 },
-        { id: "c", latitude: 10, longitude: 180 },
-      ],
-    },
-    {
-      id: "n",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/pathtovishishtandchanakya.jpeg`,
-      galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.png`,
-        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
-      ],
-      label: "ganga 1 sadan",
-      subtitle: "",
-      linkedHotspots: [
-        { id:"h", latitude: 10, longitude: 10 },
-        { id: "c", latitude: 10, longitude: 180 },
-      ],
-    },
-    {
-      id: "o",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Path/pathtovishishtandchanakya.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/kautalyamarg.jpeg`,
       galleryImages: [
         `${process.env.PUBLIC_URL}/assets/photo1.png`,
         `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
       ],
       label: "kautalya marg",
       subtitle: "",
-      linkedHotspots: [
-        { id:"h", latitude: 10, longitude: 10 },
-        { id: "c", latitude: 10, longitude: 180 },
+      linkedHotspots: [{ id: "h", latitude: 10, longitude: 260 }],
+    },
+    {
+      id: "n",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/ganga1.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
       ],
+      label: "ganga 1 sadan",
+      subtitle: "",
+      linkedHotspots: [{ id: "h", latitude: 10, longitude: 180 }],
+    },
+    {
+      id: "o",
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Sadan/ambikasadan.jpeg`,
+      galleryImages: [
+        `${process.env.PUBLIC_URL}/assets/photo1.png`,
+        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+      ],
+      label: "Ambika sadan",
+      subtitle: "",
+      linkedHotspots: [{ id: "e", latitude: 10, longitude: 290 }],
     },
   ];
   const handleHotspotClick = (index) => {
