@@ -11,6 +11,8 @@ const PhotoSphere = ({
   setCurrentHotspotIndex,
   onClose,
 }) => {
+  const [circlePosition, setCirclePosition] = useState({ x: 0, y: 0 });
+  const [initialPosition, setInitialPosition] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState({ x: 0, y: -130, z: 0 }); // Initial rotation
   const [cameraZ, setCameraZ] = useState(10);
   const [isStereoVRMode, setIsStereoVRMode] = useState(false);
@@ -33,8 +35,57 @@ const PhotoSphere = ({
   const combinedHotspots = [...hotspots, ...nonMappedHotspots];
   const currentHotspot = combinedHotspots[currentHotspotIndex];
   const autorotationTimer = useRef(null);
+  const [dragging, setDragging] = useState(false);
   const [hasAutoNarrationPlayed, setHasAutoNarrationPlayed] = useState(false);
+  const sensitivity = 0.05; // Sensitivity factor to control speed of movement
+  const deadZone = 5; // Ignore small movements around the center
+  const maxDistance = 50; // Max distance the circle can move from center
+  const handleMouseDown = (e) => {
+    setDragging(true);
+    setInitialPosition({ x: e.clientX, y: e.clientY });
+  };
 
+  const handleMouseMove = (e) => {
+    if (dragging) {
+      const deltaX = e.clientX - initialPosition.x;
+      const deltaY = e.clientY - initialPosition.y;
+
+      // Limit movement within max distance
+      const limitedX = Math.min(Math.max(deltaX, -maxDistance), maxDistance);
+      const limitedY = Math.min(Math.max(deltaY, -maxDistance), maxDistance);
+
+      // Update the circle's position
+      setCirclePosition({
+        x: limitedX,
+        y: limitedY,
+      });
+
+      // Calculate rotation direction based on drag, considering sensitivity
+      if (Math.abs(limitedX) > deadZone || Math.abs(limitedY) > deadZone) {
+        const moveX = (limitedX * sensitivity) / 100;
+        const moveY = (limitedY * sensitivity) / 100;
+
+        rotateView(moveX, moveY); // Trigger rotation based on controlled movement
+      }
+    }
+  };
+
+  const handleMouseUp = () => {
+    setDragging(false);
+    setCirclePosition({ x: 0, y: 0 }); // Animate back to center
+  };
+
+  useEffect(() => {
+    // Add event listeners for mousemove and mouseup for dragging
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    // Clean up event listeners on unmount
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [dragging, initialPosition]);
   useEffect(() => {
     // Stop narration whenever the component unmounts or the hotspot/view changes
     return () => {
@@ -270,29 +321,52 @@ const PhotoSphere = ({
     }
   };
 
-  const addArrowMarker = (viewer, sourceHotspot, linkedHotspot) => {
-    const arrowElement = document.createElement("div");
-    arrowElement.className = "arrow-marker";
-    arrowElement.textContent = "🡩";
-    arrowElement.style.position = "absolute";
+const addArrowMarker = (viewer, sourceHotspot, linkedHotspot) => {
+  const arrowElement = document.createElement("div");
+  arrowElement.className = "arrow-marker";
+  arrowElement.textContent = "🡩"; // Upward arrow symbol
+  arrowElement.style.position = "absolute";
 
-    const position = {
-      yaw: (linkedHotspot.longitude || 0) * (Math.PI / 180),
-      pitch: (linkedHotspot.latitude || 0) * (Math.PI / 180),
-    };
+  // Tooltip for showing the hotspot label
+  const labelElement = document.createElement("div");
+  labelElement.className = "hotspot-label";
+  labelElement.textContent = linkedHotspot.label || "Hotspot"; // Set label text
+  labelElement.style.position = "absolute";
+  labelElement.style.visibility = "hidden"; // Initially hidden
+  labelElement.style.opacity = 0;
+  labelElement.style.transition = "opacity 0.3s ease";
 
-    sceneRef.current.hotspotContainer().createHotspot(arrowElement, position);
-
-    arrowElement.addEventListener("click", () => {
-      // Find the target hotspot in the combined hotspots array
-      const targetHotspot = combinedHotspots.find(
-        (h) => h.id === linkedHotspot.id
-      );
-      if (targetHotspot) {
-        setCurrentHotspotIndex(combinedHotspots.indexOf(targetHotspot));
-      }
-    });
+  // Add the marker to the scene
+  const position = {
+    yaw: (linkedHotspot.longitude || 0) * (Math.PI / 180),
+    pitch: (linkedHotspot.latitude || 0) * (Math.PI / 180),
   };
+  sceneRef.current.hotspotContainer().createHotspot(arrowElement, position);
+  sceneRef.current.hotspotContainer().createHotspot(labelElement, position);
+
+  // Show label on hover
+  arrowElement.addEventListener("mouseenter", () => {
+    labelElement.style.visibility = "visible";
+    labelElement.style.opacity = 1;
+  });
+
+  // Hide label when not hovering
+  arrowElement.addEventListener("mouseleave", () => {
+    labelElement.style.visibility = "hidden";
+    labelElement.style.opacity = 0;
+  });
+
+  // Click event to navigate to the hotspot
+  arrowElement.addEventListener("click", () => {
+    const targetHotspot = combinedHotspots.find(
+      (h) => h.id === linkedHotspot.id
+    );
+    if (targetHotspot) {
+      setCurrentHotspotIndex(combinedHotspots.indexOf(targetHotspot));
+    }
+  });
+};
+
 
   const toggleFullscreen = () => {
     if (!isFullscreen) {
@@ -441,7 +515,7 @@ const PhotoSphere = ({
                 onClick={handleNext}
                 title="Next"
               >
-                <i className="fas fa-arrow-right"></i>
+                <i className="fas fa-arrow-right"></i>-
               </button>
               <button
                 className="control-button"
@@ -462,7 +536,7 @@ const PhotoSphere = ({
                   className="subtitle-box"
                   style={{
                     position: "fixed", // Use fixed to anchor to the viewport
-                    bottom: "100px", // Adjust as needed for spacing
+                    bottom: "108px", // Adjust as needed for spacing
                     left: "50%", // Center horizontally
                     transform: "translateX(-50%)", // Perfect horizontal centering
                     backgroundColor: "rgba(0, 0, 0, 0.8)", // Slightly darker for contrast
@@ -528,15 +602,16 @@ const PhotoSphere = ({
                   style={{
                     position: "absolute",
                     top: "20px", // Distance from the top
-                    left: "-230px", // Align to the left side of the viewport
+                    left: "-205px", // Align to the left side of the viewport
                     backgroundColor: "rgba(0, 0, 0, 0.8)", // Dark semi-transparent background
                     padding: "15px",
                     borderRadius: "5px",
                     boxShadow: "0 2px 10px rgba(0,0,0,0.3)", // Add subtle shadow
                     zIndex: 101,
                     maxHeight: "400px", // Limit height with scrollable content
-                    overflowY: "auto",
-                    width: "200px", // Fixed width
+                    overflowY: "scroll",
+                    width: "170px", // Fixed width
+                    height: "80%",
                   }}
                 >
                   {/* Close Button */}
@@ -586,13 +661,14 @@ const PhotoSphere = ({
                       <span
                         style={{
                           position: "absolute", // Position label over the image
-                          bottom: "5px", // Slight padding from the bottom
-                          left: "5px", // Slight padding from the left
+                          bottom: "0px", // Slight padding from the bottom
+                          left: "0px", // Slight padding from the left
                           color: "white",
                           backgroundColor: "rgba(0, 0, 0, 0.7)", // Semi-transparent black background
                           padding: "5px 10px", // Padding for the label
-                          borderRadius: "3px", // Rounded edges for label
+                          borderRadius: "0px", // Rounded edges for label
                           fontSize: "12px", // Adjust font size
+                          width: "100%",
                         }}
                       >
                         {hotspot.label}
@@ -601,6 +677,15 @@ const PhotoSphere = ({
                   ))}
                 </div>
               )}
+              <style jsx>{`
+                .hotspots-panel::-webkit-scrollbar {
+                  width: 0; /* Hides the scrollbar in WebKit browsers */
+                }
+
+                .hotspots-panel {
+                  scrollbar-width: none; /* Hides the scrollbar in Firefox */
+                }
+              `}</style>
             </div>
           </div>
         )}
@@ -608,9 +693,9 @@ const PhotoSphere = ({
           <div
             style={{
               position: "absolute",
-              bottom: "-10px", // Position from bottom of the viewport
-              left: "38%", // Center the panel horizontally
-              transform: "translateX(-50%)", // Adjust for perfect centering
+              bottom: "-10px",
+              left: "42%",
+              transform: "translateX(-50%)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -620,15 +705,15 @@ const PhotoSphere = ({
             {/* Circular Disc for Directional Controls */}
             <div
               style={{
-                width: "150px",
-                height: "150px",
+                width: "100px",
+                height: "100px",
                 borderRadius: "50%",
                 backgroundColor: "rgba(0, 0, 0, 0.7)",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 position: "relative",
-                marginBottom: "15px", // Space between the disc and bottom panel
+                marginBottom: "15px",
                 boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
               }}
             >
@@ -646,7 +731,7 @@ const PhotoSphere = ({
                 }}
                 title="Up"
               >
-                <i className="fas fa-arrow-up"></i>
+                <i className="fas fa-chevron-up"></i>
               </button>
 
               <button
@@ -662,7 +747,7 @@ const PhotoSphere = ({
                 }}
                 title="Right"
               >
-                <i className="fas fa-arrow-right"></i>
+                <i className="fas fa-chevron-right"></i>
               </button>
 
               <button
@@ -678,7 +763,7 @@ const PhotoSphere = ({
                 }}
                 title="Down"
               >
-                <i className="fas fa-arrow-down"></i>
+                <i className="fas fa-chevron-down"></i>
               </button>
 
               <button
@@ -694,38 +779,57 @@ const PhotoSphere = ({
                 }}
                 title="Left"
               >
-                <i className="fas fa-arrow-left"></i>
+                <i className="fas fa-chevron-left"></i>
               </button>
+
+              {/* Drag handle (small circle) */}
+              <div
+                onMouseDown={handleMouseDown}
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: `translate(-50%, -50%) translate(${circlePosition.x}px, ${circlePosition.y}px)`,
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                  backgroundColor: "rgba(255,255,255,0.8)",
+                  cursor: "pointer",
+                  transition: "transform 0.2s ease-out", // Smooth transition back to the center
+                }}
+              />
             </div>
           </div>
         )}
-        <div
-          className="bottom-panel"
-          style={{
-            position: "absolute",
-            bottom: "42px", // Position from bottom of the viewport
-            left: "60%", // Center the panel horizontally
-            transform: "translateX(-50%)", // Adjust for perfect centering
-            display: "flex", // Flexbox layout to arrange buttons horizontally
-            justifyContent: "space-evenly", // Evenly spaced buttons
-            width: "30%", // Set the width of the panel to 80% of the viewport
-            backgroundColor: "rgba(0, 0, 0, 0.7)", // Black translucent background
-            borderRadius: "8px", // Optional: rounded corners for the panel
-            padding: "10px", // Padding inside the panel
-            zIndex: 100,
-          }}
-        >
-          {/* Zoom Controls */}
-          <button onClick={() => zoomView(-0.2)} title="Zoom In">
-            <i className="fas fa-search-plus"></i> {/* Icon for Zoom In */}
-          </button>
-          <button onClick={() => zoomView(0.2)} title="Zoom Out">
-            <i className="fas fa-search-minus"></i> {/* Icon for Zoom Out */}
-          </button>
-          <button onClick={refreshView} title="Refresh">
-            <i className="fas fa-sync-alt"></i> {/* Icon for Refresh */}
-          </button>
-        </div>
+        {!isStereoVRMode && (
+          <div
+            className="bottom-panel"
+            style={{
+              position: "absolute",
+              bottom: "25px", // Position from bottom of the viewport
+              left: "55%", // Center the panel horizontally
+              transform: "translateX(-50%)", // Adjust for perfect centering
+              display: "flex", // Flexbox layout to arrange buttons horizontally
+              justifyContent: "space-evenly", // Evenly spaced buttons
+              width: "15%", // Set the width of the panel to 80% of the viewport
+              backgroundColor: "rgba(0, 0, 0, 0.7)", // Black translucent background
+              borderRadius: "8px", // Optional: rounded corners for the panel
+              padding: "5px", // Padding inside the panel
+              zIndex: 100,
+            }}
+          >
+            {/* Zoom Controls */}
+            <button onClick={() => zoomView(-0.2)} title="Zoom In">
+              <i className="fas fa-search-plus"></i> {/* Icon for Zoom In */}
+            </button>
+            <button onClick={() => zoomView(0.2)} title="Zoom Out">
+              <i className="fas fa-search-minus"></i> {/* Icon for Zoom Out */}
+            </button>
+            <button onClick={refreshView} title="Refresh">
+              <i className="fas fa-sync-alt"></i> {/* Icon for Refresh */}
+            </button>
+          </div>
+        )}
       </div>
 
       {isStereoVRMode && (

@@ -5,14 +5,14 @@
   left: 0; /* Align it to the leftmost side of the viewport */
   z-index: 200;
   background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  padding: 10px; /* Compact padding */
+  padding: 8px; /* Compact padding */
   border-radius: 0 10px 10px 0; /* Rounded corners on the right */
   width: 15%; /* Take up 1/5 of screen width */
   height: 80%; /* Cover most of the screen height */
   display: flex;
   flex-direction: column; /* Stack items vertically */
   gap: 10px; /* Add space between images */
-  overflow-y: auto; /* Enable vertical scrolling for extra images */
+  overflow: hidden;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* Add shadow for visual depth */
 }
 
@@ -33,14 +33,35 @@
   position: absolute;
   top: 5px;
   right: 5px;
-  background: none;
+  background: rgba(0, 0, 0, 0.8);
   border: none;
   color: white;
   font-size: 15px;
   cursor: pointer;
   z-index: 1000;
 }
-/* Fullscreen Modal */
+/* Gallery container */
+.vertical-slider {
+  position: relative; /* Ensure this is the reference point for absolute positioning */
+  height: 100%; /* Ensure it has height for positioning the arrows */
+}
+
+/* Down arrow (below the slider) */
+.down-arrow {
+  bottom: -30px; /* Position below the slider */
+  font-size: 18px;
+  background: rgba(0, 0, 0, 0);
+  color: white;
+  border-style: none;
+  border-radius: 5px 5px 5px 5px;
+}
+
+/* Optional: For the main slider, hide default arrows */
+.slick-prev,
+.slick-next {
+  display: none; /* Hide the default arrows */
+}
+
 .fullscreen-modal {
   position: fixed;
   top: 0;
@@ -53,34 +74,23 @@
   justify-content: center;
   z-index: 300;
 }
-
-/* Fullscreen Image Slider Container */
 .fullscreen-slider-container {
-  width: 80vw; /* Adjust width to leave space on the sides */
-  height: 80vh; /* Adjust height to leave space on the top/bottom */
-  background: #fff; /* Optional background color */
-  padding: 20px; /* Add padding to leave space from all sides */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px; /* Optional rounded corners */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Optional shadow for depth */
+  width: 90%;
+  height: 90%;
 }
-
 .fullscreen-slide img {
-  width: 100%; /* Limit the image width */
-  height: auto; /* Maintain aspect ratio */
-  object-fit: contain; /* Ensure the image fits within the container without distortion */
-  margin: auto; /* Center the image */
-  border-radius: 10px; /* Optional rounded corners */
+  max-width: 60%;
+  max-height: 40%;
+  object-fit: contain;
+  margin: auto;
 }
 .close-fullscreen {
   position: absolute;
   top: 20px;
   right: 20px;
-  background: white;
+  background: none;
   border: none;
-  color: rgb(0, 0, 0);
+  color: white;
   font-size: 24px;
   cursor: pointer;
 }
@@ -88,11 +98,16 @@
 /* Arrow styles for slider */
 .slick-prev:before,
 .slick-next:before {
+  font-size: 40px;
   color: white; /* Visible arrows in fullscreen */
 }
-
 .slick-slide {
   display: flex !important;
   justify-content: center;
   align-items: center;
+}
+
+.fullscreen-slider .slick-prev,
+.fullscreen-slider .slick-next {
+  display: block !important; /* Ensure arrows are visible in fullscreen mode */
 }

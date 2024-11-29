@@ -511,7 +511,7 @@ const SMVDUMap = () => {
       label: "Vaishnavi",
       subtitle:
         "Welcome to Vaishnavi, the oldest and one of the most iconic girls' hostels on campus.Its historical significance and close-knit community make it a beloved place on campus, where friendships are formed and memories are made.",
-      linkedHotspots: [{ id: "a", latitude: 0, longitude: 0 }],
+      linkedHotspots: [{ id: "a", latitude: 10, longitude: 0, label: "Exit" }],
     },
     {
       id: 36,
@@ -528,8 +528,8 @@ const SMVDUMap = () => {
       subtitle:
         "A comfortable stay for visitors and guests, offering a serene environment with all essential amenities for a restful visit.",
       linkedHotspots: [
-        { id: 37, latitude: 10, longitude: 130 },
-        { id: "c", latitude: 10, longitude: -60 },
+        { id: 37, latitude: 10, longitude: 130, label: "Guest House Park" },
+        { id: "c", latitude: 10, longitude: -60, label: "Exit" },
       ],
     },
     {
@@ -545,7 +545,9 @@ const SMVDUMap = () => {
       label: "Guest House Park",
       subtitle:
         "A peaceful outdoor park area located near the guest house, offering a relaxing environment with greenery and seating spaces, ideal for leisure and casual gatherings.",
-      linkedHotspots: [{ id: 36, latitude: 10, longitude: 250 }],
+      linkedHotspots: [
+        { id: 36, latitude: 10, longitude: 250, label: "Guest House" },
+      ],
     },
     {
       id: 38,
@@ -560,8 +562,8 @@ const SMVDUMap = () => {
       subtitle:
         "This area is designated for the accommodation of staff members, providing comfortable living spaces with essential amenities for faculty and employees.",
       linkedHotspots: [
-        // { id: "a", latitude: 30, longitude: 45 },
-        { id: "c", latitude: 10, longitude: 0 },
+        //{ id: "p", latitude: 30, longitude: 10 },
+        { id: "c", latitude: 10, longitude: 0, label: "Exit" },
       ],
     },
     {
@@ -576,7 +578,9 @@ const SMVDUMap = () => {
       label: "Gate 1",
       subtitle:
         "Main entrance to the campus, welcoming visitors and providing access to the academic and residential areas of the university.",
-      linkedHotspots: [{ id: "p", latitude: 30, longitude: 5 }],
+      linkedHotspots: [
+        { id: "p", latitude: 30, longitude: 5, label: "Entering SMVDU" },
+      ],
     },
   ];
   const nonMappedHotspots = [
@@ -590,9 +594,20 @@ const SMVDUMap = () => {
       label: "outside vaishnavi",
       subtitle: "",
       linkedHotspots: [
-        { id: "b", latitude: 10, longitude: 0 },
-        { id: "c", latitude: 10, longitude: 140 },
-        { id: "d", latitude: 5, longitude: 210 },
+        {
+          id: "b",
+          latitude: 10,
+          longitude: 0,
+          label: "Towards G1/Grocery/Medical Aid Centre/Departments",
+        },
+        {
+          id: "c",
+          latitude: 10,
+          longitude: 140,
+          label: "Towards Guesthouse/Margs",
+        },
+        { id: "d", latitude: 5, longitude: 210, label: "Towards Parking" },
+        { id: 35, latitude: 0, longitude: -10, label: "Vaishnavi" },
       ],
     },
     {
@@ -606,7 +621,12 @@ const SMVDUMap = () => {
       subtitle: "",
       linkedHotspots: [
         // { id: 1, position: { x: 10, y: 20, z: 0 } },
-        { id: "a", latitude: 10, longitude: 90 },
+        {
+          id: "a",
+          latitude: 10,
+          longitude: 90,
+          label: "Towards Vaishnavi/Guesthouse/Parking",
+        },
       ],
     },
     {
@@ -619,10 +639,20 @@ const SMVDUMap = () => {
       label: "path to guest house or margs",
       subtitle: "",
       linkedHotspots: [
-        { id: 36, latitude: 10, longitude: 80 },
-        { id: "a", latitude: 10, longitude: 0 },
-        { id: "i", latitude: 10, longitude: 180 },
-        { id: "j", latitude: 10, longitude: 230 },
+        { id: 36, latitude: 10, longitude: 80, label: "Guesthouse" },
+        {
+          id: "a",
+          latitude: 10,
+          longitude: 0,
+          label: "Towards Vaishnavi/Parking",
+        },
+        {
+          id: "i",
+          latitude: 10,
+          longitude: 180,
+          label: "Towards Chanakya/Vashisth Marg",
+        },
+        { id: "j", latitude: 10, longitude: 230, label: "Manu Marg" },
       ],
     },
     {
@@ -635,8 +665,13 @@ const SMVDUMap = () => {
       label: "Path 2 from vaishnavi",
       subtitle: "",
       linkedHotspots: [
-        { id: "a", latitude: 10, longitude: 185 },
-        { id: "e", latitude: 10, longitude: 0 },
+        {
+          id: "a",
+          latitude: 10,
+          longitude: 185,
+          label: "Towards Vaishnavi/Margs/Guesthouse",
+        },
+        { id: "e", latitude: 10, longitude: 0, label: "Towards Ambika Sadan" },
       ],
     },
     {
@@ -649,9 +684,9 @@ const SMVDUMap = () => {
       label: "Path of Ambika sadan",
       subtitle: "",
       linkedHotspots: [
-        { id: "d", latitude: 10, longitude: 190 },
-        { id: "f", latitude: 10, longitude: 0 },
-        { id: "o", latitude: 10, longitude: 60 },
+        { id: "d", latitude: 10, longitude: 190, label: "Towards Parking" },
+        { id: "f", latitude: 10, longitude: 0, label: "Towards Durga Sadan" },
+        { id: "o", latitude: 10, longitude: 60, label: "Ambika Sadan" },
       ],
     },
     {
@@ -664,8 +699,13 @@ const SMVDUMap = () => {
       label: "path of durga sadan",
       subtitle: "",
       linkedHotspots: [
-        { id: "e", latitude: 10, longitude: 185 },
-        { id: "g", latitude: 10, longitude: 0 },
+        {
+          id: "e",
+          latitude: 10,
+          longitude: 185,
+          label: "Towards Ambika Sadan",
+        },
+        { id: "g", latitude: 10, longitude: 0, label: "Towards other Margs" },
       ],
     },
     {
@@ -678,8 +718,18 @@ const SMVDUMap = () => {
       label: "Path to sadan",
       subtitle: "",
       linkedHotspots: [
-        { id: "f", latitude: 10, longitude: 185 },
-        { id: "h", latitude: 10, longitude: 0 },
+        {
+          id: "f",
+          latitude: 10,
+          longitude: 185,
+          label: "Towards Durga Sadan",
+        },
+        {
+          id: "h",
+          latitude: 10,
+          longitude: 0,
+          label: "Towards GangaI Sadan and Kautalya Marg",
+        },
       ],
     },
     {
@@ -692,10 +742,20 @@ const SMVDUMap = () => {
       label: "Path to ganga and kautalya",
       subtitle: "",
       linkedHotspots: [
-        { id: "i", latitude: 10, longitude: 10 },
-        { id: "g", latitude: 10, longitude: 180 },
-        { id: "m", latitude: 10, longitude: 120 },
-        { id: "n", latitude: 10, longitude: 280 },
+        {
+          id: "i",
+          latitude: 10,
+          longitude: 10,
+          label: "Towards Chanakya and Vashisth Marg",
+        },
+        {
+          id: "g",
+          latitude: 10,
+          longitude: 180,
+          label: "Path to other Sadans",
+        },
+        { id: "m", latitude: 10, longitude: 120, label: "Kautalya Marg" },
+        { id: "n", latitude: 10, longitude: 280, label: "Ganga I Sadan" },
       ],
     },
     {
@@ -708,10 +768,20 @@ const SMVDUMap = () => {
       label: "Path to chanakya and vashisht",
       subtitle: "",
       linkedHotspots: [
-        { id: "h", latitude: 10, longitude: 10 },
-        { id: "c", latitude: 10, longitude: 180 },
-        { id: "l", latitude: 10, longitude: 90 },
-        { id: "k", latitude: 0, longitude: -10 },
+        {
+          id: "h",
+          latitude: 10,
+          longitude: 10,
+          label: "Towards Ganga Sadan/Kautalya Marg",
+        },
+        {
+          id: "c",
+          latitude: 10,
+          longitude: 180,
+          label: "Towards Guesthouse/Manu Marg",
+        },
+        { id: "l", latitude: 10, longitude: 90, label: "Vashisth Marg" },
+        { id: "k", latitude: 0, longitude: -10, label: "Chanakya Marg" },
       ],
     },
     {
@@ -723,7 +793,7 @@ const SMVDUMap = () => {
       ],
       label: "Manu marg",
       subtitle: "",
-      linkedHotspots: [{ id: "c", latitude: 10, longitude: 0 }],
+      linkedHotspots: [{ id: "c", latitude: 10, longitude: 0, label: "Exit" }],
     },
     {
       id: "k",
@@ -734,7 +804,9 @@ const SMVDUMap = () => {
       ],
       label: "chanakya marg",
       subtitle: "",
-      linkedHotspots: [{ id: "i", latitude: 10, longitude: 180 }],
+      linkedHotspots: [
+        { id: "i", latitude: 10, longitude: 180, label: "Exit" },
+      ],
     },
     {
       id: "l",
@@ -745,7 +817,7 @@ const SMVDUMap = () => {
       ],
       label: "vashisht marg",
       subtitle: "",
-      linkedHotspots: [{ id: "i", latitude: 10, longitude: 0 }],
+      linkedHotspots: [{ id: "i", latitude: 10, longitude: 0, label: "Exit" }],
     },
     {
       id: "m",
@@ -756,7 +828,9 @@ const SMVDUMap = () => {
       ],
       label: "kautalya marg",
       subtitle: "",
-      linkedHotspots: [{ id: "h", latitude: 10, longitude: 260 }],
+      linkedHotspots: [
+        { id: "h", latitude: 10, longitude: 260, label: "Exit" },
+      ],
     },
     {
       id: "n",
@@ -767,7 +841,9 @@ const SMVDUMap = () => {
       ],
       label: "ganga 1 sadan",
       subtitle: "",
-      linkedHotspots: [{ id: "h", latitude: 10, longitude: 180 }],
+      linkedHotspots: [
+        { id: "h", latitude: 10, longitude: 180, label: "Exit" },
+      ],
     },
     {
       id: "o",
@@ -778,7 +854,9 @@ const SMVDUMap = () => {
       ],
       label: "Ambika sadan",
       subtitle: "",
-      linkedHotspots: [{ id: "e", latitude: 10, longitude: 290 }],
+      linkedHotspots: [
+        { id: "e", latitude: 10, longitude: 290, label: "Exit " },
+      ],
     },
     {
       id: "p",
@@ -790,8 +868,13 @@ const SMVDUMap = () => {
       label: "path from G1",
       subtitle: "",
       linkedHotspots: [
-        { id: "q", latitude: 10, longitude: 350 },
-        { id: "b", latitude: 10, longitude: 50 },
+        {
+          id: "q",
+          latitude: 10,
+          longitude: 350,
+          label: "Towards Grocery/Medical Aid Centre/Departments",
+        },
+        { id: "b", latitude: 10, longitude: 50, label: "Towards Vaishnavi" },
       ],
     },
     {

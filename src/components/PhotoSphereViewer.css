@@ -44,6 +44,18 @@
   color: yellow;
   font-size: 18px;
 }
+.hotspot-label {
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  text-align: center;
+  position: absolute;
+  transform: translate(-50%, -100%); /* Position above the marker */
+  white-space: nowrap; /* Prevent text wrapping */
+  pointer-events: none; /* Allow hover to trigger on the marker */
+}
 
 .close-button {
   position: absolute;
@@ -107,7 +119,7 @@
   background: none;
   border: none;
   color: white;
-  font-size: 20px;
+  font-size: 10px;
   padding: 10px;
   cursor: pointer;
   transition: transform 0.2s ease, background-color 0.2s ease;
