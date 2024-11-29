@@ -40,6 +40,7 @@ const PhotoSphere = ({
   const sensitivity = 0.05; // Sensitivity factor to control speed of movement
   const deadZone = 5; // Ignore small movements around the center
   const maxDistance = 50; // Max distance the circle can move from center
+  const [isControlPanelVisible, setIsControlPanelVisible] = useState(true);
   const handleMouseDown = (e) => {
     setDragging(true);
     setInitialPosition({ x: e.clientX, y: e.clientY });
@@ -515,7 +516,30 @@ const PhotoSphere = ({
             id="viewer"
             style={{ height: "100vh", width: "100vw", position: "relative" }}
           >
-            {currentHotspot && (
+            <button
+              onClick={() => setIsControlPanelVisible(!isControlPanelVisible)}
+              style={{
+                position: "absolute",
+                bottom: "20px",
+                right: "20px",
+                zIndex: 2000,
+                backgroundColor: "rgba(0, 0, 0, 0.8)",
+                color: "white",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "8px",
+                cursor: "pointer",
+              }}
+              title={isControlPanelVisible ? "Hide Controls" : "Show Controls"}
+            >
+              <i
+                className={
+                  isControlPanelVisible ? "fas fa-eye-slash" : "fas fa-eye"
+                } // Icon toggle
+                style={{ fontSize: "20px" }} // Adjust icon size
+              ></i>
+            </button>
+            {currentHotspot && isControlPanelVisible && (
               <div
                 style={{
                   position: "absolute",
@@ -537,211 +561,216 @@ const PhotoSphere = ({
                 {currentHotspot.label}
               </div>
             )}
-
-            <div className="control-panel">
-              <button
-                className="control-button"
-                onClick={onClose}
-                title="Close"
-              >
-                <i className="fas fa-times"></i>
-              </button>
-              <button
-                className="control-button"
-                onClick={toggleFullscreen}
-                title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
-              >
-                <i
-                  className={isFullscreen ? "fas fa-compress" : "fas fa-expand"}
-                ></i>
-              </button>
-              <button
-                className="control-button"
-                onClick={handlePrev}
-                title="Previous"
-              >
-                <i className="fas fa-arrow-left"></i>
-              </button>
-              <button
-                className="control-button"
-                onClick={handleNext}
-                title="Next"
-              >
-                <i className="fas fa-arrow-right"></i>-
-              </button>
-              <button
-                className="control-button"
-                onClick={toggleNarration}
-                title={isNarrating ? "Stop Narration" : "Play Narration"}
-              >
-                <i className={isNarrating ? "fas fa-stop" : "fas fa-play"}></i>
-              </button>
-              <button
-                className="control-button"
-                onClick={showSubtitle}
-                title="Show Subtitle"
-              >
-                <i className="fas fa-closed-captioning"></i>
-              </button>
-              {isSubtitleVisible && subtitle && (
-                <div
-                  className="subtitle-box"
-                  style={{
-                    position: "fixed", // Use fixed to anchor to the viewport
-                    bottom: "108px", // Adjust as needed for spacing
-                    left: "50%", // Center horizontally
-                    transform: "translateX(-50%)", // Perfect horizontal centering
-                    backgroundColor: "rgba(0, 0, 0, 0.8)", // Slightly darker for contrast
-                    color: "white",
-                    padding: "15px",
-                    borderRadius: "5px",
-                    textAlign: "center",
-                    zIndex: 1000, // Make sure it stays above everything else
-                  }}
+            {isControlPanelVisible && (
+              <div className="control-panel">
+                <button
+                  className="control-button"
+                  onClick={onClose}
+                  title="Close"
                 >
-                  <div>{subtitle}</div>
-                  {/* Close Button for Subtitle Box */}
-                  <button
-                    onClick={closeSubtitle}
-                    style={{
-                      position: "absolute",
-                      top: "5px",
-                      right: "5px",
-                      color: "white", // Text color for "X"
-                      background: "none", // Remove background
-                      border: "none", // Remove border
-                      padding: "10px",
-                      fontSize: "15px", // Optional: adjust the size of the "X"
-                      cursor: "pointer", // Ensure it's clickable
-                    }}
-                  >
-                    X
-                  </button>
-                </div>
-              )}
-              <button
-                className="control-button"
-                onClick={toggleStereoVRMode}
-                title="Enter VR Mode"
-              >
-                <i className="fas fa-vr-cardboard"></i>
-              </button>
-              <button
-                className="control-button"
-                onClick={() => setShowGallery(!showGallery)}
-                title={showGallery ? "Hide Gallery" : "Show Gallery"}
-              >
-                <i className="fas fa-images"></i>
-              </button>
-              <button
-                className="control-button"
-                onClick={() => setShowHotspotsPanel(!showHotspotsPanel)}
-                title="Toggle Hotspots"
-              >
-                <i className="fas fa-map-marker-alt"></i>
-              </button>
-              {showGallery && (
-                <Gallery
-                  images={
-                    combinedHotspots[currentHotspotIndex]?.galleryImages || []
-                  }
-                  onClose={() => setShowGallery(false)}
-                />
-              )}
-              {showHotspotsPanel && (
-                <div
-                  className="hotspots-panel"
-                  style={{
-                    position: "absolute",
-                    top: "20px", // Distance from the top
-                    left: "-205px", // Align to the left side of the viewport
-                    backgroundColor: "rgba(0, 0, 0, 0.8)", // Dark semi-transparent background
-                    padding: "15px",
-                    borderRadius: "5px",
-                    boxShadow: "0 2px 10px rgba(0,0,0,0.3)", // Add subtle shadow
-                    zIndex: 101,
-                    maxHeight: "400px", // Limit height with scrollable content
-                    overflowY: "scroll",
-                    width: "170px", // Fixed width
-                    height: "80%",
-                  }}
+                  <i className="fas fa-times"></i>
+                </button>
+                <button
+                  className="control-button"
+                  onClick={toggleFullscreen}
+                  title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
                 >
-                  {/* Close Button */}
-                  <button
-                    onClick={toggleHotspotsPanel}
+                  <i
+                    className={
+                      isFullscreen ? "fas fa-compress" : "fas fa-expand"
+                    }
+                  ></i>
+                </button>
+                <button
+                  className="control-button"
+                  onClick={handlePrev}
+                  title="Previous"
+                >
+                  <i className="fas fa-arrow-left"></i>
+                </button>
+                <button
+                  className="control-button"
+                  onClick={handleNext}
+                  title="Next"
+                >
+                  <i className="fas fa-arrow-right"></i>
+                </button>
+                <button
+                  className="control-button"
+                  onClick={toggleNarration}
+                  title={isNarrating ? "Stop Narration" : "Play Narration"}
+                >
+                  <i
+                    className={isNarrating ? "fas fa-stop" : "fas fa-play"}
+                  ></i>
+                </button>
+                <button
+                  className="control-button"
+                  onClick={showSubtitle}
+                  title="Show Subtitle"
+                >
+                  <i className="fas fa-closed-captioning"></i>
+                </button>
+                {isSubtitleVisible && subtitle && (
+                  <div
+                    className="subtitle-box"
                     style={{
-                      position: "absolute",
-                      top: "5px",
-                      right: "5px",
+                      position: "fixed", // Use fixed to anchor to the viewport
+                      bottom: "108px", // Adjust as needed for spacing
+                      left: "50%", // Center horizontally
+                      transform: "translateX(-50%)", // Perfect horizontal centering
+                      backgroundColor: "rgba(0, 0, 0, 0.8)", // Slightly darker for contrast
                       color: "white",
-                      background: "none",
-                      border: "none",
-                      fontSize: "15px",
-                      cursor: "pointer",
-                      zIndex: 500,
+                      padding: "15px",
+                      borderRadius: "5px",
+                      textAlign: "center",
+                      zIndex: 1000, // Make sure it stays above everything else
                     }}
                   >
-                    X
-                  </button>
-                  {/* List of Hotspots */}
-                  {hotspots.map((hotspot, index) => (
-                    <div
-                      key={index}
-                      onClick={() => handleImageClick(index)}
+                    <div>{subtitle}</div>
+                    {/* Close Button for Subtitle Box */}
+                    <button
+                      onClick={closeSubtitle}
                       style={{
-                        cursor: "pointer",
-                        marginBottom: "10px",
-                        border:
-                          index === currentHotspotIndex
-                            ? "2px solid white"
-                            : "none", // Highlight selected
-                        borderRadius: "5px",
-                        position: "relative",
+                        position: "absolute",
+                        top: "5px",
+                        right: "5px",
+                        color: "white", // Text color for "X"
+                        background: "none", // Remove background
+                        border: "none", // Remove border
+                        padding: "10px",
+                        fontSize: "15px", // Optional: adjust the size of the "X"
+                        cursor: "pointer", // Ensure it's clickable
                       }}
                     >
-                      {/* Image */}
-                      <img
-                        src={hotspot.imageUrl}
-                        alt={hotspot.label}
+                      X
+                    </button>
+                  </div>
+                )}
+                <button
+                  className="control-button"
+                  onClick={toggleStereoVRMode}
+                  title="Enter VR Mode"
+                >
+                  <i className="fas fa-vr-cardboard"></i>
+                </button>
+                <button
+                  className="control-button"
+                  onClick={() => setShowGallery(!showGallery)}
+                  title={showGallery ? "Hide Gallery" : "Show Gallery"}
+                >
+                  <i className="fas fa-images"></i>
+                </button>
+                <button
+                  className="control-button"
+                  onClick={() => setShowHotspotsPanel(!showHotspotsPanel)}
+                  title="Toggle Hotspots"
+                >
+                  <i className="fas fa-map-marker-alt"></i>
+                </button>
+                {showGallery && (
+                  <Gallery
+                    images={
+                      combinedHotspots[currentHotspotIndex]?.galleryImages || []
+                    }
+                    onClose={() => setShowGallery(false)}
+                  />
+                )}
+                {showHotspotsPanel && (
+                  <div
+                    className="hotspots-panel"
+                    style={{
+                      position: "absolute",
+                      top: "20px", // Distance from the top
+                      left: "-205px", // Align to the left side of the viewport
+                      backgroundColor: "rgba(0, 0, 0, 0.8)", // Dark semi-transparent background
+                      padding: "15px",
+                      borderRadius: "5px",
+                      boxShadow: "0 2px 10px rgba(0,0,0,0.3)", // Add subtle shadow
+                      zIndex: 101,
+                      maxHeight: "400px", // Limit height with scrollable content
+                      overflowY: "scroll",
+                      width: "170px", // Fixed width
+                      height: "80%",
+                    }}
+                  >
+                    {/* Close Button */}
+                    <button
+                      onClick={toggleHotspotsPanel}
+                      style={{
+                        position: "absolute",
+                        top: "5px",
+                        right: "5px",
+                        color: "white",
+                        background: "none",
+                        border: "none",
+                        fontSize: "15px",
+                        cursor: "pointer",
+                        zIndex: 500,
+                      }}
+                    >
+                      X
+                    </button>
+                    {/* List of Hotspots */}
+                    {hotspots.map((hotspot, index) => (
+                      <div
+                        key={index}
+                        onClick={() => handleImageClick(index)}
                         style={{
-                          width: "100%",
-                          height: "auto",
+                          cursor: "pointer",
+                          marginBottom: "10px",
+                          border:
+                            index === currentHotspotIndex
+                              ? "2px solid white"
+                              : "none", // Highlight selected
                           borderRadius: "5px",
-                        }}
-                      />
-                      {/* Label over the image */}
-                      <span
-                        style={{
-                          position: "absolute", // Position label over the image
-                          bottom: "0px", // Slight padding from the bottom
-                          left: "0px", // Slight padding from the left
-                          color: "white",
-                          backgroundColor: "rgba(0, 0, 0, 0.7)", // Semi-transparent black background
-                          padding: "5px 10px", // Padding for the label
-                          borderRadius: "0px", // Rounded edges for label
-                          fontSize: "12px", // Adjust font size
-                          width: "100%",
+                          position: "relative",
                         }}
                       >
-                        {hotspot.label}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
-              <style jsx>{`
-                .hotspots-panel::-webkit-scrollbar {
-                  width: 0; /* Hides the scrollbar in WebKit browsers */
-                }
+                        {/* Image */}
+                        <img
+                          src={hotspot.imageUrl}
+                          alt={hotspot.label}
+                          style={{
+                            width: "100%",
+                            height: "auto",
+                            borderRadius: "5px",
+                          }}
+                        />
+                        {/* Label over the image */}
+                        <span
+                          style={{
+                            position: "absolute", // Position label over the image
+                            bottom: "0px", // Slight padding from the bottom
+                            left: "0px", // Slight padding from the left
+                            color: "white",
+                            backgroundColor: "rgba(0, 0, 0, 0.7)", // Semi-transparent black background
+                            padding: "5px 10px", // Padding for the label
+                            borderRadius: "0px", // Rounded edges for label
+                            fontSize: "12px", // Adjust font size
+                            width: "100%",
+                          }}
+                        >
+                          {hotspot.label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <style jsx>{`
+                  .hotspots-panel::-webkit-scrollbar {
+                    width: 0; /* Hides the scrollbar in WebKit browsers */
+                  }
 
-                .hotspots-panel {
-                  scrollbar-width: none; /* Hides the scrollbar in Firefox */
-                }
-              `}</style>
-            </div>
+                  .hotspots-panel {
+                    scrollbar-width: none; /* Hides the scrollbar in Firefox */
+                  }
+                `}</style>
+              </div>
+            )}
           </div>
         )}
-        {!isStereoVRMode && (
+        {!isStereoVRMode && isControlPanelVisible && (
           <div
             style={{
               position: "absolute",
@@ -853,7 +882,7 @@ const PhotoSphere = ({
             </div>
           </div>
         )}
-        {!isStereoVRMode && (
+        {!isStereoVRMode && isControlPanelVisible && (
           <div
             className="bottom-panel"
             style={{

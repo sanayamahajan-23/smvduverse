@@ -579,7 +579,7 @@ const SMVDUMap = () => {
       subtitle:
         "Main entrance to the campus, welcoming visitors and providing access to the academic and residential areas of the university.",
       linkedHotspots: [
-        { id: "p", latitude: 30, longitude: 5, label: "Entering SMVDU" },
+        { id: "p", latitude: 10, longitude: 0, label: "Entering SMVDU" },
       ],
     },
   ];
