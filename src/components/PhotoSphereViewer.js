@@ -320,53 +320,82 @@ const PhotoSphere = ({
       );
     }
   };
+  useEffect(() => {
+    if (!viewerRef.current || !currentHotspot) return;
 
-const addArrowMarker = (viewer, sourceHotspot, linkedHotspot) => {
-  const arrowElement = document.createElement("div");
-  arrowElement.className = "arrow-marker";
-  arrowElement.textContent = "🡩"; // Upward arrow symbol
-  arrowElement.style.position = "absolute";
+    const viewer = viewerRef.current;
+    const view = viewer.view();
 
-  // Tooltip for showing the hotspot label
-  const labelElement = document.createElement("div");
-  labelElement.className = "hotspot-label";
-  labelElement.textContent = linkedHotspot.label || "Hotspot"; // Set label text
-  labelElement.style.position = "absolute";
-  labelElement.style.visibility = "hidden"; // Initially hidden
-  labelElement.style.opacity = 0;
-  labelElement.style.transition = "opacity 0.3s ease";
+    // Function to calculate 3D position to screen coordinates
+    const updateLabelPosition = () => {
+      const { yaw, pitch } = currentHotspot; // Assuming currentHotspot has `yaw` and `pitch`
 
-  // Add the marker to the scene
-  const position = {
-    yaw: (linkedHotspot.longitude || 0) * (Math.PI / 180),
-    pitch: (linkedHotspot.latitude || 0) * (Math.PI / 180),
-  };
-  sceneRef.current.hotspotContainer().createHotspot(arrowElement, position);
-  sceneRef.current.hotspotContainer().createHotspot(labelElement, position);
+      // Convert spherical coordinates (yaw, pitch) to 2D screen coordinates
+      const screenPosition = view.coordinatesToScreen({ yaw, pitch });
 
-  // Show label on hover
-  arrowElement.addEventListener("mouseenter", () => {
-    labelElement.style.visibility = "visible";
-    labelElement.style.opacity = 1;
-  });
+      if (screenPosition) {
+        setCirclePosition({
+          x: screenPosition.x,
+          y: screenPosition.y,
+        });
+      }
+    };
 
-  // Hide label when not hovering
-  arrowElement.addEventListener("mouseleave", () => {
-    labelElement.style.visibility = "hidden";
+    // Update position initially and on view change
+    updateLabelPosition();
+    view.addEventListener("change", updateLabelPosition);
+
+    // Cleanup event listener on unmount
+    return () => {
+      view.removeEventListener("change", updateLabelPosition);
+    };
+  }, [currentHotspot, viewerRef]);
+
+  const addArrowMarker = (viewer, sourceHotspot, linkedHotspot) => {
+    const arrowElement = document.createElement("div");
+    arrowElement.className = "arrow-marker";
+    arrowElement.textContent = "🡩"; // Upward arrow symbol
+    arrowElement.style.position = "absolute";
+
+    // Tooltip for showing the hotspot label
+    const labelElement = document.createElement("div");
+    labelElement.className = "hotspot-label";
+    labelElement.textContent = linkedHotspot.label || "Hotspot"; // Set label text
+    labelElement.style.position = "absolute";
+    labelElement.style.visibility = "hidden"; // Initially hidden
     labelElement.style.opacity = 0;
-  });
+    labelElement.style.transition = "opacity 0.3s ease";
 
-  // Click event to navigate to the hotspot
-  arrowElement.addEventListener("click", () => {
-    const targetHotspot = combinedHotspots.find(
-      (h) => h.id === linkedHotspot.id
-    );
-    if (targetHotspot) {
-      setCurrentHotspotIndex(combinedHotspots.indexOf(targetHotspot));
-    }
-  });
-};
+    // Add the marker to the scene
+    const position = {
+      yaw: (linkedHotspot.longitude || 0) * (Math.PI / 180),
+      pitch: (linkedHotspot.latitude || 0) * (Math.PI / 180),
+    };
+    sceneRef.current.hotspotContainer().createHotspot(arrowElement, position);
+    sceneRef.current.hotspotContainer().createHotspot(labelElement, position);
 
+    // Show label on hover
+    arrowElement.addEventListener("mouseenter", () => {
+      labelElement.style.visibility = "visible";
+      labelElement.style.opacity = 1;
+    });
+
+    // Hide label when not hovering
+    arrowElement.addEventListener("mouseleave", () => {
+      labelElement.style.visibility = "hidden";
+      labelElement.style.opacity = 0;
+    });
+
+    // Click event to navigate to the hotspot
+    arrowElement.addEventListener("click", () => {
+      const targetHotspot = combinedHotspots.find(
+        (h) => h.id === linkedHotspot.id
+      );
+      if (targetHotspot) {
+        setCurrentHotspotIndex(combinedHotspots.indexOf(targetHotspot));
+      }
+    });
+  };
 
   const toggleFullscreen = () => {
     if (!isFullscreen) {
@@ -486,6 +515,29 @@ const addArrowMarker = (viewer, sourceHotspot, linkedHotspot) => {
             id="viewer"
             style={{ height: "100vh", width: "100vw", position: "relative" }}
           >
+            {currentHotspot && (
+              <div
+                style={{
+                  position: "absolute",
+                  left: "170px", // Dynamically position based on hotspot x
+                  top: "35px", // Dynamically position based on hotspot y
+                  transform: "translate(-50%, -100%)", // Adjust to place the label slightly above the hotspot
+                  backgroundColor: "rgba(0, 0, 0, 0.8)",
+                  color: "white",
+                  padding: "8px 12px",
+                  borderRadius: "8px",
+                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)",
+                  zIndex: 1000,
+                  pointerEvents: "none", // Ensure the label is non-interactive
+                  whiteSpace: "nowrap", // Prevent label from wrapping
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                }}
+              >
+                {currentHotspot.label}
+              </div>
+            )}
+
             <div className="control-panel">
               <button
                 className="control-button"
