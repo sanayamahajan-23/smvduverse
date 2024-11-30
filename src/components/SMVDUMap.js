@@ -473,15 +473,19 @@ const SMVDUMap = () => {
       id: 33,
       x: 910,
       y: 305,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/photosphere2.jpg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Mac/mac.jpeg`,
       galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+        `${process.env.PUBLIC_URL}/assets/Mac/mac1.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Mac/mac2.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Mac/mac3.jpeg`,
       ],
       label: "Medical Aid Center",
       subtitle:
         "The Medical Aid Center provides immediate healthcare services and first-aid assistance to students and staff.",
-      linkedHotspots: [{ id: "a", latitude: 30, longitude: 45 }],
+      linkedHotspots: [
+        { id: "q", latitude: -5, longitude: 140, label: "exit" },
+        // { id: "q", latitude: 5, longitude: 45, label: "Exit" },
+      ],
     },
     {
       id: 34,
@@ -555,8 +559,10 @@ const SMVDUMap = () => {
       y: 390,
       imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/manumarg.jpeg`,
       galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/manu1.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/manu2.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/manu3.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/manu4.jpeg`,
       ],
       label: "Residential Area",
       subtitle:
@@ -570,10 +576,11 @@ const SMVDUMap = () => {
       id: 39,
       x: 840,
       y: 430,
-      imageUrl: `${process.env.PUBLIC_URL}/assets/gate1.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Gate/gate1.jpeg`,
       galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.jpg`,
-        `${process.env.PUBLIC_URL}/assets/photo2.jpg`,
+        `${process.env.PUBLIC_URL}/assets/Gate/gate1pic.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Gate/gate2pic.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Gate/gate3pic.jpeg`,
       ],
       label: "Gate 1",
       subtitle:
@@ -627,6 +634,7 @@ const SMVDUMap = () => {
           longitude: 90,
           label: "Towards Vaishnavi/Guesthouse/Parking",
         },
+        { id: "p", latitude: 10, longitude: 270, label: "back to G1" },
       ],
     },
     {
@@ -788,8 +796,10 @@ const SMVDUMap = () => {
       id: "j",
       imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/manumarg.jpeg`,
       galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.png`,
-        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/manu1.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/manu2.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/manu3.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/manu4.jpeg`,
       ],
       label: "Manu marg",
       subtitle: "",
@@ -799,8 +809,9 @@ const SMVDUMap = () => {
       id: "k",
       imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/chanakayamarg.jpeg`,
       galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.png`,
-        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/chanakaya1.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/chanakaya2.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/chanakaya3.jpeg`,
       ],
       label: "chanakya marg",
       subtitle: "",
@@ -812,8 +823,10 @@ const SMVDUMap = () => {
       id: "l",
       imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/vashishtmarg.jpeg`,
       galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.png`,
-        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/vashisht1.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/vashisht2.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/vashisht3.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/vashisht4.jpeg`,
       ],
       label: "vashisht marg",
       subtitle: "",
@@ -823,8 +836,9 @@ const SMVDUMap = () => {
       id: "m",
       imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/kautalyamarg.jpeg`,
       galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.png`,
-        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/kautalya1.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/kautalya2.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/kautalya3.jpeg`,
       ],
       label: "kautalya marg",
       subtitle: "",
@@ -834,10 +848,10 @@ const SMVDUMap = () => {
     },
     {
       id: "n",
-      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/ganga1.jpeg`,
+      imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/gangasadan.jpeg`,
       galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.png`,
-        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/ganga1.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Margs/ganga2.jpeg`,
       ],
       label: "ganga 1 sadan",
       subtitle: "",
@@ -849,8 +863,10 @@ const SMVDUMap = () => {
       id: "o",
       imageUrl: `${process.env.PUBLIC_URL}/assets/Residential Area/Sadan/ambikasadan.jpeg`,
       galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.png`,
-        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Sadan/ambika1.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Sadan/ambika2.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Sadan/ambika3.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Residential Area/Sadan/ambika4.jpeg`,
       ],
       label: "Ambika sadan",
       subtitle: "",
@@ -889,6 +905,18 @@ const SMVDUMap = () => {
       linkedHotspots: [
         // { id: "e", latitude: 10, longitude: 290 },
         // { id: "e", latitude: 10, longitude: 290 },
+        {
+          id: 33,
+          latitude: 4,
+          longitude: 150,
+          label: "way to medical aid center",
+        },
+        {
+          id: "p",
+          latitude: 10,
+          longitude: 180,
+          label: "path to G1, vaishnavi",
+        },
       ],
     },
   ];
