@@ -520,8 +520,8 @@ const PhotoSphere = ({
               onClick={() => setIsControlPanelVisible(!isControlPanelVisible)}
               style={{
                 position: "absolute",
-                bottom: "20px",
-                right: "20px",
+                bottom: "1px",
+                right: "25px",
                 zIndex: 2000,
                 backgroundColor: "rgba(0, 0, 0, 0.8)",
                 color: "white",
@@ -536,7 +536,7 @@ const PhotoSphere = ({
                 className={
                   isControlPanelVisible ? "fas fa-eye-slash" : "fas fa-eye"
                 } // Icon toggle
-                style={{ fontSize: "20px" }} // Adjust icon size
+                style={{ fontSize: "15px" }} // Adjust icon size
               ></i>
             </button>
             {currentHotspot && isControlPanelVisible && (
