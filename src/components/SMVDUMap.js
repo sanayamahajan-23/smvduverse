@@ -890,7 +890,7 @@ const SMVDUMap = () => {
           longitude: 350,
           label: "Towards Grocery/Medical Aid Centre/Departments",
         },
-        { id: "b", latitude: 10, longitude: 50, label: "Towards Vaishnavi" },
+        { id: "b", latitude: 10, longitude: 70, label: "Towards Vaishnavi" },
       ],
     },
     {
