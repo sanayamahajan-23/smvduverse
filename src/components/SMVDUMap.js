@@ -913,8 +913,10 @@ const SMVDUMap = () => {
       id: "q",
       imageUrl: `${process.env.PUBLIC_URL}/assets/pathtogrocery,mac,departments.jpeg`,
       galleryImages: [
-        `${process.env.PUBLIC_URL}/assets/photo1.png`,
-        `${process.env.PUBLIC_URL}/assets/nonMapped2.jpg`,
+        `${process.env.PUBLIC_URL}/assets/Mac/pathmac.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Mac/pathmac1.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Mac/pathmac2.jpeg`,
+        `${process.env.PUBLIC_URL}/assets/Mac/pathmac3.jpeg`,
       ],
       label: "path to grocery",
       subtitle: "",
