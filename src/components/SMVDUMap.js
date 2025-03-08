@@ -3,7 +3,10 @@ import "./CloudTransition.css";
 import "./SMVDUMap.css";
 import Hotspot from "./Hotspot";
 import PhotoSphere from "./PhotoSphereViewer";
+import { useNavigate } from "react-router-dom";
+
 const SMVDUMap = () => {
+  const navigate = useNavigate();
   const [currentHotspotIndex, setCurrentHotspotIndex] = useState(-1);
   const [isCloudVisible, setIsCloudVisible] = useState(true);
   const [shouldReveal, setShouldReveal] = useState(false);
@@ -1176,6 +1179,19 @@ const SMVDUMap = () => {
             placeholder="Search for a location..."
             style={{ padding: "8px", width: "200px" }}
           />
+          <button
+            onClick={() => navigate("/navigate")}
+            style={{
+              padding: "8px",
+              backgroundColor: "#007bff",
+              color: "white",
+              border: "none",
+              cursor: "pointer",
+              margin: "20px",
+            }}
+          >
+            Open Navigate
+          </button>
           {suggestions.length > 0 && (
             <div
               className="suggestions-box"
