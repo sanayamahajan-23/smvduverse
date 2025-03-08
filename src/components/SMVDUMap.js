@@ -4,7 +4,7 @@ import "./SMVDUMap.css";
 import Hotspot from "./Hotspot";
 import PhotoSphere from "./PhotoSphereViewer";
 import { useNavigate } from "react-router-dom";
-
+import { FaMapMarkedAlt, FaTimes, FaRoute } from "react-icons/fa";
 const SMVDUMap = () => {
   const navigate = useNavigate();
   const [currentHotspotIndex, setCurrentHotspotIndex] = useState(-1);
@@ -22,6 +22,9 @@ const SMVDUMap = () => {
   const [hoveredHotspot, setHoveredHotspot] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [cloudAnimationDone, setCloudAnimationDone] = useState(false);
+
   const mapRef = useRef(null);
   const hotspots = [
     {
@@ -941,6 +944,16 @@ const SMVDUMap = () => {
       ],
     },
   ];
+  useEffect(() => {
+    const animationTime = 3000; // Adjust based on actual cloud animation duration
+    const timer = setTimeout(() => {
+      setCloudAnimationDone(true);
+      setShowPopup(true); // Show popup automatically
+    }, animationTime);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleHotspotClick = (index) => {
     setCurrentHotspotIndex(index);
     setSelectedPhoto(hotspots[index].imageUrl); // Set the selected image
@@ -1118,7 +1131,9 @@ const SMVDUMap = () => {
     setSearchText(hotspot.label);
     setSuggestions([]); // Clear suggestions
   };
-
+  const goToNavigationPage = () => {
+    navigate("/navigate"); // Assuming "/navigation" is the route for Navigation Page
+  };
   const cloudStyle = {
     backgroundImage: `url(${process.env.PUBLIC_URL}/assets/cloud.png)`,
   };
@@ -1179,19 +1194,35 @@ const SMVDUMap = () => {
             placeholder="Search for a location..."
             style={{ padding: "8px", width: "200px" }}
           />
-          <button
-            onClick={() => navigate("/navigate")}
-            style={{
-              padding: "8px",
-              backgroundColor: "#007bff",
-              color: "white",
-              border: "none",
-              cursor: "pointer",
-              margin: "20px",
-            }}
-          >
-            Open Navigate
+          <button className="nav-button" onClick={() => setShowPopup(true)}>
+            <FaMapMarkedAlt className="nav-icon" />
+            Navigate
           </button>
+          {cloudAnimationDone && showPopup && (
+            <div className="popup-overlay">
+              <div className="popup-content">
+                {/* Header: Navigation title & Close Button on Same Line */}
+                <div className="navigation-header">
+                  <h2 className="popup-title">Navigation</h2>
+                  <button
+                    className="pop-close-btn"
+                    onClick={() => setShowPopup(false)}
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
+
+                <p>Find the best route to any location in SMVDU.</p>
+
+                {/* Start Navigation Button */}
+                <button className="start-nav-btn" onClick={goToNavigationPage}>
+                  <FaRoute className="btn-icon" />
+                  Start Navigation
+                </button>
+              </div>
+            </div>
+          )}
+
           {suggestions.length > 0 && (
             <div
               className="suggestions-box"
