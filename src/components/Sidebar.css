@@ -1,0 +1,29 @@
+.sidebar {
+  width: 250px;
+  background: #f8f9fa;
+  padding: 15px;
+  transition: width 0.3s ease-in-out;
+  border-right: 2px solid #ddd;
+}
+
+.collapsed {
+  width: 50px;
+  overflow: hidden;
+}
+
+.toggle-btn {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.share-btn {
+  background: #25d366;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
