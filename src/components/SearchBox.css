@@ -42,14 +42,15 @@
 
 .clear-btn {
   color: #696969;
-  font-size:20px;
+  
 }
 
-.spinner {
+.loading-icon {
+  color: #1a73e8; /* Google Blue */
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
