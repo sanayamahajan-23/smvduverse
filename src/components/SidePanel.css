@@ -1,15 +1,15 @@
 .side-panel {
   position: fixed;
   top: 0;
-  right: 0;
-  width: 300px;
+  left: 101px;
+  width: 330px;
   height: 100vh;
   background: white;
   box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   padding: 15px;
-  z-index: 1000;
+  z-index: 700;
   transition: width 0.3s ease-in-out;
 }
 

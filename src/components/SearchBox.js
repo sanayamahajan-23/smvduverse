@@ -1,7 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { FaSearch, FaTimes } from "react-icons/fa";
 import "./SearchBox.css";
 
-const SearchBox = ({ onPlaceSelect }) => {
+const SearchBox = ({ onPlaceSelect, onCloseSidePanel }) => {
+  const [searchValue, setSearchValue] = useState("");
+  const inputRef = useRef(null);
+
   useEffect(() => {
     const apiKey = process.env.REACT_APP_GOMAPS_API_KEY;
 
@@ -15,11 +19,13 @@ const SearchBox = ({ onPlaceSelect }) => {
       return;
     }
 
-    const input = document.getElementById("searchBox");
-    const autocomplete = new window.google.maps.places.Autocomplete(input, {
-      types: ["geocode"],
-      componentRestrictions: { country: "in" },
-    });
+    const autocomplete = new window.google.maps.places.Autocomplete(
+      inputRef.current,
+      {
+        types: ["geocode"],
+        componentRestrictions: { country: "in" },
+      }
+    );
 
     autocomplete.addListener("place_changed", async () => {
       const place = autocomplete.getPlace();
@@ -45,23 +51,52 @@ const SearchBox = ({ onPlaceSelect }) => {
           name: place.name,
           lat: location.lat(),
           lng: location.lng(),
-          imageUrl: mainImage, // GoMaps only provides one image
-          galleryImages: [], // No gallery images available from GoMaps
+          imageUrl: mainImage,
+          galleryImages: [],
         });
+
+        setSearchValue(place.name); // Set input field to selected place name
       } catch (error) {
         console.error("Error fetching place details:", error);
       }
     });
   }, [onPlaceSelect]);
 
+  // Manually trigger search (if needed)
+  const handleSearch = () => {
+    if (inputRef.current) {
+      const event = new Event("keydown");
+      event.key = "Enter";
+      inputRef.current.dispatchEvent(event);
+    }
+  };
+
+  // Clear search box & close side panel
+  const handleClear = () => {
+    setSearchValue("");
+    onCloseSidePanel();
+  };
+
   return (
-    <input
-      id="searchBox"
-      type="text"
-      placeholder="Search for a place..."
-      className="search-box"
-      autoComplete="on"
-    />
+    <div className="search-box-container">
+      <input
+        ref={inputRef}
+        id="searchBox"
+        type="text"
+        placeholder="Search for a place..."
+        className="search-box"
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+      />
+      {searchValue && (
+        <button className="clear-btn" onClick={handleClear}>
+          <FaTimes size={16} />
+        </button>
+      )}
+      <button className="search-btn" onClick={handleSearch}>
+        <FaSearch size={18} />
+      </button>
+    </div>
   );
 };
 
