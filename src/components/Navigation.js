@@ -8,6 +8,7 @@ const Navigation = () => {
     <div className="navigation-container">
       <Sidebar /> {/* Sidebar with buttons */}
       <MapComponent />
+      
     </div>
   );
 };
