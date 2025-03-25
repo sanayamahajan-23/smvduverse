@@ -86,10 +86,6 @@ const SearchBox = ({ onPlaceSelect, onCloseSidePanel, isSidePanelOpen }) => {
 
   return (
     <div className="search-box-container">
-      <button className="search-btn" onClick={handleSearch}>
-        <FaSearch size={18} />
-      </button>
-
       <input
         ref={inputRef}
         type="text"
@@ -98,6 +94,9 @@ const SearchBox = ({ onPlaceSelect, onCloseSidePanel, isSidePanelOpen }) => {
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
       />
+      <button className="search-btn" onClick={handleSearch}>
+        <FaSearch size={18} />
+      </button>
 
       {isSidePanelOpen ? (
         <button className="clear-btn" onClick={handleClear}>

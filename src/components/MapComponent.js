@@ -7,6 +7,7 @@ const MapComponent = () => {
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState(null);
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false); // New state
 
   useEffect(() => {
     const apiKey = process.env.REACT_APP_GOMAPS_API_KEY;
@@ -70,12 +71,23 @@ const MapComponent = () => {
         imageUrl,
         galleryImages,
       });
+
+      setIsSidePanelOpen(true); // Side panel is now open
     }
+  };
+
+  const handleCloseSidePanel = () => {
+    setSelectedPlace(null);
+    setIsSidePanelOpen(false); // Close side panel
   };
 
   return (
     <div>
-      <SearchBox onPlaceSelect={handlePlaceSelect} />
+      <SearchBox
+        onPlaceSelect={handlePlaceSelect}
+        onCloseSidePanel={handleCloseSidePanel}
+        isSidePanelOpen={isSidePanelOpen} // Pass state to SearchBox
+      />
       <div id="map" className="map-container" />
       {selectedPlace && <SidePanel placeData={selectedPlace} />}
     </div>
