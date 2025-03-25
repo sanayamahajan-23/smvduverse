@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import { FaSearch, FaTimes } from "react-icons/fa";
+import { FaSearch, FaTimes, FaSpinner } from "react-icons/fa";
 import "./SearchBox.css";
 
-const SearchBox = ({ onPlaceSelect, onCloseSidePanel }) => {
+const SearchBox = ({ onPlaceSelect, onCloseSidePanel, isSidePanelOpen }) => {
   const [searchValue, setSearchValue] = useState("");
+  const [loading, setLoading] = useState(false);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -28,14 +29,18 @@ const SearchBox = ({ onPlaceSelect, onCloseSidePanel }) => {
     );
 
     autocomplete.addListener("place_changed", async () => {
+      setLoading(true); // Start loading
+
       const place = autocomplete.getPlace();
-      if (!place.geometry || !place.geometry.location) return;
+      if (!place.geometry || !place.geometry.location) {
+        setLoading(false);
+        return;
+      }
 
       const location = place.geometry.location;
-      const placeId = place.place_id; // Get place ID
+      const placeId = place.place_id;
 
       try {
-        // Fetch the place details to get a photo_reference
         const detailsResponse = await fetch(
           `https://maps.gomaps.pro/maps/api/place/details/json?placeid=${placeId}&key=${apiKey}`
         );
@@ -55,10 +60,12 @@ const SearchBox = ({ onPlaceSelect, onCloseSidePanel }) => {
           galleryImages: [],
         });
 
-        setSearchValue(place.name); // Set input field to selected place name
+        setSearchValue(place.name);
       } catch (error) {
         console.error("Error fetching place details:", error);
       }
+
+      setLoading(false); // Stop loading
     });
   }, [onPlaceSelect]);
 
@@ -79,23 +86,26 @@ const SearchBox = ({ onPlaceSelect, onCloseSidePanel }) => {
 
   return (
     <div className="search-box-container">
+      <button className="search-btn" onClick={handleSearch}>
+        <FaSearch size={18} />
+      </button>
+
       <input
         ref={inputRef}
-        id="searchBox"
         type="text"
         placeholder="Search for a place..."
         className="search-box"
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
       />
-      {searchValue && (
+
+      {isSidePanelOpen ? (
         <button className="clear-btn" onClick={handleClear}>
-          <FaTimes size={16} />
+          <FaTimes size={20} />
         </button>
-      )}
-      <button className="search-btn" onClick={handleSearch}>
-        <FaSearch size={18} />
-      </button>
+      ) : loading ? (
+        <FaSpinner className="loading-icon" size={20} />
+      ) : null}
     </div>
   );
 };
