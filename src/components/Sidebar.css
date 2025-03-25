@@ -1,3 +1,4 @@
+/* Sidebar styling */
 .sidebar {
   position: fixed;
   top: 0;
@@ -14,6 +15,7 @@
   z-index: 1000;
 }
 
+/* Buttons */
 .sidebar-btn {
   background: none;
   border: none;
@@ -33,11 +35,12 @@
   border-radius: 5px;
 }
 
-/* Container to handle hover */
+/* Live Location Dialog */
 .live-location-container {
   position: relative;
 }
 
+/* Share Button Popup */
 .share-box {
   position: absolute;
   left: 70px;
@@ -47,15 +50,16 @@
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   padding: 10px;
   border-radius: 8px;
-  display: none; /* Hidden initially */
+  display: none;
   white-space: nowrap;
   z-index: 1001;
 }
 
 .live-location-container:hover .share-box {
-  display: block; /* Show on hover */
+  display: block;
 }
 
+/* Share Button */
 .share-btn {
   background: #25d366;
   color: white;
@@ -67,3 +71,44 @@
   align-items: center;
   gap: 5px;
 }
+
+/* Location Disabled Popup */
+.location-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  text-align: center;
+  width: 350px;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Text inside the popup */
+.location-popup p {
+  flex: 1;  /* Allows text to take most space */
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Close button (aligned to top-right) */
+.close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: red;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+

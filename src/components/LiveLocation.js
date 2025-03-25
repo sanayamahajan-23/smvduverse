@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { FaLocationArrow, FaShareAlt } from "react-icons/fa";
+import { FaLocationArrow, FaShareAlt, FaTimes } from "react-icons/fa";
 
 const LiveLocation = () => {
   const [location, setLocation] = useState(null);
-  const [error, setError] = useState(null);
+  const [showPopup, setShowPopup] = useState(false); // Controls popup visibility
 
   const getLiveLocation = () => {
     if (!navigator.geolocation) {
-      setError("Geolocation not supported.");
+      setShowPopup(true); // Show popup if geolocation is unsupported
       return;
     }
 
@@ -15,9 +15,10 @@ const LiveLocation = () => {
       (position) => {
         const { latitude, longitude } = position.coords;
         setLocation({ latitude, longitude });
+        setShowPopup(false); // Hide popup if location is fetched
       },
       () => {
-        setError("Unable to retrieve location.");
+        setShowPopup(true); // Show popup if location access is denied
       }
     );
   };
@@ -42,7 +43,15 @@ const LiveLocation = () => {
         </div>
       )}
 
-      {error && <p className="error">{error}</p>}
+      {/* Location Disabled Popup */}
+      {showPopup && (
+        <div className="location-popup">
+          <p>Please enable location services in your device settings.</p>
+          <button className="close-btn" onClick={() => setShowPopup(false)}>
+            <FaTimes size={16} />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
