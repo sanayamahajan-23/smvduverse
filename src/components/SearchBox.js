@@ -27,8 +27,15 @@ const SearchBox = ({
       autocompleteRef.current = new window.google.maps.places.Autocomplete(
         inputRef.current,
         {
-          types: ["geocode"],
+          types: ["establishment","geocode"],
           componentRestrictions: { country: "in" },
+          fields: [
+            "place_id",
+            "name",
+            "geometry",
+            "photos",
+            "formatted_address",
+          ],
         }
       );
 
@@ -36,7 +43,7 @@ const SearchBox = ({
     }
   }, [googleLoaded]);
 
-  const handlePlaceChanged = async () => {
+  const handlePlaceChanged = () => {
     setLoading(true);
     const place = autocompleteRef.current.getPlace();
 
@@ -46,19 +53,36 @@ const SearchBox = ({
       return;
     }
 
-    const location = place.geometry.location;
+    const lat = place.geometry.location.lat();
+    const lng = place.geometry.location.lng();
+    const name = place.name;
+    const address = place.formatted_address;
     const placeId = place.place_id;
 
+    // Get photos directly from the place object
+    let imageUrl = "https://via.placeholder.com/400"; // Default placeholder
+    let galleryImages = [];
+
+    if (place.photos && place.photos.length > 0) {
+      galleryImages = place.photos.map((photo) =>
+        photo.getUrl({ maxWidth: 800 })
+      );
+      imageUrl = galleryImages[0]; // Set the first image as the main image
+    }
+
     onPlaceSelect({
-      name: place.name,
-      lat: location.lat(),
-      lng: location.lng(),
-      placeId: placeId,
+      placeName: name,
+      coordinates: { lat, lng },
+      imageUrl,
+      galleryImages,
+      formattedAddress: address, // Pass address
+      placeId,
     });
 
-    setSearchValue(place.name);
+    setSearchValue(name);
     setLoading(false);
   };
+
 
   const handleClear = () => {
     setSearchValue("");
@@ -79,7 +103,6 @@ const SearchBox = ({
       <button className="search-btn">
         <FaSearch size={18} />
       </button>
-
       {isSidePanelOpen ? (
         <button className="clear-btn" onClick={handleClear}>
           <FaTimes size={20} />

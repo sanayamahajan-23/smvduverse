@@ -23,7 +23,7 @@
   position: fixed ;
   top: 55px;
   right: 10px;
-  z-index: 1000 ;
+  z-index: 100 ;
   padding: 2.5px ;
   font-size: 25px ;
   background-color: white;
