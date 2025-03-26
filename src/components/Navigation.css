@@ -15,22 +15,22 @@
 .back-button-container {
   position: fixed;
   top: 20px;
-  left: 200px;
+  right: 10px;
   z-index: 1000; /* Ensure it's above other elements */
 }
 
 .back-button {
-  position: fixed !important;
-  top: 55px !important;
-  left: 1192px !important;
-  z-index: 1000 !important;
-  padding: 2.5px !important;
-  font-size: 25px !important;
+  position: fixed ;
+  top: 55px;
+  right: 10px;
+  z-index: 1000 ;
+  padding: 2.5px ;
+  font-size: 25px ;
   background-color: white;
-  color: white !important;
-  display: block !important;
-  border: none !important;
-  outline: none !important;
+  color: white ;
+  display: block ;
+  border: none ;
+  outline: none ;
 }
 
 .back-button:hover {

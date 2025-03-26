@@ -7,51 +7,66 @@ const MapComponent = () => {
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState(null);
-  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false); // New state
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
+  const [googleLoaded, setGoogleLoaded] = useState(false);
 
   useEffect(() => {
-    const apiKey = process.env.REACT_APP_GOMAPS_API_KEY;
+    const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
     if (!apiKey) {
-      console.error("GoMaps API key is missing!");
+      console.error("Google Maps API key is missing!");
       return;
     }
 
-    const script = document.createElement("script");
-    script.src = `https://maps.gomaps.pro/maps/api/js?key=${apiKey}&libraries=places`;
-    script.async = true;
+    const loadGoogleMaps = () => {
+      if (!window.google || !window.google.maps) {
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initMap`;
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
 
-    script.onload = () => {
-      const mapInstance = new window.google.maps.Map(
-        document.getElementById("map"),
-        {
-          center: { lat: 32.94257, lng: 74.95469 },
-          zoom: 17,
-          mapTypeControl: false,
-          clickableIcons: false,
-        }
-      );
-
-      setMap(mapInstance);
-
-      const initialMarker = new window.google.maps.Marker({
-        position: { lat: 32.94257, lng: 74.95469 },
-        map: mapInstance,
-        title: "SMVDU Main Entrance",
-      });
-
-      setMarker(initialMarker);
+        script.onload = () => {
+          setGoogleLoaded(true);
+          initMap();
+        };
+      } else {
+        setGoogleLoaded(true);
+        initMap();
+      }
     };
 
-    document.body.appendChild(script);
+    const initMap = () => {
+      if (window.google) {
+        const mapInstance = new window.google.maps.Map(
+          document.getElementById("map"),
+          {
+            center: { lat: 32.941854, lng: 74.953907 },
+            zoom: 17,
+            mapTypeControl: false,
+            clickableIcons: false,
+          }
+        );
 
-    return () => {
-      document.body.removeChild(script);
+        setMap(mapInstance);
+
+        const initialMarker = new window.google.maps.Marker({
+          position: { lat: 32.941854, lng: 74.953907 },
+          map: mapInstance,
+          title: "SMVDU Entrance",
+        });
+
+        setMarker(initialMarker);
+      }
     };
+
+    loadGoogleMaps();
   }, []);
 
   const handlePlaceSelect = ({ lat, lng, name, imageUrl, galleryImages }) => {
     if (map) {
+      console.log("Moving to:", lat, lng); // Debugging log
+
       map.panTo({ lat, lng });
       map.setZoom(18);
 
@@ -72,24 +87,27 @@ const MapComponent = () => {
         galleryImages,
       });
 
-      setIsSidePanelOpen(true); // Side panel is now open
+      setIsSidePanelOpen(true);
     }
   };
 
   const handleCloseSidePanel = () => {
     setSelectedPlace(null);
-    setIsSidePanelOpen(false); // Close side panel
+    setIsSidePanelOpen(false);
   };
 
   return (
     <div>
       <SearchBox
+        googleLoaded={googleLoaded}
         onPlaceSelect={handlePlaceSelect}
         onCloseSidePanel={handleCloseSidePanel}
-        isSidePanelOpen={isSidePanelOpen} // Pass state to SearchBox
+        isSidePanelOpen={isSidePanelOpen}
       />
       <div id="map" className="map-container" />
-      {selectedPlace && <SidePanel placeData={selectedPlace} />}
+      {selectedPlace && (
+        <SidePanel placeData={selectedPlace} onClose={handleCloseSidePanel} />
+      )}
     </div>
   );
 };
