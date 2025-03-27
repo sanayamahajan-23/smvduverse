@@ -11,71 +11,34 @@ import {
 } from "firebase/firestore";
 import "./SearchBox.css";
 
-const SearchBox = ({ onPlaceSelect, onCloseSidePanel, isSidePanelOpen }) => {
+const SearchBox = ({ googleLoaded, onPlaceSelect, onCloseSidePanel, isSidePanelOpen }) => {
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [recentSearches, setRecentSearches] = useState([]);
   const [showRecent, setShowRecent] = useState(false);
   const inputRef = useRef(null);
+  const autocompleteRef = useRef(null);
 
   useEffect(() => {
-    const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-
-    if (!apiKey) {
-      console.error("Google Maps API key is missing!");
+    if (!googleLoaded || !window.google || !window.google.maps || !window.google.maps.places) {
       return;
     }
 
-    if (!window.google) {
-      const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
-      script.async = true;
-      script.defer = true;
-      script.onload = () => initializeAutocomplete();
-      document.head.appendChild(script);
-    } else {
-      initializeAutocomplete();
-    }
-
-    function initializeAutocomplete() {
-      const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
-        types: ["geocode"],
+    if (inputRef.current) {
+      autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
+        types: ["establishment", "geocode"],
         componentRestrictions: { country: "in" },
+        fields: ["place_id", "name", "geometry", "photos", "formatted_address"],
       });
 
-      autocomplete.addListener("place_changed", async () => {
-        setLoading(true);
-
-        const place = autocomplete.getPlace();
-        if (!place.geometry || !place.geometry.location) {
-          console.error("Failed to retrieve place details");
-          setLoading(false);
-          return;
-        }
-
-        const location = place.geometry.location;
-        const placeData = {
-          name: place.name,
-          lat: location.lat(),
-          lng: location.lng(),
-          imageUrl: null,
-          galleryImages: [],
-        };
-
-        onPlaceSelect(placeData);
-        setSearchValue(place.name);
-        setLoading(false);
-        saveRecentSearchToFirestore(placeData.name);
-      });
+      autocompleteRef.current.addListener("place_changed", handlePlaceChanged);
     }
+  }, [googleLoaded]);
 
+  useEffect(() => {
     const loadRecentSearchesFromFirestore = async () => {
       try {
-        const q = query(
-          collection(db, "recentSearches"),
-          orderBy("timestamp", "desc"),
-          limit(5)
-        );
+        const q = query(collection(db, "recentSearches"), orderBy("timestamp", "desc"), limit(5));
         const querySnapshot = await getDocs(q);
         const searches = querySnapshot.docs.map((doc) => doc.data().name);
         setRecentSearches(searches);
@@ -85,7 +48,36 @@ const SearchBox = ({ onPlaceSelect, onCloseSidePanel, isSidePanelOpen }) => {
     };
 
     loadRecentSearchesFromFirestore();
-  }, [onPlaceSelect]);
+  }, []);
+
+  const handlePlaceChanged = () => {
+    setLoading(true);
+    const place = autocompleteRef.current.getPlace();
+
+    if (!place.geometry || !place.geometry.location) {
+      console.error("Invalid place selected");
+      setLoading(false);
+      return;
+    }
+
+    const lat = place.geometry.location.lat();
+    const lng = place.geometry.location.lng();
+    const name = place.name;
+    const address = place.formatted_address;
+    const placeId = place.place_id;
+    let imageUrl = "https://via.placeholder.com/400";
+    let galleryImages = [];
+
+    if (place.photos && place.photos.length > 0) {
+      galleryImages = place.photos.map((photo) => photo.getUrl({ maxWidth: 800 }));
+      imageUrl = galleryImages[0];
+    }
+
+    onPlaceSelect({ placeName: name, coordinates: { lat, lng }, imageUrl, galleryImages, formattedAddress: address, placeId });
+    setSearchValue(name);
+    setLoading(false);
+    saveRecentSearchToFirestore(name);
+  };
 
   const saveRecentSearchToFirestore = async (placeName) => {
     if (!placeName || recentSearches.includes(placeName)) return;
@@ -104,9 +96,9 @@ const SearchBox = ({ onPlaceSelect, onCloseSidePanel, isSidePanelOpen }) => {
   const handleInputChange = (e) => setSearchValue(e.target.value);
 
   const handleSearchClick = () => {
-    const event = new Event("keydown");
-    event.key = "Enter";
-    inputRef.current.dispatchEvent(event);
+    if (autocompleteRef.current) {
+      handlePlaceChanged();
+    }
   };
 
   const handleClear = () => {
@@ -132,7 +124,6 @@ const SearchBox = ({ onPlaceSelect, onCloseSidePanel, isSidePanelOpen }) => {
       <button className="search-btn" onClick={handleSearchClick}>
         <FaSearch size={18} />
       </button>
-
       {isSidePanelOpen ? (
         <button className="clear-btn" onClick={handleClear}>
           <FaTimes size={20} />

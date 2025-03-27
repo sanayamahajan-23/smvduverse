@@ -7,7 +7,7 @@ import "./Navigation.css";
 const Navigation = () => {
   const navigate = useNavigate();
   return (
-    <div className="navigation-container" >
+    <div className="navigation-container">
       <button
         onClick={() => navigate("/smvdu-map")}
         className="back-button"

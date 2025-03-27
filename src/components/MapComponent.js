@@ -8,6 +8,7 @@ const MapComponent = () => {
   const [marker, setMarker] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
+  const [googleLoaded, setGoogleLoaded] = useState(false);
 
   useEffect(() => {
     const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
@@ -17,58 +18,78 @@ const MapComponent = () => {
       return;
     }
 
-    const initMap = () => {
-      const mapInstance = new window.google.maps.Map(
-        document.getElementById("map"),
-        {
-          center: { lat: 32.94257, lng: 74.95469 },
-          zoom: 17,
-          mapTypeControl: false,
-          clickableIcons: false,
-        }
-      );
+    const loadGoogleMaps = () => {
+      if (!window.google || !window.google.maps) {
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initMap`;
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
 
-      setMap(mapInstance);
-
-      const initialMarker = new window.google.maps.Marker({
-        position: { lat: 32.94257, lng: 74.95469 },
-        map: mapInstance,
-        title: "SMVDU Main Entrance",
-      });
-
-      setMarker(initialMarker);
+        script.onload = () => {
+          setGoogleLoaded(true);
+          initMap();
+        };
+      } else {
+        setGoogleLoaded(true);
+        initMap();
+      }
     };
 
-    if (!window.google) {
-      const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initMap`;
-      script.async = true;
-      script.defer = true;
-      window.initMap = initMap;
-      document.body.appendChild(script);
-    } else {
-      initMap();
-    }
-  }, []);
+    const initMap = () => {
+      if (window.google) {
+        const mapInstance = new window.google.maps.Map(
+          document.getElementById("map"),
+          {
+            center: { lat: 32.941854, lng: 74.953907 },
+            zoom: 17,
+            mapTypeControl: false,
+            clickableIcons: false,
+          }
+        );
 
-  const handlePlaceSelect = ({ lat, lng, name, imageUrl, galleryImages }) => {
+        setMap(mapInstance);
+
+        const initialMarker = new window.google.maps.Marker({
+          position: { lat: 32.941854, lng: 74.953907 },
+          map: mapInstance,
+          title: "SMVDU Entrance",
+        });
+
+        setMarker(initialMarker);
+      }
+    };
+
+    loadGoogleMaps();
+  },[]);
+
+
+  const handlePlaceSelect = ({ coordinates, placeName, imageUrl, galleryImages }) => {
+    if (!coordinates || isNaN(coordinates.lat) || isNaN(coordinates.lng)) {
+      console.error("Invalid coordinates received:", coordinates);
+      return;
+    }
+
     if (map) {
-      map.panTo({ lat, lng });
+      console.log("Moving to:", coordinates.lat, coordinates.lng);
+
+      map.panTo({ lat: coordinates.lat, lng: coordinates.lng });
       map.setZoom(18);
 
       if (marker) marker.setMap(null);
+
       const newMarker = new window.google.maps.Marker({
-        position: { lat, lng },
+        position: { lat: coordinates.lat, lng: coordinates.lng },
         map,
         animation: window.google.maps.Animation.DROP,
-        title: name,
+        title: placeName,
       });
 
       setMarker(newMarker);
 
       setSelectedPlace({
-        placeName: name,
-        coordinates: { lat, lng },
+        placeName,
+        coordinates,
         imageUrl,
         galleryImages,
       });
@@ -85,12 +106,13 @@ const MapComponent = () => {
   return (
     <div>
       <SearchBox
+        googleLoaded={googleLoaded}
         onPlaceSelect={handlePlaceSelect}
         onCloseSidePanel={handleCloseSidePanel}
         isSidePanelOpen={isSidePanelOpen}
       />
-      <div id="map" className="map-container" style={{ width: "100%", height: "500px" }} />
-      {selectedPlace && <SidePanel placeData={selectedPlace} />}
+      <div id="map" className="map-container" />
+      {selectedPlace && <SidePanel placeData={selectedPlace} onClose={handleCloseSidePanel} />}
     </div>
   );
 };
