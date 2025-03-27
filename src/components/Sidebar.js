@@ -12,10 +12,7 @@ import Recent from "./Recent";
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [recentSearches, setRecentSearches] = useState([
-    "Library",
-    "Cafeteria",
-    "Hostel Block",
-    "Auditorium",
+    
   ]);
 
   const toggleSidebar = () => {

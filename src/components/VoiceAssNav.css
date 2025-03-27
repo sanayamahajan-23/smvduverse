@@ -1,0 +1,23 @@
+/* Voice Assistant Button Styles */
+#voiceButton {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.5); /* Translucent black */
+  border: none;
+  border-radius: 50%; /* Circular button */
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+/* Hover effect */
+#voiceButton:hover {
+  background: rgba(0, 0, 0, 0.7);
+}

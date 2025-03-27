@@ -7,21 +7,17 @@ const MapComponent = () => {
   const [map, setMap] = useState(null);
   const [marker, setMarker] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState(null);
-  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false); // New state
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
 
   useEffect(() => {
-    const apiKey = process.env.REACT_APP_GOMAPS_API_KEY;
+    const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
     if (!apiKey) {
-      console.error("GoMaps API key is missing!");
+      console.error("Google Maps API key is missing!");
       return;
     }
 
-    const script = document.createElement("script");
-    script.src = `https://maps.gomaps.pro/maps/api/js?key=${apiKey}&libraries=places`;
-    script.async = true;
-
-    script.onload = () => {
+    const initMap = () => {
       const mapInstance = new window.google.maps.Map(
         document.getElementById("map"),
         {
@@ -43,11 +39,16 @@ const MapComponent = () => {
       setMarker(initialMarker);
     };
 
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
+    if (!window.google) {
+      const script = document.createElement("script");
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initMap`;
+      script.async = true;
+      script.defer = true;
+      window.initMap = initMap;
+      document.body.appendChild(script);
+    } else {
+      initMap();
+    }
   }, []);
 
   const handlePlaceSelect = ({ lat, lng, name, imageUrl, galleryImages }) => {
@@ -72,13 +73,13 @@ const MapComponent = () => {
         galleryImages,
       });
 
-      setIsSidePanelOpen(true); // Side panel is now open
+      setIsSidePanelOpen(true);
     }
   };
 
   const handleCloseSidePanel = () => {
     setSelectedPlace(null);
-    setIsSidePanelOpen(false); // Close side panel
+    setIsSidePanelOpen(false);
   };
 
   return (
@@ -86,9 +87,9 @@ const MapComponent = () => {
       <SearchBox
         onPlaceSelect={handlePlaceSelect}
         onCloseSidePanel={handleCloseSidePanel}
-        isSidePanelOpen={isSidePanelOpen} // Pass state to SearchBox
+        isSidePanelOpen={isSidePanelOpen}
       />
-      <div id="map" className="map-container" />
+      <div id="map" className="map-container" style={{ width: "100%", height: "500px" }} />
       {selectedPlace && <SidePanel placeData={selectedPlace} />}
     </div>
   );
