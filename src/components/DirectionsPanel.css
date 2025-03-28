@@ -1,105 +1,91 @@
+/* Ensure HTML and Body Cover Full Viewport */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+.fullscreen-map {
+  position: fixed; /* Ensures it takes full viewport */
+  top: 0; 
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0; /* Remove any default margin */
+  padding: 0; /* Remove any padding */
+  border: none; /* Ensure no unwanted borders */
+  z-index: 1; /* Behind the side panel */
+}
 .directions-panel {
   position: fixed;
   top: 0;
-  left: 101px;
+  right: 0;
   width: 350px;
   height: 100vh;
   background: white;
-  box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: -3px 0 5px rgba(0, 0, 0, 0.2);
+  padding: 0; /* Ensure no extra space */
   display: flex;
   flex-direction: column;
-  padding: 15px;
-  z-index: 1100;
-  transition: width 0.3s ease-in-out;
-  position: relative;
+  z-index: 1000;
+  overflow-y: auto;
 }
+
 
 /* Close Button */
 .close-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
   background: none;
   border: none;
   font-size: 20px;
   cursor: pointer;
-  color: black;
-  z-index: 10;
+  align-self: flex-end;
 }
 
-/* Input Groups */
+/* Header */
+h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Input Fields */
 .input-container {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 50px;
-  position: relative;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-.input-group {
-  display: flex;
-  align-items: center;
+.input-container label {
+  flex: 1;
+}
+
+.input-container input {
+  flex: 3;
+  padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background: #f9f9f9;
-  padding: 5px;
 }
 
-.input-icon {
-  margin-right: 10px;
-  color: #007bff;
-}
-
-input {
-  flex-grow: 1;
-  border: none;
-  background: transparent;
-  padding: 10px;
-  font-size: 14px;
-  outline: none;
-}
-
-/* Your Location Button */
 .location-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-  color: #007bff;
-  padding: 5px;
-}
-
-/* Swap Button */
-.swap-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-  color: #007bff;
-  align-self: center;
-}
-
-/* Start Navigation Button */
-.start-btn {
   background: #007bff;
   color: white;
-  font-size: 16px;
-  padding: 12px;
   border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.start-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px;
   border-radius: 5px;
   cursor: pointer;
   margin-top: 10px;
 }
 
-.start-btn:hover {
-  background: #0056b3;
-}
-
-/* Map Container */
-.map-container {
-  flex-grow: 1;
-  width: 100%;
-  height: calc(100vh - 200px);
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.route-info {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 16px;
 }

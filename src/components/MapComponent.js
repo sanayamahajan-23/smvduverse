@@ -61,21 +61,17 @@ const MapComponent = () => {
     };
 
     loadGoogleMaps();
-  }, []);
+  },[]);
 
-  const handlePlaceSelect = ({
-    coordinates,
-    placeName,
-    imageUrl,
-    galleryImages,
-  }) => {
+
+  const handlePlaceSelect = ({ coordinates, placeName, imageUrl, galleryImages }) => {
     if (!coordinates || isNaN(coordinates.lat) || isNaN(coordinates.lng)) {
       console.error("Invalid coordinates received:", coordinates);
       return;
     }
 
     if (map) {
-      console.log("Moving to:", coordinates.lat, coordinates.lng); // Debugging log
+      console.log("Moving to:", coordinates.lat, coordinates.lng);
 
       map.panTo({ lat: coordinates.lat, lng: coordinates.lng });
       map.setZoom(18);
@@ -116,9 +112,7 @@ const MapComponent = () => {
         isSidePanelOpen={isSidePanelOpen}
       />
       <div id="map" className="map-container" />
-      {selectedPlace && (
-        <SidePanel placeData={selectedPlace} onClose={handleCloseSidePanel} />
-      )}
+      {selectedPlace && <SidePanel placeData={selectedPlace} onClose={handleCloseSidePanel} />}
     </div>
   );
 };

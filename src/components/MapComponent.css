@@ -1,7 +1,8 @@
 .map-container {
-  position: absolute;
+  position: fixed; /* Change from absolute to fixed */
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
+  z-index: 0; /* Ensure it is behind side-panel */
 }

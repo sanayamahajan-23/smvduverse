@@ -570,9 +570,6 @@ const isNavigatePage = window.location.pathname === "/navigate";
     />
   ) : (
     <div className="side-panel">
-      <button className="close-btn" onClick={onClose}>
-        <FaArrowLeft size={22} />
-      </button>
 
       {/* Image Container */}
       <div className="image-container">
