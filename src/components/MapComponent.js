@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./MapComponent.css";
 import SearchBox from "./SearchBox";
 import SidePanel from "./SidePanel";
+import DirectionsPanel from "./DirectionsPanel"; // Import the DirectionsPanel
 
 const MapComponent = () => {
   const [map, setMap] = useState(null);
@@ -9,6 +10,7 @@ const MapComponent = () => {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
   const [googleLoaded, setGoogleLoaded] = useState(false);
+  const [directionsVisible, setDirectionsVisible] = useState(false); // Toggle directions panel
 
   useEffect(() => {
     const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
@@ -61,10 +63,14 @@ const MapComponent = () => {
     };
 
     loadGoogleMaps();
-  },[]);
+  }, []);
 
-
-  const handlePlaceSelect = ({ coordinates, placeName, imageUrl, galleryImages }) => {
+  const handlePlaceSelect = ({
+    coordinates,
+    placeName,
+    imageUrl,
+    galleryImages,
+  }) => {
     if (!coordinates || isNaN(coordinates.lat) || isNaN(coordinates.lng)) {
       console.error("Invalid coordinates received:", coordinates);
       return;
@@ -95,6 +101,7 @@ const MapComponent = () => {
       });
 
       setIsSidePanelOpen(true);
+      setDirectionsVisible(true); // Show directions panel when a place is selected
     }
   };
 
@@ -112,7 +119,19 @@ const MapComponent = () => {
         isSidePanelOpen={isSidePanelOpen}
       />
       <div id="map" className="map-container" />
-      {selectedPlace && <SidePanel placeData={selectedPlace} onClose={handleCloseSidePanel} />}
+      {selectedPlace && (
+        <SidePanel placeData={selectedPlace} onClose={handleCloseSidePanel} />
+      )}
+
+      {/* Render DirectionsPanel only when needed */}
+      {directionsVisible && selectedPlace && (
+        <DirectionsPanel
+          destination={selectedPlace.coordinates}
+          placeName={selectedPlace.placeName}
+          onClose={() => setDirectionsVisible(false)}
+          map={map} // Pass the map instance
+        />
+      )}
     </div>
   );
 };

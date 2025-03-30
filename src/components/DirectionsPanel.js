@@ -1,35 +1,29 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaLocationArrow, FaTimes } from "react-icons/fa";
+import {
+  FaLocationArrow,
+  FaTimes,
+  FaCar,
+  FaMotorcycle,
+  FaWalking,
+} from "react-icons/fa";
 import "./DirectionsPanel.css";
 
-const DirectionsPanel = ({ destination, placeName, onClose }) => {
+const DirectionsPanel = ({ destination, placeName, onClose, map }) => {
   const [start, setStart] = useState("");
-  const [directions, setDirections] = useState(null);
-  const [distance, setDistance] = useState("");
-  const [duration, setDuration] = useState("");
-  const mapRef = useRef(null);
+  const [routeInfo, setRouteInfo] = useState({});
+  const [selectedMode, setSelectedMode] = useState("DRIVING");
   const directionsRendererRef = useRef(null);
 
   useEffect(() => {
-    if (!window.google) return;
+    if (!window.google || !map) return;
 
-    // Initialize Google Map
-    const mapInstance = new window.google.maps.Map(mapRef.current, {
-      zoom: 14,
-      center: destination || { lat: 37.7749, lng: -122.4194 }, // Default SF
-    });
+    if (!directionsRendererRef.current) {
+      directionsRendererRef.current =
+        new window.google.maps.DirectionsRenderer();
+      directionsRendererRef.current.setMap(map);
+    }
+  }, [map]);
 
-    // Ensure the map resizes properly
-    setTimeout(() => {
-      window.google.maps.event.trigger(mapInstance, "resize");
-    }, 1000);
-
-    const renderer = new window.google.maps.DirectionsRenderer();
-    renderer.setMap(mapInstance);
-    directionsRendererRef.current = renderer;
-  }, [destination]);
-
-  // Get Current Location
   const handleUseCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -47,80 +41,118 @@ const DirectionsPanel = ({ destination, placeName, onClose }) => {
     }
   };
 
-  // Fetch Directions
   const getDirections = () => {
     if (!start || !destination) {
       alert("Please enter both start and destination.");
       return;
     }
 
+    const travelModes = ["DRIVING", "WALKING", "TWO_WHEELER"];
     const directionsService = new window.google.maps.DirectionsService();
+    let newRouteInfo = {};
 
-    directionsService.route(
-      {
-        origin: start,
-        destination: `${destination.lat},${destination.lng}`,
-        travelMode: window.google.maps.TravelMode.DRIVING,
-      },
-      (result, status) => {
-        if (status === window.google.maps.DirectionsStatus.OK) {
-          setDirections(result);
-          setDistance(result.routes[0].legs[0].distance.text);
-          setDuration(result.routes[0].legs[0].duration.text);
-          directionsRendererRef.current.setDirections(result);
-        } else {
-          alert("Directions request failed: " + status);
+    travelModes.forEach((mode) => {
+      let travelMode = mode === "TWO_WHEELER" ? "DRIVING" : mode; // Google treats bikes as driving
+
+      directionsService.route(
+        {
+          origin: start,
+          destination: `${destination.lat},${destination.lng}`,
+          travelMode: window.google.maps.TravelMode[travelMode],
+        },
+        (result, status) => {
+          if (status === window.google.maps.DirectionsStatus.OK) {
+            newRouteInfo[mode] = {
+              distance: result.routes[0].legs[0].distance.text,
+              duration: result.routes[0].legs[0].duration.text,
+            };
+
+            if (mode === selectedMode && directionsRendererRef.current) {
+              directionsRendererRef.current.setDirections(result);
+            }
+
+            setRouteInfo({ ...newRouteInfo });
+          } else {
+            console.error(`Failed to fetch ${mode} directions: `, status);
+          }
         }
-      }
-    );
+      );
+    });
   };
 
   return (
-    <>
-      {/* Fullscreen Map */}
-      <div ref={mapRef} className="fullscreen-map"></div>
+    <div className="directions-panel">
+      <button className="close-btn" onClick={onClose}>
+        <FaTimes size={20} />
+      </button>
 
-      {/* Directions Panel */}
-      <div className="directions-panel">
-        <button className="close-btn" onClick={onClose}>
-          <FaTimes size={22} />
+      <h2>Get Directions</h2>
+
+      <div className="input-container">
+        <label>Start Location:</label>
+        <input
+          type="text"
+          value={start}
+          onChange={(e) => setStart(e.target.value)}
+          placeholder="Enter start location"
+        />
+        <button className="location-btn" onClick={handleUseCurrentLocation}>
+          <FaLocationArrow />
         </button>
-
-        <h2>Get Directions</h2>
-
-        {/* Start Input */}
-        <div className="input-container">
-          <label>Start:</label>
-          <input
-            type="text"
-            value={start}
-            onChange={(e) => setStart(e.target.value)}
-            placeholder="Enter starting location"
-          />
-          <button className="location-btn" onClick={handleUseCurrentLocation}>
-            <FaLocationArrow />
-          </button>
-        </div>
-
-        {/* Destination (Pre-filled) */}
-        <div className="input-container">
-          <label>Destination:</label>
-          <input type="text" value={placeName} disabled />
-        </div>
-
-        <button className="start-btn" onClick={getDirections}>
-          Start Navigation
-        </button>
-
-        {/* Show Distance & Duration */}
-        {distance && duration && (
-          <div className="route-info">
-            <p>🚗 Distance: {distance}</p>
-            <p>⏳ Estimated Time: {duration}</p>
-          </div>
-        )}
       </div>
-    </>
+
+      <div className="input-container">
+        <label>Destination:</label>
+        <input type="text" value={placeName} disabled />
+      </div>
+
+      <button className="start-btn" onClick={getDirections}>
+        Find Route
+      </button>
+
+      {Object.keys(routeInfo).length > 0 && (
+        <div className="route-info">
+          <h3>Travel Options:</h3>
+          <div className="travel-modes">
+            <div
+              className={`mode ${selectedMode === "DRIVING" ? "selected" : ""}`}
+              onClick={() => setSelectedMode("DRIVING")}
+            >
+              <FaCar size={22} />
+              <span>Car</span>
+              <p>
+                {routeInfo.DRIVING?.distance || "--"} |{" "}
+                {routeInfo.DRIVING?.duration || "--"}
+              </p>
+            </div>
+            <div
+              className={`mode ${
+                selectedMode === "TWO_WHEELER" ? "selected" : ""
+              }`}
+              onClick={() => setSelectedMode("TWO_WHEELER")}
+            >
+              <FaMotorcycle size={22} />
+              <span>Bike</span>
+              <p>
+                {routeInfo.TWO_WHEELER?.distance || "--"} |{" "}
+                {routeInfo.TWO_WHEELER?.duration || "--"}
+              </p>
+            </div>
+            <div
+              className={`mode ${selectedMode === "WALKING" ? "selected" : ""}`}
+              onClick={() => setSelectedMode("WALKING")}
+            >
+              <FaWalking size={22} />
+              <span>Walk</span>
+              <p>
+                {routeInfo.WALKING?.distance || "--"} |{" "}
+                {routeInfo.WALKING?.duration || "--"}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

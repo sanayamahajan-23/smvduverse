@@ -1,23 +1,27 @@
-<<<<<<< HEAD
-=======
 /* Ensure HTML and Body Cover Full Viewport */
-html, body, #root {
+html,
+body,
+#root {
   margin: 0;
   padding: 0;
   height: 100%;
   overflow: hidden;
 }
+
+/* Fullscreen Map */
 .fullscreen-map {
-  position: fixed; /* Ensures it takes full viewport */
-  top: 0; 
+  position: fixed;
+  top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  margin: 0; /* Remove any default margin */
-  padding: 0; /* Remove any padding */
-  border: none; /* Ensure no unwanted borders */
+  margin: 0;
+  padding: 0;
+  border: none;
   z-index: 1; /* Behind the side panel */
 }
+
+/* Directions Panel */
 .directions-panel {
   position: fixed;
   top: 0;
@@ -26,13 +30,12 @@ html, body, #root {
   height: 100vh;
   background: white;
   box-shadow: -3px 0 5px rgba(0, 0, 0, 0.2);
-  padding: 0; /* Ensure no extra space */
   display: flex;
   flex-direction: column;
   z-index: 1000;
-  overflow-y: auto;
+  overflow-y: auto; /* Allow scrolling if needed */
+  padding: 20px;
 }
-
 
 /* Close Button */
 .close-btn {
@@ -47,48 +50,119 @@ html, body, #root {
 h2 {
   text-align: center;
   margin-bottom: 15px;
+  font-size: 22px;
 }
 
 /* Input Fields */
 .input-container {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .input-container label {
   flex: 1;
+  font-weight: bold;
 }
 
 .input-container input {
   flex: 3;
-  padding: 5px;
+  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
+/* Location Button */
 .location-btn {
   background: #007bff;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 6px 10px;
   border-radius: 5px;
   cursor: pointer;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
 }
 
+/* Start Navigation Button */
 .start-btn {
   background: #28a745;
   color: white;
   border: none;
-  padding: 10px;
+  padding: 12px;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 12px;
+  text-align: center;
+  transition: background 0.3s ease-in-out;
+}
+
+.start-btn:hover {
+  background: #218838;
+}
+
+/* Route Info Section */
+.route-info {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 16px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for Each Mode */
+.route-info p {
+  margin: 8px 0;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.route-info p:nth-child(1) {
+  color: #772e36; /* Driving - Red */
+}
+
+.route-info p:nth-child(2) {
+  color: #416b98; /* Biking - Blue */
+}
+
+.route-info p:nth-child(3) {
+  color: #31633d; /* Walking - Green */
+}
+.route-info {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.route-info p {
+  margin: 5px 0;
+  padding: 5px;
+  background: #f8f8f8;
+  border-radius: 5px;
+}
+.mode-buttons {
+  display: flex;
+  justify-content: space-around;
   margin-top: 10px;
 }
 
-.route-info {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 16px;
+.mode-buttons button {
+  background: #ddd;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
 }
->>>>>>> 1bb8952987603da8ac0ff2ca1545021fa76c6abb
+
+.mode-buttons button.selected {
+  background: #4575a9;
+  color: white;
+  font-weight: bold;
+}
