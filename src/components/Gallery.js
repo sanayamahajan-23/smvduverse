@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Gallery.css";
 
-const Gallery = ({ images, onClose }) => {
+const Gallery = ({ images, onClose, position = "left" }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [fullscreenIndex, setFullscreenIndex] = useState(0);
   const sliderRef = useRef(null); // Reference to the slider
@@ -54,7 +54,7 @@ const Gallery = ({ images, onClose }) => {
   return (
     <div>
       {/* Gallery panel */}
-      <div className="gallery-panel">
+      <div className={`gallery-panel ${position}`}>
         <button className="close-gallery" onClick={onClose}>
           X
         </button>

@@ -1,171 +1,126 @@
-import React, { useState, useEffect } from "react";
-import {
-  FaArrowLeft,
-  FaExchangeAlt,
-  FaMapMarkerAlt,
-  FaLocationArrow,
-} from "react-icons/fa";
+import React, { useState, useEffect, useRef } from "react";
+import { FaLocationArrow, FaTimes } from "react-icons/fa";
 import "./DirectionsPanel.css";
 
 const DirectionsPanel = ({ destination, placeName, onClose }) => {
-  const [currentLocation, setCurrentLocation] = useState(null);
-  const [startLocation, setStartLocation] = useState("");
-  const [endLocation, setEndLocation] = useState(placeName);
-  const [map, setMap] = useState(null);
-  const [directionsRenderer, setDirectionsRenderer] = useState(null);
-  const [autocompleteStart, setAutocompleteStart] = useState(null);
-  const [autocompleteEnd, setAutocompleteEnd] = useState(null);
+  const [start, setStart] = useState("");
+  const [directions, setDirections] = useState(null);
+  const [distance, setDistance] = useState("");
+  const [duration, setDuration] = useState("");
+  const mapRef = useRef(null);
+  const directionsRendererRef = useRef(null);
 
   useEffect(() => {
+    if (!window.google) return;
+
+    // Initialize Google Map
+    const mapInstance = new window.google.maps.Map(mapRef.current, {
+      zoom: 14,
+      center: destination || { lat: 37.7749, lng: -122.4194 }, // Default SF
+    });
+
+    // Ensure the map resizes properly
+    setTimeout(() => {
+      window.google.maps.event.trigger(mapInstance, "resize");
+    }, 1000);
+
+    const renderer = new window.google.maps.DirectionsRenderer();
+    renderer.setMap(mapInstance);
+    directionsRendererRef.current = renderer;
+  }, [destination]);
+
+  // Get Current Location
+  const handleUseCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const userLocation = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-          setCurrentLocation(userLocation);
+          const { latitude, longitude } = position.coords;
+          setStart(`${latitude},${longitude}`);
         },
-        () => alert("Failed to get current location.")
+        (error) => {
+          console.error("Error getting location: ", error);
+          alert("Could not get current location.");
+        }
       );
     } else {
-      alert("Geolocation is not supported by your browser.");
+      alert("Geolocation is not supported by this browser.");
     }
-  }, []);
-
-  useEffect(() => {
-    if (window.google) {
-      const startInput = document.getElementById("start-location");
-      const endInput = document.getElementById("end-location");
-
-      if (startInput) {
-        const startAutocomplete = new window.google.maps.places.Autocomplete(
-          startInput
-        );
-        startAutocomplete.addListener("place_changed", () => {
-          const place = startAutocomplete.getPlace();
-          if (place.geometry) {
-            setStartLocation(place.formatted_address);
-          }
-        });
-        setAutocompleteStart(startAutocomplete);
-      }
-
-      if (endInput) {
-        const endAutocomplete = new window.google.maps.places.Autocomplete(
-          endInput
-        );
-        endAutocomplete.addListener("place_changed", () => {
-          const place = endAutocomplete.getPlace();
-          if (place.geometry) {
-            setEndLocation(place.formatted_address);
-          }
-        });
-        setAutocompleteEnd(endAutocomplete);
-      }
-    }
-  }, []);
-
-  const initMap = (start, end) => {
-    const map = new window.google.maps.Map(document.getElementById("map"), {
-      zoom: 15,
-      center: start,
-    });
-
-    const directionsService = new window.google.maps.DirectionsService();
-    const directionsRenderer = new window.google.maps.DirectionsRenderer();
-    directionsRenderer.setMap(map);
-    setMap(map);
-    setDirectionsRenderer(directionsRenderer);
-
-    calculateRoute(directionsService, directionsRenderer, start, end);
   };
 
-  const calculateRoute = (
-    directionsService,
-    directionsRenderer,
-    start,
-    end
-  ) => {
+  // Fetch Directions
+  const getDirections = () => {
+    if (!start || !destination) {
+      alert("Please enter both start and destination.");
+      return;
+    }
+
+    const directionsService = new window.google.maps.DirectionsService();
+
     directionsService.route(
       {
         origin: start,
-        destination: end,
+        destination: `${destination.lat},${destination.lng}`,
         travelMode: window.google.maps.TravelMode.DRIVING,
       },
-      (response, status) => {
-        if (status === "OK") {
-          directionsRenderer.setDirections(response);
+      (result, status) => {
+        if (status === window.google.maps.DirectionsStatus.OK) {
+          setDirections(result);
+          setDistance(result.routes[0].legs[0].distance.text);
+          setDuration(result.routes[0].legs[0].duration.text);
+          directionsRendererRef.current.setDirections(result);
         } else {
-          alert("Could not calculate route: " + status);
+          alert("Directions request failed: " + status);
         }
       }
     );
   };
 
-  const handleSwap = () => {
-    setStartLocation(endLocation);
-    setEndLocation(startLocation);
-  };
-
-  const handleUseCurrentLocation = () => {
-    if (currentLocation) {
-      setStartLocation("Your location");
-    } else {
-      alert("Current location not available.");
-    }
-  };
-
-  const handleStartNavigation = () => {
-    if (startLocation === "Your location" && currentLocation) {
-      initMap(currentLocation, endLocation);
-    } else {
-      // Geocode startLocation to get coordinates
-      // Then call initMap with those coordinates and endLocation
-    }
-  };
-
   return (
-    <div className="directions-panel">
-      <button className="close-btn" onClick={onClose}>
-        <FaArrowLeft size={22} />
-      </button>
+    <>
+      {/* Fullscreen Map */}
+      <div ref={mapRef} className="fullscreen-map"></div>
 
-      <div className="input-container">
-        <div className="input-group">
-          <FaMapMarkerAlt className="input-icon" />
+      {/* Directions Panel */}
+      <div className="directions-panel">
+        <button className="close-btn" onClick={onClose}>
+          <FaTimes size={22} />
+        </button>
+
+        <h2>Get Directions</h2>
+
+        {/* Start Input */}
+        <div className="input-container">
+          <label>Start:</label>
           <input
-            id="start-location"
             type="text"
-            placeholder="Choose starting point..."
-            value={startLocation}
-            onChange={(e) => setStartLocation(e.target.value)}
+            value={start}
+            onChange={(e) => setStart(e.target.value)}
+            placeholder="Enter starting location"
           />
           <button className="location-btn" onClick={handleUseCurrentLocation}>
             <FaLocationArrow />
           </button>
         </div>
-        <button className="swap-btn" onClick={handleSwap}>
-          <FaExchangeAlt />
-        </button>
-        <div className="input-group">
-          <FaMapMarkerAlt className="input-icon" />
-          <input
-            id="end-location"
-            type="text"
-            placeholder="Choose destination..."
-            value={endLocation}
-            onChange={(e) => setEndLocation(e.target.value)}
-          />
+
+        {/* Destination (Pre-filled) */}
+        <div className="input-container">
+          <label>Destination:</label>
+          <input type="text" value={placeName} disabled />
         </div>
+
+        <button className="start-btn" onClick={getDirections}>
+          Start Navigation
+        </button>
+
+        {/* Show Distance & Duration */}
+        {distance && duration && (
+          <div className="route-info">
+            <p>🚗 Distance: {distance}</p>
+            <p>⏳ Estimated Time: {duration}</p>
+          </div>
+        )}
       </div>
-
-      <button className="start-btn" onClick={handleStartNavigation}>
-        Start
-      </button>
-
-      <div id="map" className="map-container"></div>
-    </div>
+    </>
   );
 };
 

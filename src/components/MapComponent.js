@@ -61,28 +61,35 @@ const MapComponent = () => {
     };
 
     loadGoogleMaps();
-  }, []);
+  },[]);
 
-  const handlePlaceSelect = ({ lat, lng, name, imageUrl, galleryImages }) => {
+
+  const handlePlaceSelect = ({ coordinates, placeName, imageUrl, galleryImages }) => {
+    if (!coordinates || isNaN(coordinates.lat) || isNaN(coordinates.lng)) {
+      console.error("Invalid coordinates received:", coordinates);
+      return;
+    }
+
     if (map) {
-      console.log("Moving to:", lat, lng); // Debugging log
+      console.log("Moving to:", coordinates.lat, coordinates.lng);
 
-      map.panTo({ lat, lng });
+      map.panTo({ lat: coordinates.lat, lng: coordinates.lng });
       map.setZoom(18);
 
       if (marker) marker.setMap(null);
+
       const newMarker = new window.google.maps.Marker({
-        position: { lat, lng },
+        position: { lat: coordinates.lat, lng: coordinates.lng },
         map,
         animation: window.google.maps.Animation.DROP,
-        title: name,
+        title: placeName,
       });
 
       setMarker(newMarker);
 
       setSelectedPlace({
-        placeName: name,
-        coordinates: { lat, lng },
+        placeName,
+        coordinates,
         imageUrl,
         galleryImages,
       });
@@ -105,9 +112,7 @@ const MapComponent = () => {
         isSidePanelOpen={isSidePanelOpen}
       />
       <div id="map" className="map-container" />
-      {selectedPlace && (
-        <SidePanel placeData={selectedPlace} onClose={handleCloseSidePanel} />
-      )}
+      {selectedPlace && <SidePanel placeData={selectedPlace} onClose={handleCloseSidePanel} />}
     </div>
   );
 };

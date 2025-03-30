@@ -1185,7 +1185,7 @@ const SMVDUMap = () => {
       {!selectedPhoto && (
         <div
           className="search-container"
-          style={{ position: "absolute", top: "20px", left: "20px", zIndex: 1 }}
+          style={{ position: "absolute", top: "20px", left: "20px", zIndex: 1,backgroundColor:"white" }}
         >
           <input
             type="text"

@@ -1,20 +1,28 @@
-/* Gallery Panel */
+/* Default: Gallery on the left */
 .gallery-panel {
-  position: fixed; /* Use fixed to align relative to the viewport */
-  top: 6%; /* Position it slightly below the top */
-  left: 0; /* Align it to the leftmost side of the viewport */
-  z-index: 200;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  padding: 8px; /* Compact padding */
-  border-radius: 0 10px 10px 0; /* Rounded corners on the right */
-  width: 15%; /* Take up 1/5 of screen width */
-  height: 80%; /* Cover most of the screen height */
+  position: fixed;
+  top: 6%;
+  left: 0; /* Default: left side */
+  z-index: 1300;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 8px;
+  border-radius: 0 10px 10px 0;
+  width: 15%;
+  height: 80%;
   display: flex;
-  flex-direction: column; /* Stack items vertically */
-  gap: 10px; /* Add space between images */
+  flex-direction: column;
+  gap: 10px;
   overflow-y: scroll;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3); /* Add shadow for visual depth */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
 }
+
+/* Move gallery to the right for Navigate Page */
+.gallery-panel.right {
+  left: auto; /* Reset left */
+  right: 0; /* Move to right */
+  border-radius: 10px 0 0 10px; /* Rounded edges on the left */
+}
+
 .gallery-panel::-webkit-scrollbar {
   width: 0; /* Hides the scrollbar in WebKit browsers */
 }
@@ -78,7 +86,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 300;
+  z-index: 1500;
 }
 .fullscreen-slider-container {
   width: 90%;

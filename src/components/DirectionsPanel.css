@@ -1,0 +1,94 @@
+<<<<<<< HEAD
+=======
+/* Ensure HTML and Body Cover Full Viewport */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+.fullscreen-map {
+  position: fixed; /* Ensures it takes full viewport */
+  top: 0; 
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0; /* Remove any default margin */
+  padding: 0; /* Remove any padding */
+  border: none; /* Ensure no unwanted borders */
+  z-index: 1; /* Behind the side panel */
+}
+.directions-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 350px;
+  height: 100vh;
+  background: white;
+  box-shadow: -3px 0 5px rgba(0, 0, 0, 0.2);
+  padding: 0; /* Ensure no extra space */
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+
+/* Close Button */
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+/* Header */
+h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Input Fields */
+.input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.input-container label {
+  flex: 1;
+}
+
+.input-container input {
+  flex: 3;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.location-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.start-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.route-info {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 16px;
+}
+>>>>>>> 1bb8952987603da8ac0ff2ca1545021fa76c6abb
