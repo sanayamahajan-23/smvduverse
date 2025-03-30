@@ -4,10 +4,9 @@ import { db } from "../firebase";
 import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 import "./Recent.css";
 
-const Recent = ({ isOpen, toggleSidebar }) => {
+const Recent = ({ isOpen, toggleSidebar, onRecentSelect  = () => {} }) => { 
   const [recentSearches, setRecentSearches] = useState([]);
 
-  // Load recent searches directly from Firestore
   useEffect(() => {
     const loadRecentSearchesFromFirestore = async () => {
       try {
@@ -17,7 +16,7 @@ const Recent = ({ isOpen, toggleSidebar }) => {
           limit(5)
         );
         const querySnapshot = await getDocs(q);
-        const searches = querySnapshot.docs.map((doc) => doc.data().name);
+        const searches = querySnapshot.docs.map((doc) => doc.data());
         setRecentSearches(searches);
       } catch (error) {
         console.error("Error loading recent searches:", error);
@@ -36,8 +35,18 @@ const Recent = ({ isOpen, toggleSidebar }) => {
       <ul>
         {recentSearches.length > 0 ? (
           recentSearches.map((search, index) => (
-            <li key={index} className="recent-item">
-              <FaHistory size={16} /> {search}
+            <li
+              key={index}
+              className="recent-item"
+              onClick={() => {
+                console.log("Selected Place ID:", search.placeId);
+                 console.log("Selected Place Name:", search.name);
+                onRecentSelect(search.placeId, search.name);
+                setTimeout(() => toggleSidebar(), 200);
+                // toggleSidebar(); // Close sidebar after selecting a location
+              }}
+            >
+              <FaHistory size={16} /> {search.name}
             </li>
           ))
         ) : (
@@ -49,4 +58,3 @@ const Recent = ({ isOpen, toggleSidebar }) => {
 };
 
 export default Recent;
- 

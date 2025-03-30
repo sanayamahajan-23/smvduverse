@@ -33,6 +33,11 @@ const SearchBox = ({ googleLoaded, onPlaceSelect, onCloseSidePanel, isSidePanelO
 
       autocompleteRef.current.addListener("place_changed", handlePlaceChanged);
     }
+    return () => {
+      if (autocompleteRef.current) {
+        window.google.maps.event.clearInstanceListeners(autocompleteRef.current);
+      }
+    };
   }, [googleLoaded]);
 
   useEffect(() => {
@@ -40,7 +45,7 @@ const SearchBox = ({ googleLoaded, onPlaceSelect, onCloseSidePanel, isSidePanelO
       try {
         const q = query(collection(db, "recentSearches"), orderBy("timestamp", "desc"), limit(5));
         const querySnapshot = await getDocs(q);
-        const searches = querySnapshot.docs.map((doc) => doc.data().name);
+        const searches = querySnapshot.docs.map((doc) => doc.data());
         setRecentSearches(searches);
       } catch (error) {
         console.error("Error loading recent searches:", error);
@@ -60,46 +65,101 @@ const SearchBox = ({ googleLoaded, onPlaceSelect, onCloseSidePanel, isSidePanelO
       return;
     }
 
-    const lat = place.geometry.location.lat();
-    const lng = place.geometry.location.lng();
-    const name = place.name;
-    const address = place.formatted_address;
-    const placeId = place.place_id;
-    let imageUrl = "https://via.placeholder.com/400";
-    let galleryImages = [];
+    const placeData = {
+      placeName: place.name,
+      coordinates: {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+      },
+      imageUrl: place.photos?.[0]?.getUrl({ maxWidth: 800 }) || "https://via.placeholder.com/400",
+      galleryImages: place.photos?.map(photo => photo.getUrl({ maxWidth: 800 })) || [],
+      formattedAddress: place.formatted_address,
+      placeId: place.place_id,
+    };
 
-    if (place.photos && place.photos.length > 0) {
-      galleryImages = place.photos.map((photo) => photo.getUrl({ maxWidth: 800 }));
-      imageUrl = galleryImages[0];
-    }
-
-    onPlaceSelect({ placeName: name, coordinates: { lat, lng }, imageUrl, galleryImages, formattedAddress: address, placeId });
-    setSearchValue(name);
+    onPlaceSelect(placeData);
+    setSearchValue(place.name);
     setLoading(false);
-    saveRecentSearchToFirestore(name);
+    saveRecentSearchToFirestore(placeData);
   };
 
-  const saveRecentSearchToFirestore = async (placeName) => {
-    if (!placeName || recentSearches.includes(placeName)) return;
+  const saveRecentSearchToFirestore = async (place) => {
+    if (!place || recentSearches.some((search) => search.placeId === place.placeId)) return;
     try {
       const docRef = await addDoc(collection(db, "recentSearches"), {
-        name: placeName,
+        name: place.placeName,
+        placeId: place.placeId,
         timestamp: new Date(),
       });
       console.log("Search saved with ID:", docRef.id);
-      setRecentSearches((prev) => [placeName, ...prev.slice(0, 4)]);
+      setRecentSearches((prev) => [{ name: place.placeName, placeId: place.placeId }, ...prev.slice(0, 4)]);
     } catch (error) {
       console.error("Failed to save search:", error.message);
     }
   };
 
-  const handleInputChange = (e) => setSearchValue(e.target.value);
+  const fetchPlaceDetails = (placeId) => {
+    if (!googleLoaded || !window.google || !window.google.maps || !window.google.maps.places) return;
+    console.log("Fetching details for placeId:", placeId);
 
-  const handleSearchClick = () => {
-    if (autocompleteRef.current) {
-      handlePlaceChanged();
-    }
+    
+    const service = new window.google.maps.places.PlacesService(document.createElement("div"));
+    service.getDetails({ placeId, fields: ["place_id", "name", "geometry", "photos", "formatted_address"] }, (place, status) => {
+      if (status === window.google.maps.places.PlacesServiceStatus.OK && place.geometry) {
+        handlePlaceChangedFromRecent(place);
+      }
+    });
   };
+
+  const handlePlaceChangedFromRecent = (place) => {
+    const placeData = {
+      placeName: place.name,
+      coordinates: {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+      },
+      imageUrl: place.photos?.[0]?.getUrl({ maxWidth: 800 }) || "https://via.placeholder.com/400",
+      galleryImages: place.photos?.map(photo => photo.getUrl({ maxWidth: 800 })) || [],
+      formattedAddress: place.formatted_address,
+      placeId: place.place_id,
+    };
+
+    onPlaceSelect(placeData);
+    setSearchValue(place.name);
+  };
+
+  const handleInputChange = (e) => {
+  setSearchValue(e.target.value);
+  setShowRecent(e.target.value.trim() === ""); // Hide recent searches when typing
+};
+
+
+const handleSearchClick = () => {
+  if (!googleLoaded || !autocompleteRef.current) return;
+
+  const place = autocompleteRef.current.getPlace();
+  
+  if (place && place.geometry) {
+    handlePlaceChanged();
+  } else if (searchValue.trim() !== "") {
+    // Fetch place details based on input value
+    const service = new window.google.maps.places.PlacesService(document.createElement("div"));
+    service.findPlaceFromQuery(
+      {
+        query: searchValue,
+        fields: ["place_id", "name", "geometry", "photos", "formatted_address"],
+      },
+      (results, status) => {
+        if (status === window.google.maps.places.PlacesServiceStatus.OK && results[0]) {
+          handlePlaceChangedFromRecent(results[0]);
+        } else {
+          console.error("Place not found:", status);
+        }
+      }
+    );
+  }
+};
+
 
   const handleClear = () => {
     setSearchValue("");
@@ -119,8 +179,8 @@ const SearchBox = ({ googleLoaded, onPlaceSelect, onCloseSidePanel, isSidePanelO
         onFocus={() => setShowRecent(true)}
         onBlur={() => setTimeout(() => setShowRecent(false), 200)}
         autoFocus
-      />
-
+      /> 
+      
       <button className="search-btn" onClick={handleSearchClick}>
         <FaSearch size={18} />
       </button>
@@ -138,13 +198,13 @@ const SearchBox = ({ googleLoaded, onPlaceSelect, onCloseSidePanel, isSidePanelO
             <li
               key={index}
               onMouseDown={() => {
-                setSearchValue(search);
-                handleSearchClick();
+                setSearchValue(search.name);
+                fetchPlaceDetails(search.placeId);
                 setShowRecent(false);
               }}
             >
               <FaHistory size={16} style={{ marginRight: "8px", color: "#555" }} />
-              {search}
+              {search.name}
             </li>
           ))}
         </ul>
