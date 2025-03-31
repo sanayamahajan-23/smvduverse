@@ -15,8 +15,8 @@ const Navigation = () => {
       >
         🔙
       </button>
-      <Sidebar /> {/* Sidebar with buttons */}
       <MapComponent />
+      <Sidebar /> {/* Sidebar with buttons */}
     </div>
   );
 };

@@ -12,6 +12,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
+  z-index: -1; /* Keep it behind other UI elements */
 }
 .back-button-container {
   position: fixed;

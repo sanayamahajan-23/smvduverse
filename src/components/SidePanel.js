@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaDirections,
   FaShareAlt,
@@ -535,19 +535,17 @@ const nonMappedPlaces = [
     subtitle: "",
   },
 ];
-const SidePanel = ({ placeData, onClose }) => {
-  const [showDirections, setShowDirections] = useState(false);
+
+const SidePanel = ({ placeData, onClose, onShowDirections }) => {
   const [showGallery, setShowGallery] = useState(false);
-const isNavigatePage = window.location.pathname === "/navigate"; 
+  const isNavigatePage = window.location.pathname === "/navigate";
+
   if (!placeData) return null;
 
-  // Normalize text for comparison
   const normalizeText = (text) => text.toLowerCase().replace(/\s+/g, "");
-
   const isMatch = (input, label) => {
     const inputNorm = normalizeText(input);
     const labelNorm = normalizeText(label);
-
     return (
       inputNorm.length > 2 &&
       labelNorm.includes(
@@ -562,20 +560,12 @@ const isNavigatePage = window.location.pathname === "/navigate";
 
   const hasGallery = foundPlace && foundPlace.galleryImages?.length > 0;
 
-  return showDirections ? (
-    <DirectionsPanel
-      destination={placeData.coordinates}
-      placeName={placeData.placeName}
-      onClose={() => setShowDirections(false)}
-    />
-  ) : (
+  return (
     <div className="side-panel">
-
-      {/* Image Container */}
       <div className="image-container">
         {hasGallery ? (
           <img
-            src={foundPlace.galleryImages[0]} // First image
+            src={foundPlace.galleryImages[0]}
             alt={placeData.placeName}
             className="place-image"
           />
@@ -583,7 +573,6 @@ const isNavigatePage = window.location.pathname === "/navigate";
           <div className="placeholder-image"></div>
         )}
 
-        {/* Gallery Button with Toggle */}
         <button
           className="gallery-btn"
           disabled={!hasGallery}
@@ -600,7 +589,7 @@ const isNavigatePage = window.location.pathname === "/navigate";
       <h2 className="place-title">{placeData.placeName}</h2>
 
       <div className="button-container">
-        <button className="side-btn" onClick={() => setShowDirections(true)}>
+        <button className="side-btn" onClick={onShowDirections}>
           <FaDirections size={24} />
           <span>Directions</span>
         </button>
@@ -615,7 +604,6 @@ const isNavigatePage = window.location.pathname === "/navigate";
 
       {foundPlace && <div className="place-info">{foundPlace.subtitle}</div>}
 
-      {/* Toggle Gallery */}
       {showGallery && hasGallery && (
         <Gallery
           images={foundPlace.galleryImages}

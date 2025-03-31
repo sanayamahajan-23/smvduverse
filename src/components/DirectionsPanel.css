@@ -21,19 +21,16 @@ body,
   z-index: 1; /* Behind the side panel */
 }
 
-/* Directions Panel */
 .directions-panel {
   position: fixed;
   top: 0;
-  right: 0;
+  left:101px;
   width: 350px;
   height: 100vh;
   background: white;
   box-shadow: -3px 0 5px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
   z-index: 1000;
-  overflow-y: auto; /* Allow scrolling if needed */
+  overflow-y: auto;
   padding: 20px;
 }
 

@@ -8,7 +8,13 @@ import {
 } from "react-icons/fa";
 import "./DirectionsPanel.css";
 
-const DirectionsPanel = ({ destination, placeName, onClose, map }) => {
+const DirectionsPanel = ({
+  destination,
+  placeName,
+  onClose,
+  map,
+  setDirectionsRenderer,
+}) => {
   const [start, setStart] = useState("");
   const [routeInfo, setRouteInfo] = useState({});
   const [selectedMode, setSelectedMode] = useState("DRIVING");
@@ -18,11 +24,25 @@ const DirectionsPanel = ({ destination, placeName, onClose, map }) => {
     if (!window.google || !map) return;
 
     if (!directionsRendererRef.current) {
-      directionsRendererRef.current =
-        new window.google.maps.DirectionsRenderer();
-      directionsRendererRef.current.setMap(map);
+      const renderer = new window.google.maps.DirectionsRenderer();
+      renderer.setMap(map);
+      directionsRendererRef.current = renderer;
+
+      if (setDirectionsRenderer) {
+        setDirectionsRenderer(renderer); // Save reference in parent
+      }
+    } else {
+      directionsRendererRef.current.setMap(map); // Ensure it's assigned properly
     }
   }, [map]);
+  const handleClose = () => {
+    if (directionsRendererRef.current) {
+      directionsRendererRef.current.setDirections(null);
+      directionsRendererRef.current.setMap(null);
+      directionsRendererRef.current = null;
+    }
+    onClose();
+  };
 
   const handleUseCurrentLocation = () => {
     if (navigator.geolocation) {
@@ -46,10 +66,12 @@ const DirectionsPanel = ({ destination, placeName, onClose, map }) => {
       alert("Please enter both start and destination.");
       return;
     }
-
     const travelModes = ["DRIVING", "WALKING", "TWO_WHEELER"];
     const directionsService = new window.google.maps.DirectionsService();
     let newRouteInfo = {};
+    if (directionsRendererRef.current) {
+      directionsRendererRef.current.setDirections(null); // Properly clear previous routes
+    }
 
     travelModes.forEach((mode) => {
       let travelMode = mode === "TWO_WHEELER" ? "DRIVING" : mode; // Google treats bikes as driving
@@ -82,7 +104,7 @@ const DirectionsPanel = ({ destination, placeName, onClose, map }) => {
 
   return (
     <div className="directions-panel">
-      <button className="close-btn" onClick={onClose}>
+      <button className="close-btn" onClick={handleClose}>
         <FaTimes size={20} />
       </button>
 

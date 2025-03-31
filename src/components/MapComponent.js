@@ -11,7 +11,7 @@ const MapComponent = () => {
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
   const [googleLoaded, setGoogleLoaded] = useState(false);
   const [directionsVisible, setDirectionsVisible] = useState(false); // Toggle directions panel
-
+  const [directionsRenderer, setDirectionsRenderer] = useState(null);
   useEffect(() => {
     const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
@@ -93,17 +93,27 @@ const MapComponent = () => {
 
       setMarker(newMarker);
 
-      setSelectedPlace({
-        placeName,
-        coordinates,
-        imageUrl,
-        galleryImages,
-      });
+      // 🚨 Remove previous directions
+      if (directionsRenderer) {
+        directionsRenderer.setMap(null); // Remove route
+        setDirectionsRenderer(null); // Reset renderer reference
+      }
 
-      setIsSidePanelOpen(true);
-      setDirectionsVisible(true); // Show directions panel when a place is selected
+      setSelectedPlace(null);
+      setDirectionsVisible(false); // Hide directions panel
+
+      setTimeout(() => {
+        setSelectedPlace({
+          placeName,
+          coordinates,
+          imageUrl,
+          galleryImages,
+        });
+        setIsSidePanelOpen(true);
+      }, 100);
     }
   };
+
 
   const handleCloseSidePanel = () => {
     setSelectedPlace(null);
@@ -112,6 +122,16 @@ const MapComponent = () => {
 
   return (
     <div>
+      {/* Render DirectionsPanel only when needed */}
+      {directionsVisible && selectedPlace && (
+        <DirectionsPanel
+          destination={selectedPlace.coordinates}
+          placeName={selectedPlace.placeName}
+          onClose={() => setDirectionsVisible(false)}
+          map={map} // Pass the map instance
+          setDirectionsRenderer={setDirectionsRenderer} // 👈 pass this
+        />
+      )}
       <SearchBox
         googleLoaded={googleLoaded}
         onPlaceSelect={handlePlaceSelect}
@@ -120,16 +140,10 @@ const MapComponent = () => {
       />
       <div id="map" className="map-container" />
       {selectedPlace && (
-        <SidePanel placeData={selectedPlace} onClose={handleCloseSidePanel} />
-      )}
-
-      {/* Render DirectionsPanel only when needed */}
-      {directionsVisible && selectedPlace && (
-        <DirectionsPanel
-          destination={selectedPlace.coordinates}
-          placeName={selectedPlace.placeName}
-          onClose={() => setDirectionsVisible(false)}
-          map={map} // Pass the map instance
+        <SidePanel
+          placeData={selectedPlace}
+          onClose={handleCloseSidePanel}
+          onShowDirections={() => setDirectionsVisible(true)}
         />
       )}
     </div>
