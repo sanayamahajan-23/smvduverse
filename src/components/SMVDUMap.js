@@ -87,6 +87,7 @@ const SMVDUMap = () => {
         { id: "c", latitude: 10, longitude: 0, label: "Exit" },
       ],
     },
+    // `${process.env.PUBLIC_URL}/assets/nearby places/sanjeevni.jpeg`
     {
       id: 3,
       x: 1070,
