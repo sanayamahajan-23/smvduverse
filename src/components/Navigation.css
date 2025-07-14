@@ -1,4 +1,14 @@
-/* Custom marker styling */
+.navigation-container {
+  display: flex;
+  height: 100vh;
+}
+
+.map-container {
+  flex-grow: 1;
+  height: 100%;
+}
+
+/* Your marker styles */
 .campus-marker {
   background-color: #4285f4;
   color: white;
@@ -12,18 +22,28 @@
 }
 
 .campus-marker span {
-  display: inline-block;
   white-space: nowrap;
 }
-
-/* Map controls styling */
-.mapboxgl-ctrl-group {
-  border-radius: 8px !important;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
+.custom-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 80px;
+  background-color: white;
+  padding: 4px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.mapboxgl-ctrl button {
-  width: 36px !important;
-  height: 36px !important;
+.custom-marker img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+.custom-marker span {
+  font-size: 10px;
+  font-weight: bold;
 }
