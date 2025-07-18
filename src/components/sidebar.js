@@ -6,7 +6,7 @@ import "./sidebar.css";
 import { useNavigate } from "react-router-dom";
 import { FaClock, FaStar, FaMapMarkerAlt, FaShareAlt } from "react-icons/fa";
 
-const Sidebar = () => {
+const Sidebar = ( { onSearchLocation }) => {
   const [activeTab, setActiveTab] = useState(null);
   const [showShareButton, setShowShareButton] = useState(false);
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ const Sidebar = () => {
       case "recents":
         return <Recents />;
       case "favorites":
-        return <Favorites />;
+        return <Favorites  onSearchLocation={onSearchLocation}/>;
       case "nearby":
         return <NearbyPlaces />;
       default:
