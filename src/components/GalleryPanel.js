@@ -1,68 +1,56 @@
-// components/GalleryPanel.js
-import React, { useEffect, useState } from "react";
-import { db } from "../firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import React, { useState } from "react";
+import "./GalleryPanel.css";
 
-const GalleryPanel = ({ place, onClose }) => {
-  const [images, setImages] = useState([]);
+const GalleryPanel = ({ photos, onClose }) => {
+  const [fullscreenIndex, setFullscreenIndex] = useState(null);
 
-  useEffect(() => {
-    if (!place?.lat || !place?.lng) return;
+  const openFullscreen = (index) => setFullscreenIndex(index);
+  const closeFullscreen = () => setFullscreenIndex(null);
 
-    const fetchImages = async () => {
-      const q = query(
-        collection(db, "places"),
-        where("coordinates.lat", "==", place.lat),
-        where("coordinates.lng", "==", place.lng)
-      );
-      const snapshot = await getDocs(q);
-      if (!snapshot.empty) {
-        const data = snapshot.docs[0].data();
-        setImages(data.gallery || []);
-      } else {
-        setImages([]);
-      }
-    };
-
-    fetchImages();
-  }, [place]);
+  const goNext = () => setFullscreenIndex((prev) => (prev + 1) % photos.length);
+  const goPrev = () =>
+    setFullscreenIndex((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        top: "0",
-        right: 0,
-        width: "200px",
-        height: "100vh",
-        backgroundColor: "white",
-        borderLeft: "1px solid #ccc",
-        overflowY: "scroll",
-        zIndex: 40,
-        padding: "10px",
-      }}
-    >
-      <button onClick={onClose} style={{ float: "right" }}>
-        ❌
-      </button>
-      <h4 style={{ marginTop: "2rem" }}>Gallery</h4>
-      {images.length > 0 ? (
-        images.map((url, idx) => (
+    <>
+      {/* Right-side vertical gallery panel */}
+      <div className="gallery-panel1">
+        <button onClick={onClose} className="gallery-close-btn">
+          ✕
+        </button>
+        <div className="gallery-vertical-list">
+          {photos.map((photo, index) => (
+            <img
+              key={index}
+              src={photo}
+              alt={`photo-${index}`}
+              className="gallery-thumb"
+              onClick={() => openFullscreen(index)}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Fullscreen viewer */}
+      {fullscreenIndex !== null && (
+        <div className="fullscreen-overlay">
+          <button className="fullscreen-close" onClick={closeFullscreen}>
+            ✕
+          </button>
+          <button className="fullscreen-prev" onClick={goPrev}>
+            ←
+          </button>
           <img
-            key={idx}
-            src={url}
-            alt={`img-${idx}`}
-            style={{
-              width: "100%",
-              marginBottom: "10px",
-              borderRadius: "8px",
-            }}
+            src={photos[fullscreenIndex]}
+            alt={`fullscreen-${fullscreenIndex}`}
+            className="fullscreen-image"
           />
-        ))
-      ) : (
-        <p>No gallery images.</p>
+          <button className="fullscreen-next" onClick={goNext}>
+            →
+          </button>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
