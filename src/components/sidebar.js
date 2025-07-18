@@ -1,56 +1,109 @@
-import React, { useState } from 'react';
-import NearbyPlaces from './NearbyPlaces';
-import Recents from './Recents';
-import Favorites from './Favorites';
-import ShareLiveLocation from './ShareLiveLocation';
-import "./sidebar.css"
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from "react";
+import NearbyPlaces from "./NearbyPlaces";
+import Recents from "./Recents";
+import Favorites from "./Favorites";
+import "./sidebar.css";
+import { useNavigate } from "react-router-dom";
 import { FaClock, FaStar, FaMapMarkerAlt, FaShareAlt } from "react-icons/fa";
 
 const Sidebar = () => {
   const [activeTab, setActiveTab] = useState(null);
-  const [shareActive, setShareActive] = useState(true);
+  const [showShareButton, setShowShareButton] = useState(false);
   const navigate = useNavigate();
+  const shareIconRef = useRef(null);
+  const [buttonPosition, setButtonPosition] = useState({ top: 0 });
+
   const handleTabClick = (tab) => {
-    if (tab === 'share') {
-      setShareActive(true); // reset active state
+    if (tab === "share") {
+      const icon = shareIconRef.current;
+      if (icon) {
+        const rect = icon.getBoundingClientRect();
+        setButtonPosition({ top: rect.top + window.scrollY });
+      }
+      setShowShareButton(!showShareButton);
+      setActiveTab(null);
+    } else {
+      setShowShareButton(false);
+      setActiveTab(tab);
     }
-    setActiveTab(tab);
   };
-  const handleNavigateNearby = () => {
-   navigate('/nearby');};
+
+  const handleShareClick = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+        const message = `I'm sharing my live location: ${googleMapsLink}`;
+        const whatsappURL = `https://wa.me/?text=${encodeURIComponent(
+          message
+        )}`;
+        window.open(whatsappURL, "_blank");
+      },
+      (error) => {
+        alert("Unable to retrieve location. Please allow location access.");
+        console.error(error);
+      }
+    );
+  };
 
   const renderPanel = () => {
     switch (activeTab) {
-      case 'recents':
+      case "recents":
         return <Recents />;
-      case 'favorites':
+      case "favorites":
         return <Favorites />;
-      case 'nearby':
+      case "nearby":
         return <NearbyPlaces />;
-      case 'share':
-        return shareActive ? (
-          <ShareLiveLocation onHide={() => setShareActive(false)} />
-        ) : (
-          <div className="text-gray-500 p-4"></div>
-        );
       default:
         return null;
     }
   };
 
   return (
-    <div className="sidebar-container">
-      <div className="button-list">
-        <button onClick={() => setActiveTab('recents')}><FaClock className="icon" />Recents</button>
-        <button onClick={() => setActiveTab('favorites')}><FaStar className="icon" />Favorites</button>
-       <button onClick={handleNavigateNearby}><FaMapMarkerAlt className="icon" />Nearby Places</button>
-        <button onClick={() => handleTabClick('share')}><FaShareAlt className="icon" />Share Live Location</button>
+    <>
+      <div className="sidebar-container">
+        <div className="button-list">
+          <button onClick={() => handleTabClick("recents")} title="Recents">
+            <FaClock className="icon" />
+          </button>
+          <button onClick={() => handleTabClick("favorites")} title="Favorites">
+            <FaStar className="icon" />
+          </button>
+          <button
+            onClick={() => handleTabClick("nearby")}
+            title="Nearby Places"
+          >
+            <FaMapMarkerAlt className="icon" />
+          </button>
+          <button
+            ref={shareIconRef}
+            onClick={() => handleTabClick("share")}
+            title="Share Live Location"
+            className="share-icon"
+          >
+            <FaShareAlt className="icon" />
+          </button>
+        </div>
       </div>
-      <div className="panel-content">
-        {renderPanel()}
-      </div>
-    </div>
+
+      {/* Share button OUTSIDE sidebar */}
+      {showShareButton && (
+        <button
+          className="floating-share-location-btn"
+          style={{ top: `${buttonPosition.top}px` }}
+          onClick={handleShareClick}
+        >
+          📍 Share Location
+        </button>
+      )}
+
+      {activeTab && <div className="side-panel">{renderPanel()}</div>}
+    </>
   );
 };
 

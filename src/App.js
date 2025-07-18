@@ -1,19 +1,34 @@
+// App.js
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SMVDUMap from "./components/SMVDUMap";
 import Globe from "./components/Globe";
-import Navigation from "./components/Navigation";
+import NavigationPage from "./pages/NavigationPage";
 import NearbyPlaces from "./components/NearbyPlaces";
-import WeekendTrips from "./components/WeekendTrips"
-import Restaurants from "./components/Restaurants"
-import Groceries from "./components/Groceries"
-import Medical from "./components/Medical"
+import WeekendTrips from "./components/WeekendTrips";
+import Restaurants from "./components/Restaurants";
+import Groceries from "./components/Groceries";
+import Medical from "./components/Medical";
+import SignIn from "./components/signin";
+
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
+
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    return onAuthStateChanged(auth, (u) => {
+      setUser(u);
+    });
+  }, []);
+
   return (
     <Router>
       <Routes>
         <Route path="/smvdu-map" element={<SMVDUMap />} />
         <Route path="/" element={<Globe />} />
-        <Route path="/navigate" element={<Navigation />} />
+        <Route path="/navigate" element={<NavigationPage user={user} />} />
         <Route path="/nearby" element={<NearbyPlaces />} />
         <Route path="/nearby/attractions" element={<WeekendTrips />} />
         <Route path="/nearby/restaurants" element={<Restaurants />} />
