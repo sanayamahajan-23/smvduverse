@@ -1,0 +1,62 @@
+.directions-panel {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  z-index: 1002;
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  width: 300px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  font-family: sans-serif;
+}
+
+.directions-panel input,
+.directions-panel select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.directions-panel button {
+  padding: 8px 12px;
+  margin-top: 10px;
+  margin-right: 8px;
+  border: none;
+  background-color: #3b9ddd;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.directions-panel button:hover {
+  background-color: #338acc;
+}
+
+.route-info {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.directions-steps {
+  margin-top: 10px;
+  background: #f2f2f2;
+  padding: 10px;
+  border-radius: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 13px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}

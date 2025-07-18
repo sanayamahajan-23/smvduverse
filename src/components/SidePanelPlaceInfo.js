@@ -10,7 +10,7 @@ import { db } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import "./SidePanelPlaceInfo.css";
 
-const SidePanelPlaceInfo = ({ place, user, onGalleryOpen, onClose }) => {
+const SidePanelPlaceInfo = ({ place, user, onGalleryOpen, onClose,onDirections}) => {
   const [placeInfo, setPlaceInfo] = useState(null);
 
   useEffect(() => {
@@ -39,9 +39,13 @@ const SidePanelPlaceInfo = ({ place, user, onGalleryOpen, onClose }) => {
   };
 
   const handleDirections = () => {
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${placeInfo.lat},${placeInfo.lng}`;
-    window.open(url, "_blank");
+    onDirections?.({
+      lat: placeInfo.lat,
+      lng: placeInfo.lng,
+      name: placeInfo.name,
+    });
   };
+  
 
   if (!placeInfo) return null;
 

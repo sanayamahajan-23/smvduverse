@@ -1,4 +1,3 @@
-// NavigationPage.js
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import SidePanel from "../components/sidebar";
@@ -6,23 +5,26 @@ import SearchBox from "../components/Searchbox";
 import SignIn from "../components/signin";
 import SidePanelPlaceInfo from "../components/SidePanelPlaceInfo";
 import GalleryPanel from "../components/GalleryPanel";
+import DirectionsPanel from "../components/DirectionsPanel";
+import { FaDirections } from "react-icons/fa";
 
 // Mapbox Access Token
 mapboxgl.accessToken =
   "pk.eyJ1Ijoic2FuYXlhMTIzIiwiYSI6ImNtZDhpYTh1ZzAwbGsybHNiNjM5MmRwbHYifQ.AP29da_1J7sJ1g4pRP4F9Q";
 
-// Centered coordinates
+// Centered coordinates for SMVDU
 const smvduCoords = [74.95410062342953, 32.9422867698961];
 
 const NavigationPage = ({ user }) => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
-
+  const [showDirectionsPanel, setShowDirectionsPanel] = useState(false);
+  const [destFromPanel, setDestFromPanel] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [galleryImages, setGalleryImages] = useState([]);
   const [galleryVisible, setGalleryVisible] = useState(false);
 
-  // Initialize map
+  // Initialize map on mount
   useEffect(() => {
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
@@ -63,7 +65,7 @@ const NavigationPage = ({ user }) => {
         <SidePanel />
       </div>
 
-      {/* SearchBox (beside sidebar) */}
+      {/* SearchBox */}
       <div
         style={{
           position: "absolute",
@@ -86,6 +88,34 @@ const NavigationPage = ({ user }) => {
         )}
       </div>
 
+      {/* Floating Directions Button */}
+      <div
+        style={{
+          position: "absolute",
+          top: "20px",
+          left: "320px", // adjust depending on search box width
+          zIndex: 30,
+        }}
+      >
+        <button
+          style={{
+            backgroundColor: "#fff",
+            padding: "8px 12px",
+            borderRadius: "6px",
+            border: "1px solid #ccc",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+          }}
+          onClick={() => setShowDirectionsPanel(true)}
+        >
+          <FaDirections size={16} />
+          Directions
+        </button>
+      </div>
+
       {/* Place Info Panel */}
       {selectedPlace && (
         <SidePanelPlaceInfo
@@ -96,10 +126,23 @@ const NavigationPage = ({ user }) => {
             setGalleryVisible(true);
           }}
           onClose={() => setSelectedPlace(null)}
+          onDirections={(coords) => {
+            setDestFromPanel(`${coords.lat},${coords.lng}`);
+            setShowDirectionsPanel(true);
+          }}
         />
       )}
 
-      {/* Gallery Panel (No wrapper div needed) */}
+      {/* Directions Panel */}
+      {showDirectionsPanel && (
+        <DirectionsPanel
+          mapRef={mapRef}
+          destination={destFromPanel}
+          onClose={() => setShowDirectionsPanel(false)}
+        />
+      )}
+
+      {/* Gallery Panel */}
       {galleryVisible && galleryImages.length > 0 && (
         <GalleryPanel
           photos={galleryImages}
