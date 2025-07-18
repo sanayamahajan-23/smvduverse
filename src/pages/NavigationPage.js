@@ -52,7 +52,15 @@ const NavigationPage = ({ user }) => {
           zIndex: 20,
         }}
       >
-        <SidePanel />
+        
+        <SidePanel onSearchLocation={(lat, lng) => {
+  if (mapRef.current) {
+    mapRef.current.flyTo({
+      center: [lng, lat],
+      zoom: 18
+    });
+  }
+}} />
       </div>
 
       {/* SearchBox next to sidebar */}
@@ -64,6 +72,7 @@ const NavigationPage = ({ user }) => {
           zIndex: 30,
         }}
       >
+        
         {user ? <SearchBox mapRef={mapRef} user={user} /> : <SignIn />}
       </div>
     </div>
