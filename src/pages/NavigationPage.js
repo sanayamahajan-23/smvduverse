@@ -1,9 +1,11 @@
 // NavigationPage.js
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import SidePanel from "../components/sidebar";
 import SearchBox from "../components/Searchbox";
 import SignIn from "../components/signin";
+import SidePanelPlaceInfo from "../components/SidePanelPlaceInfo";
+import GalleryPanel from "../components/GalleryPanel";
 
 // Mapbox token
 mapboxgl.accessToken =
@@ -13,8 +15,12 @@ const smvduCoords = [74.95410062342953, 32.9422867698961];
 
 const NavigationPage = ({ user }) => {
   const mapContainerRef = useRef(null); // DOM container
-  const mapRef = useRef(null); // actual map instance
-
+  const mapRef = useRef(null); // Map instance
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [galleryVisible, setGalleryVisible] = useState(false);
+  
   useEffect(() => {
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
@@ -64,8 +70,40 @@ const NavigationPage = ({ user }) => {
           zIndex: 30,
         }}
       >
-        {user ? <SearchBox mapRef={mapRef} user={user} /> : <SignIn />}
+        {user ? (
+          <SearchBox
+            mapRef={mapRef}
+            user={user}
+            onPlaceSelect={(place) => {
+              setSelectedPlace(place);
+              setGalleryOpen(false); // Reset gallery on new selection
+            }}
+          />
+        ) : (
+          <SignIn />
+        )}
       </div>
+
+      {/* Place Info Side Panel */}
+      {selectedPlace && (
+        <SidePanelPlaceInfo
+          place={selectedPlace}
+          user={user}
+          onGalleryOpen={(photos) => {
+            setGalleryImages(photos);
+            setGalleryVisible(true);
+          }}
+          onClose={() => setSelectedPlace(null)}
+        />
+      )}
+
+      {/* Gallery Panel */}
+      {galleryOpen && selectedPlace && (
+        <GalleryPanel
+          place={selectedPlace}
+          onClose={() => setGalleryOpen(false)}
+        />
+      )}
     </div>
   );
 };
