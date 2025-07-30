@@ -27,15 +27,9 @@ const SMVDUMap = () => {
   const [showNavPopup, setShowNavPopup] = useState(false);
   useEffect(() => {
     if (shouldReveal) {
-      const timer = setTimeout(() => {
         setShowNavPopup(true);
-        // Auto-navigate after 5 seconds if user doesn't interact
-        const autoNavTimer = setTimeout(() => {
-          handleNavigate();
-        }, 5000);
-        return () => clearTimeout(autoNavTimer);
-      }, 1500);
-      return () => clearTimeout(timer);
+
+        
     }
   }, [shouldReveal]);
 

@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
+import { useNavigate } from "react-router-dom";
 import SidePanel from "../components/sidebar";
 import SearchBox from "../components/Searchbox";
 import SignIn from "../components/signin";
@@ -18,6 +19,7 @@ const smvduCoords = [74.95410062342953, 32.9422867698961];
 const NavigationPage = ({ user }) => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
+  const navigate = useNavigate();
   const [showDirectionsPanel, setShowDirectionsPanel] = useState(false);
   const [destFromPanel, setDestFromPanel] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState(null);
@@ -97,6 +99,19 @@ const NavigationPage = ({ user }) => {
           zIndex: 30,
         }}
       >
+      <button className="back-button" onClick={() => navigate("/smvdu-map")}
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+          padding: "8px 16px",
+          backgroundColor: "#400aa4ff",
+          border: "1px solid #ccc",
+          borderRadius: "8px",
+          cursor: "pointer",
+        }}>
+        ← Back
+      </button>
         <button
           style={{
             backgroundColor: "#fff",
