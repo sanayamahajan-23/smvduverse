@@ -1,0 +1,4 @@
+.hotspot-marker {
+  cursor: pointer;
+  z-index: 1000;
+}
