@@ -12,8 +12,7 @@ import PhotoSphere from "../components/PhotoSphereBasic";
 import { FaDirections, FaArrowLeft } from "react-icons/fa";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-import { db } from "../firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { query, where } from "firebase/firestore";
 
 mapboxgl.accessToken = "pk.eyJ1Ijoic2FuYXlhMTIzIiwiYSI6ImNtZDhpYTh1ZzAwbGsybHNiNjM5MmRwbHYifQ.AP29da_1J7sJ1g4pRP4F9Q";
 
