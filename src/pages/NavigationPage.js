@@ -100,16 +100,7 @@ const NavigationPage = ({ user }) => {
         }}
       >
       <button className="back-button" onClick={() => navigate("/smvdu-map")}
-        style={{
-          position: "absolute",
-          top: "20px",
-          right: "20px",
-          padding: "8px 16px",
-          backgroundColor: "#400aa4ff",
-          border: "1px solid #ccc",
-          borderRadius: "8px",
-          cursor: "pointer",
-        }}>
+        >
         ← Back
       </button>
         <button
