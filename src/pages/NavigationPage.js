@@ -84,7 +84,7 @@ const NavigationPage = ({ user }) => {
           top: 0,
           left: 0,
           height: "100%",
-          zIndex: 20,
+          zIndex: 1000,
         }}
       >
         <SidePanel />

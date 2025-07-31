@@ -34,9 +34,7 @@ const navigate = useNavigate();
 
 return (
 <div className="nearby-container">
-  <button className="back-button" onClick={() => navigate("/navigate")}>
-← Back to Map
-</button>
+
 <h2 className="nearby-heading">Nearby Places to Visit</h2>
 <div className="card-grid">
 {nearbyItems.map((item, index) => (

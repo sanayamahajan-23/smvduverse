@@ -1,16 +1,23 @@
-import React, { useState, useRef, useEffect } from "react";
+// components/Sidebar.js
+import React, { useState, useRef } from "react";
 import NearbyPlaces from "./NearbyPlaces";
 import Recents from "./Recents";
 import Favorites from "./Favorites";
 import AddPlaceForm from "./AddPlaceForm";
 import "./sidebar.css";
 import { useNavigate } from "react-router-dom";
-import { FaClock, FaStar, FaMapMarkerAlt, FaShareAlt , FaPlus} from "react-icons/fa";
+import {
+  FaClock,
+  FaStar,
+  FaMapMarkerAlt,
+  FaShareAlt,
+  FaPlus,
+  FaTimes,
+} from "react-icons/fa";
 
-const Sidebar = ( { onSearchLocation }) => {
+const Sidebar = ({ onSearchLocation }) => {
   const [activeTab, setActiveTab] = useState(null);
   const [showShareButton, setShowShareButton] = useState(false);
-  const navigate = useNavigate();
   const shareIconRef = useRef(null);
   const [buttonPosition, setButtonPosition] = useState({ top: 0 });
 
@@ -21,12 +28,16 @@ const Sidebar = ( { onSearchLocation }) => {
         const rect = icon.getBoundingClientRect();
         setButtonPosition({ top: rect.top + window.scrollY });
       }
-      setShowShareButton(!showShareButton);
+      setShowShareButton((prev) => !prev);
       setActiveTab(null);
     } else {
       setShowShareButton(false);
       setActiveTab(tab);
     }
+  };
+
+  const handleClosePanel = () => {
+    setActiveTab(null);
   };
 
   const handleShareClick = () => {
@@ -57,7 +68,7 @@ const Sidebar = ( { onSearchLocation }) => {
       case "recents":
         return <Recents />;
       case "favorites":
-        return <Favorites  onSearchLocation={onSearchLocation}/>;
+        return <Favorites onSearchLocation={onSearchLocation} />;
       case "nearby":
         return <NearbyPlaces />;
       case "add":
@@ -97,18 +108,37 @@ const Sidebar = ( { onSearchLocation }) => {
         </div>
       </div>
 
-      {/* Share button OUTSIDE sidebar */}
       {showShareButton && (
         <button
           className="floating-share-location-btn"
           style={{ top: `${buttonPosition.top}px` }}
           onClick={handleShareClick}
         >
-          📍 Share Location
+          <FaMapMarkerAlt style={{ marginRight: 6 }} /> Share Location
         </button>
       )}
 
-      {activeTab && <div className="side-panel">{renderPanel()}</div>}
+      {activeTab && (
+        <div
+          className="side-panel1"
+
+        >
+          <button
+            onClick={handleClosePanel}
+            style={{
+              position: "absolute",
+              top: 10,
+              right: 10,
+              background: "transparent",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
+            <FaTimes size={20} />
+          </button>
+          {renderPanel()}
+        </div>
+      )}
     </>
   );
 };
