@@ -9,7 +9,7 @@ import SidePanelPlaceInfo from "../components/SidePanelPlaceInfo";
 import GalleryPanel from "../components/GalleryPanel";
 import DirectionsPanel from "../components/DirectionsPanel";
 import PhotoSphere from "../components/PhotoSphereBasic";
-import { FaDirections } from "react-icons/fa";
+import { FaDirections, FaArrowLeft } from "react-icons/fa";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -134,22 +134,21 @@ const NavigationPage = ({ user }) => {
         )}
       </div>
 
+      {/* Buttons beside the search box */}
       <div
         style={{
           position: "absolute",
-          top: "20px",
-          left: "320px", // adjust depending on search box width
+          top: "35px",
+          left: "450px", // Adjust as needed based on actual search box width
+          display: "flex",
+          gap: "10px",
           zIndex: 30,
         }}
       >
-      <button className="back-button" onClick={() => navigate("/smvdu-map")}
-        >
-        ← Back
-      </button>
         <button
           style={{
             backgroundColor: "#fff",
-            padding: "8px 12px",
+            padding: "15px 12px",
             borderRadius: "6px",
             border: "1px solid #ccc",
             cursor: "pointer",
@@ -160,8 +159,35 @@ const NavigationPage = ({ user }) => {
           }}
           onClick={() => setShowDirectionsPanel(true)}
         >
-          <FaDirections size={16} />
-          Directions
+          <FaDirections size={20} />
+         
+        </button>
+      </div>
+
+      {/* Back button aligned to top-right */}
+      <div
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "50px",
+          zIndex: 30,
+        }}
+      >
+        <button
+          style={{
+            backgroundColor: "#fff",
+            padding: "10px 14px",
+            borderRadius: "6px",
+            border: "1px solid #ccc",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+          }}
+          onClick={() => navigate("/smvdu-map")}
+        >
+          <FaArrowLeft size={16} style={{ marginRight: "6px" }} />
+        
         </button>
       </div>
 
