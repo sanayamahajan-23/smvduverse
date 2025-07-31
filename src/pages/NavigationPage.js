@@ -7,10 +7,11 @@ import SidePanelPlaceInfo from "../components/SidePanelPlaceInfo";
 import GalleryPanel from "../components/GalleryPanel";
 import DirectionsPanel from "../components/DirectionsPanel";
 import { FaDirections } from "react-icons/fa";
+import { db } from "../firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 // Mapbox Access Token
-mapboxgl.accessToken =
-  "pk.eyJ1Ijoic2FuYXlhMTIzIiwiYSI6ImNtZDhpYTh1ZzAwbGsybHNiNjM5MmRwbHYifQ.AP29da_1J7sJ1g4pRP4F9Q";
+mapboxgl.accessToken = "pk.eyJ1Ijoic2FuYXlhMTIzIiwiYSI6ImNtZDhpYTh1ZzAwbGsybHNiNjM5MmRwbHYifQ.AP29da_1J7sJ1g4pRP4F9Q";
 
 // Centered coordinates for SMVDU
 const smvduCoords = [74.95410062342953, 32.9422867698961];
@@ -23,6 +24,21 @@ const NavigationPage = ({ user }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [galleryImages, setGalleryImages] = useState([]);
   const [galleryVisible, setGalleryVisible] = useState(false);
+
+  // ✅ Load approved places from Firestore
+  useEffect(() => {
+    const fetchApprovedPlaces = async () => {
+      const q = query(collection(db, "places"), where("status", "==", "approved"));
+      const snap = await getDocs(q);
+      snap.forEach((docSnap) => {
+        const data = docSnap.data();
+        const marker = new mapboxgl.Marker({ color: "#2E8B57" })
+          .setLngLat([data.longitude, data.latitude])
+          .addTo(mapRef.current);
+      });
+    };
+    if (mapRef.current) fetchApprovedPlaces();
+  }, []);
 
   // Initialize map on mount
   useEffect(() => {
@@ -80,7 +96,7 @@ const NavigationPage = ({ user }) => {
             user={user}
             onPlaceSelect={(place) => {
               setSelectedPlace(place);
-              setGalleryVisible(false); // Close gallery on new selection
+              setGalleryVisible(false);
             }}
           />
         ) : (
@@ -93,7 +109,7 @@ const NavigationPage = ({ user }) => {
         style={{
           position: "absolute",
           top: "20px",
-          left: "320px", // adjust depending on search box width
+          left: "320px",
           zIndex: 30,
         }}
       >

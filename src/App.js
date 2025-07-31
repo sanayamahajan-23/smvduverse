@@ -1,4 +1,3 @@
-// App.js
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SMVDUMap from "./components/SMVDUMap";
 import Globe from "./components/Globe";
@@ -9,6 +8,9 @@ import Restaurants from "./components/Restaurants";
 import Groceries from "./components/Groceries";
 import Medical from "./components/Medical";
 import SignIn from "./components/signin";
+
+import Signup from "./components/Signup";             // ✅ NEW
+import AdminDashboard from "./components/AdminDashboard"; // ✅ NEW
 
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
@@ -34,6 +36,10 @@ function App() {
         <Route path="/nearby/restaurants" element={<Restaurants />} />
         <Route path="/nearby/groceries" element={<Groceries />} />
         <Route path="/nearby/medical" element={<Medical />} />
+
+        {/* ✅ New Routes */}
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );
