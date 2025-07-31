@@ -163,7 +163,7 @@ const SearchBox = ({ mapRef, user, onPlaceSelect }) => {
     };
 
     if (coords?.lat && coords?.lng) {
-      mapRef.current.flyTo({ center: [coords.lng, coords.lat], zoom: 17 });
+      mapRef.current.setView([coords.lat, coords.lng], 17);
 
       if (!selected.isCoords) updateRecents(selected);
 
@@ -179,6 +179,7 @@ const SearchBox = ({ mapRef, user, onPlaceSelect }) => {
         onPlaceSelect?.(selected);
       }
     }
+
 
     setLoading(false);
   };

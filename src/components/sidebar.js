@@ -15,11 +15,17 @@ import {
   FaTimes,
 } from "react-icons/fa";
 
-const Sidebar = ({ onSearchLocation }) => {
+const Sidebar = ({ user, onSearchLocation }) => {
   const [activeTab, setActiveTab] = useState(null);
   const [showShareButton, setShowShareButton] = useState(false);
   const shareIconRef = useRef(null);
   const [buttonPosition, setButtonPosition] = useState({ top: 0 });
+  const handleRecentClick = (place) => {
+    if (onSearchLocation) {
+      onSearchLocation(place); // Pass to parent (SearchBox/Map/etc.)
+    }
+    setActiveTab(null); // Close panel after click (optional)
+  };
 
   const handleTabClick = (tab) => {
     if (tab === "share") {
@@ -66,7 +72,7 @@ const Sidebar = ({ onSearchLocation }) => {
   const renderPanel = () => {
     switch (activeTab) {
       case "recents":
-        return <Recents />;
+        return <Recents user={user} onSelectRecent={handleRecentClick} />;
       case "favorites":
         return <Favorites onSearchLocation={onSearchLocation} />;
       case "nearby":
@@ -119,10 +125,7 @@ const Sidebar = ({ onSearchLocation }) => {
       )}
 
       {activeTab && (
-        <div
-          className="side-panel1"
-
-        >
+        <div className="side-panel1">
           <button
             onClick={handleClosePanel}
             style={{

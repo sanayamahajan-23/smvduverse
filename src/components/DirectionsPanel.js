@@ -1,33 +1,38 @@
-// components/DirectionsPanel.js
+// DirectionsPanel.js
 import React, { useEffect, useState, useRef } from "react";
-import { FaTimes, FaSpinner, FaMicrophone } from "react-icons/fa";
-import { db } from "../firebase";
 import {
-  collection,
-  getDocs,
-  query,
-  orderBy,
-  limit,
-  addDoc,
-  serverTimestamp,
-} from "firebase/firestore";
-import mapboxgl from "mapbox-gl";
-import "./Searchbox.css";
+  FaTimes,
+  FaMicrophone,
+  FaListUl,
+  FaWalking,
+  FaBicycle,
+  FaCar,
+  FaPause,
+  FaPlay,
+} from "react-icons/fa";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+import L from "leaflet";
+import "leaflet-routing-machine";
 import "./DirectionsPanel.css";
+
 const DirectionsPanel = ({ mapRef, destination, onClose }) => {
   const [inputFrom, setInputFrom] = useState("");
   const [inputTo, setInputTo] = useState(destination || "");
   const [suggestionsFrom, setSuggestionsFrom] = useState([]);
   const [suggestionsTo, setSuggestionsTo] = useState([]);
   const [placesData, setPlacesData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [route, setRoute] = useState(null);
-  const [details, setDetails] = useState(null);
-  const [useLiveLocation, setUseLiveLocation] = useState(false);
   const [liveCoords, setLiveCoords] = useState(null);
-
+  const [showStepsPanel, setShowStepsPanel] = useState(false);
+  const routingControlRef = useRef(null);
+  const [steps, setSteps] = useState([]);
   const synthRef = useRef(window.speechSynthesis);
-  const lastStepSpokenRef = useRef(null);
+  const spokenStepIndex = useRef(0);
+  const [mode, setMode] = useState("foot");
+  const [distance, setDistance] = useState(null);
+  const [time, setTime] = useState(null);
+  const [eta, setEta] = useState(null);
+  const [speaking, setSpeaking] = useState(true);
 
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -45,113 +50,96 @@ const DirectionsPanel = ({ mapRef, destination, onClose }) => {
 
   useEffect(() => {
     if (!mapRef.current) return;
-    const geo = new mapboxgl.GeolocateControl({
-      positionOptions: { enableHighAccuracy: true },
-      trackUserLocation: true,
-      showAccuracyCircle: false,
-    });
-    mapRef.current.addControl(geo);
-    geo.on("geolocate", (pos) => {
-      const { latitude, longitude } = pos.coords;
-      setLiveCoords({ lat: latitude, lng: longitude });
-    });
-  }, [mapRef]);
+    const watchId = navigator.geolocation.watchPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords;
+        setLiveCoords({ lat: latitude, lng: longitude });
+        checkStepProximity(latitude, longitude);
+      },
+      (err) => console.error(err),
+      { enableHighAccuracy: true, maximumAge: 5000, timeout: 10000 }
+    );
+    return () => navigator.geolocation.clearWatch(watchId);
+  }, [steps]);
 
-  useEffect(() => {
-    if (inputFrom && inputTo) getRoute();
-  }, [inputFrom, inputTo]);
-
-  const speak = (text) => {
-    const utter = new SpeechSynthesisUtterance(text);
-    synthRef.current.cancel();
-    synthRef.current.speak(utter);
+  const checkStepProximity = (lat, lng) => {
+    if (!steps.length || !speaking) return;
+    const step = steps[spokenStepIndex.current];
+    if (!step) return;
+    const dx = step.lat - lat;
+    const dy = step.lng - lng;
+    const distance = Math.sqrt(dx * dx + dy * dy);
   };
 
-  const getRoute = async () => {
-    try {
-      const coordsFrom = parseCoords(inputFrom);
-      const coordsTo = parseCoords(inputTo);
-
-      if (!coordsFrom || !coordsTo) return;
-
-      const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${coordsFrom.lng},${coordsFrom.lat};${coordsTo.lng},${coordsTo.lat}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`;
-      const res = await fetch(url);
-      const data = await res.json();
-
-      const steps = data.routes[0].legs[0].steps;
-      setRoute(data.routes[0].geometry);
-      setDetails({
-        duration: data.routes[0].duration,
-        distance: data.routes[0].distance,
-        steps,
-      });
-
-      // Draw route
-      const map = mapRef.current;
-      if (map.getSource("route")) {
-        map.getSource("route").setData(data.routes[0].geometry);
-      } else {
-        map.addSource("route", {
-          type: "geojson",
-          data: data.routes[0].geometry,
-        });
-        map.addLayer({
-          id: "route",
-          type: "line",
-          source: "route",
-          paint: {
-            "line-color": "#3b9ddd",
-            "line-width": 6,
-          },
-        });
-      }
-
-      // Speak next step automatically on location change
-      if (steps.length > 0)
-        lastStepSpokenRef.current = steps[0].maneuver.instruction;
-      speak(`Route ready. ${steps[0].maneuver.instruction}`);
-    } catch (err) {
-      console.error("Route fetch error:", err);
-    }
-  };
-
+ 
   const parseCoords = (val) => {
     if (typeof val === "object") return val;
-    const match = val.match(/(-?\d+(\.\d+)?)[,\s]+(-?\d+(\.\d+)?)/);
-    if (match) {
-      return { lat: parseFloat(match[1]), lng: parseFloat(match[3]) };
-    }
-    const p = placesData.find((place) => place.name === val);
-    if (p) return { lat: p.lat, lng: p.lng };
-    return null;
-  };
-
-  const fetchSuggestions = async (val, setter) => {
-    if (!val.trim()) return setter([]);
-    const matched = placesData.filter((p) =>
-      p.name?.toLowerCase().includes(val.toLowerCase())
-    );
-    if (matched.length > 0) return setter(matched);
     const coordMatch = val.match(/(-?\d+(\.\d+)?)[,\s]+(-?\d+(\.\d+)?)/);
     if (coordMatch) {
-      const [lat, lng] = [parseFloat(coordMatch[1]), parseFloat(coordMatch[3])];
-      return setter([{ name: `Coordinates: ${lat}, ${lng}`, lat, lng }]);
+      return {
+        lat: parseFloat(coordMatch[1]),
+        lng: parseFloat(coordMatch[3]),
+      };
     }
-    try {
-      const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?q=${val}&format=json`
-      );
-      const data = await res.json();
-      setter(
-        data.map((d) => ({
-          name: d.display_name,
-          lat: parseFloat(d.lat),
-          lng: parseFloat(d.lon),
-        }))
-      );
-    } catch (err) {
-      console.error("Global place fetch error", err);
+    const place = placesData.find((p) => p.name === val);
+    return place ? { lat: place.lat, lng: place.lng } : null;
+  };
+
+  const fetchSuggestions = (val, setter) => {
+    if (!val.trim()) return setter([]);
+    const matches = placesData.filter((p) =>
+      p.name?.toLowerCase().includes(val.toLowerCase())
+    );
+    setter(matches);
+  };
+
+  const buildRoute = () => {
+    const from = parseCoords(inputFrom);
+    const to = parseCoords(inputTo);
+    if (!from || !to || !mapRef.current) return;
+
+    if (routingControlRef.current) {
+      mapRef.current.removeControl(routingControlRef.current);
     }
+
+    const control = L.Routing.control({
+      waypoints: [L.latLng(from.lat, from.lng), L.latLng(to.lat, to.lng)],
+      lineOptions: { styles: [{ color: "#007bff", weight: 5 }] },
+      router: L.Routing.osrmv1({ profile: mode }),
+      createMarker: () => null,
+      show: false,
+      addWaypoints: false,
+    })
+      .on("routesfound", (e) => {
+        const newSteps = [];
+        const route = e.routes[0];
+        setDistance((route.summary.totalDistance / 1000).toFixed(2));
+        setTime((route.summary.totalTime / 60).toFixed(1));
+        const arrival = new Date(Date.now() + route.summary.totalTime * 1000);
+        setEta(
+          arrival.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+        );
+
+        route.instructions.forEach((instr) => {
+          if (instr.latLng) {
+            newSteps.push({
+              instruction: instr.text,
+              lat: instr.latLng.lat,
+              lng: instr.latLng.lng,
+            });
+          }
+        });
+        setSteps(newSteps);
+        spokenStepIndex.current = 0;
+      })
+      .addTo(mapRef.current);
+
+    const container = document.querySelector(
+      ".leaflet-routing-container.leaflet-control"
+    );
+    if (container) container.style.display = "none";
+
+    routingControlRef.current = control;
   };
 
   return (
@@ -162,6 +150,7 @@ const DirectionsPanel = ({ mapRef, destination, onClose }) => {
           <FaTimes onClick={onClose} style={{ cursor: "pointer" }} />
         </div>
 
+        {/* From Input */}
         <div className="input-group">
           <input
             type="text"
@@ -174,8 +163,12 @@ const DirectionsPanel = ({ mapRef, destination, onClose }) => {
           />
           <button
             onClick={() => {
-              if (liveCoords)
-                setInputFrom(`${liveCoords.lat}, ${liveCoords.lng}`);
+              if (liveCoords) {
+                setInputFrom(
+                  `${liveCoords.lat.toFixed(6)}, ${liveCoords.lng.toFixed(6)}`
+                );
+                setSuggestionsFrom([]);
+              }
             }}
           >
             Use Live Location
@@ -183,7 +176,13 @@ const DirectionsPanel = ({ mapRef, destination, onClose }) => {
           {suggestionsFrom.length > 0 && (
             <ul className="suggestions-list">
               {suggestionsFrom.map((s, i) => (
-                <li key={i} onClick={() => setInputFrom(s.name)}>
+                <li
+                  key={i}
+                  onClick={() => {
+                    setInputFrom(s.name);
+                    setSuggestionsFrom([]);
+                  }}
+                >
                   {s.name}
                 </li>
               ))}
@@ -191,6 +190,7 @@ const DirectionsPanel = ({ mapRef, destination, onClose }) => {
           )}
         </div>
 
+        {/* To Input */}
         <div className="input-group">
           <input
             type="text"
@@ -204,32 +204,54 @@ const DirectionsPanel = ({ mapRef, destination, onClose }) => {
           {suggestionsTo.length > 0 && (
             <ul className="suggestions-list">
               {suggestionsTo.map((s, i) => (
-                <li key={i} onClick={() => setInputTo(s.name)}>
+                <li
+                  key={i}
+                  onClick={() => {
+                    setInputTo(s.name);
+                    setSuggestionsTo([]);
+                  }}
+                >
                   {s.name}
                 </li>
               ))}
             </ul>
           )}
         </div>
-
-        <button onClick={getRoute}>Start Navigation</button>
-      </div>
-
-      {details && (
-        <div className="directions-details-panel">
-          <h4>Route Details</h4>
-          <p>Duration: {(details.duration / 60).toFixed(1)} mins</p>
-          <p>Distance: {(details.distance / 1000).toFixed(2)} km</p>
-          <ul>
-            {details.steps.map((s, idx) => (
-              <li key={idx}>{s.maneuver.instruction}</li>
-            ))}
-          </ul>
-          <button onClick={() => speak(details.steps[0].maneuver.instruction)}>
-            <FaMicrophone /> Speak
-          </button>
+        {/* Mode buttons */}
+        <div className="mode-buttons">
+          {["foot", "bike", "car"].map((m) => (
+            <button
+              key={m}
+              className={mode === m ? "active" : ""}
+              onClick={() => {
+                setMode(m);
+                buildRoute();
+              }}
+            >
+              {m === "foot" ? (
+                <FaWalking />
+              ) : m === "bike" ? (
+                <FaBicycle />
+              ) : (
+                <FaCar />
+              )}
+            </button>
+          ))}
         </div>
-      )}
+        {/* Time / Distance / ETA */}
+        {distance && time && (
+          <div className="summary">
+            <strong>{distance} km</strong> | <strong>{time} min</strong> | ETA:{" "}
+            {eta}
+          </div>
+        )}
+
+        <div className="direction-buttons">
+          <button onClick={buildRoute}>Start Navigation</button>
+          
+         
+        </div>
+      </div>
     </div>
   );
 };
