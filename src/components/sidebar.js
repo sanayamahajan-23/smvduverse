@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import NearbyPlaces from "./NearbyPlaces";
 import Recents from "./Recents";
 import Favorites from "./Favorites";
+import AddPlaceForm from "./AddPlaceForm";
 import "./sidebar.css";
 import { useNavigate } from "react-router-dom";
-import { FaClock, FaStar, FaMapMarkerAlt, FaShareAlt } from "react-icons/fa";
+import { FaClock, FaStar, FaMapMarkerAlt, FaShareAlt , FaPlus} from "react-icons/fa";
 
 const Sidebar = ( { onSearchLocation }) => {
   const [activeTab, setActiveTab] = useState(null);
@@ -59,6 +60,8 @@ const Sidebar = ( { onSearchLocation }) => {
         return <Favorites  onSearchLocation={onSearchLocation}/>;
       case "nearby":
         return <NearbyPlaces />;
+      case "add":
+        return <AddPlaceForm />;
       default:
         return null;
     }
@@ -87,6 +90,9 @@ const Sidebar = ( { onSearchLocation }) => {
             className="share-icon"
           >
             <FaShareAlt className="icon" />
+          </button>
+          <button onClick={() => handleTabClick("add")} title="Add Place">
+            <FaPlus className="icon" />
           </button>
         </div>
       </div>
