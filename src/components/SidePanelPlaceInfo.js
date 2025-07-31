@@ -9,9 +9,18 @@ import {
 import { db } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import "./SidePanelPlaceInfo.css";
+import mapboxgl from "mapbox-gl";
 
-const SidePanelPlaceInfo = ({ place, user, onGalleryOpen, onClose,onDirections}) => {
+const SidePanelPlaceInfo = ({
+  place,
+  user,
+  onGalleryOpen,
+  onClose,
+  onDirections,
+  mapRef,
+}) => {
   const [placeInfo, setPlaceInfo] = useState(null);
+  const [marker, setMarker] = useState(null);
 
   useEffect(() => {
     if (place) setPlaceInfo(place);
@@ -45,7 +54,6 @@ const SidePanelPlaceInfo = ({ place, user, onGalleryOpen, onClose,onDirections})
       name: placeInfo.name,
     });
   };
-  
 
   if (!placeInfo) return null;
 

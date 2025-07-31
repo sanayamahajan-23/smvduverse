@@ -1,24 +1,30 @@
+// Updated NavigationPage.js
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
+import { useNavigate } from "react-router-dom";
 import SidePanel from "../components/sidebar";
 import SearchBox from "../components/Searchbox";
 import SignIn from "../components/signin";
 import SidePanelPlaceInfo from "../components/SidePanelPlaceInfo";
 import GalleryPanel from "../components/GalleryPanel";
 import DirectionsPanel from "../components/DirectionsPanel";
-import { FaDirections } from "react-icons/fa";
+import PhotoSphere from "../components/PhotoSphereBasic";
+import { FaDirections, FaArrowLeft } from "react-icons/fa";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 import { db } from "../firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
-// Mapbox Access Token
 mapboxgl.accessToken = "pk.eyJ1Ijoic2FuYXlhMTIzIiwiYSI6ImNtZDhpYTh1ZzAwbGsybHNiNjM5MmRwbHYifQ.AP29da_1J7sJ1g4pRP4F9Q";
 
-// Centered coordinates for SMVDU
 const smvduCoords = [74.95410062342953, 32.9422867698961];
 
 const NavigationPage = ({ user }) => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
+  const navigate = useNavigate();
+  const markerRef = useRef(null);
+
   const [showDirectionsPanel, setShowDirectionsPanel] = useState(false);
   const [destFromPanel, setDestFromPanel] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState(null);
@@ -39,8 +45,9 @@ const NavigationPage = ({ user }) => {
     };
     if (mapRef.current) fetchApprovedPlaces();
   }, []);
+  const [places, setPlaces] = useState([]);
+  const [photoSpherePlace, setPhotoSpherePlace] = useState(null);
 
-  // Initialize map on mount
   useEffect(() => {
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
@@ -50,25 +57,28 @@ const NavigationPage = ({ user }) => {
     });
 
     mapRef.current.addControl(new mapboxgl.NavigationControl(), "top-right");
-
     return () => mapRef.current.remove();
+  }, []);
+
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      const querySnapshot = await getDocs(collection(db, "places"));
+      const placeList = [];
+      querySnapshot.forEach((doc) => {
+        placeList.push({ id: doc.id, ...doc.data() });
+      });
+      setPlaces(placeList);
+    };
+    fetchPlaces();
   }, []);
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100vh" }}>
-      {/* Map Container */}
       <div
         ref={mapContainerRef}
-        style={{
-          position: "absolute",
-          top: 0,
-          bottom: 0,
-          right: 0,
-          left: 0,
-        }}
+        style={{ position: "absolute", top: 0, bottom: 0, right: 0, left: 0 }}
       />
 
-      {/* Sidebar */}
       <div
         style={{
           position: "absolute",
@@ -81,22 +91,58 @@ const NavigationPage = ({ user }) => {
         <SidePanel />
       </div>
 
-      {/* SearchBox */}
       <div
-        style={{
-          position: "absolute",
-          top: "20px",
-          left: "80px",
-          zIndex: 30,
-        }}
+        style={{ position: "absolute", top: "20px", left: "80px", zIndex: 30 }}
       >
         {user ? (
           <SearchBox
             mapRef={mapRef}
             user={user}
             onPlaceSelect={(place) => {
-              setSelectedPlace(place);
               setGalleryVisible(false);
+
+              const matched = places.find(
+                (p) =>
+                  p.id === place.id ||
+                  (p.name === place.name &&
+                    Math.abs(p.lat - place.lat) < 0.0008 &&
+                    Math.abs(p.lng - place.lng) < 0.0008)
+              );
+
+              const enrichedPlace = matched || place;
+              setSelectedPlace(enrichedPlace);
+
+              if (markerRef.current) markerRef.current.remove();
+
+              const el = document.createElement("div");
+              el.className = "mapbox-marker";
+              el.style.cursor = enrichedPlace.photo360
+                ? "pointer"
+                : "not-allowed";
+              el.style.width = "30px";
+              el.style.height = "40px";
+              el.style.backgroundImage =
+                "url('https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png')";
+              el.style.backgroundSize = "100%";
+
+              if (enrichedPlace.photo360) {
+                el.addEventListener("click", () => {
+                  setPhotoSpherePlace(enrichedPlace);
+                });
+              }
+
+              const marker = new mapboxgl.Marker(el)
+                .setLngLat([enrichedPlace.lng, enrichedPlace.lat])
+                .addTo(mapRef.current);
+              markerRef.current = marker;
+
+              mapRef.current.flyTo({
+                center: [enrichedPlace.lng, enrichedPlace.lat],
+                zoom: 17,
+              });
+
+              // do NOT open photosphere immediately
+              setPhotoSpherePlace(null);
             }}
           />
         ) : (
@@ -104,19 +150,21 @@ const NavigationPage = ({ user }) => {
         )}
       </div>
 
-      {/* Floating Directions Button */}
+      {/* Buttons beside the search box */}
       <div
         style={{
           position: "absolute",
-          top: "20px",
-          left: "320px",
+          top: "35px",
+          left: "450px", // Adjust as needed based on actual search box width
+          display: "flex",
+          gap: "10px",
           zIndex: 30,
         }}
       >
         <button
           style={{
             backgroundColor: "#fff",
-            padding: "8px 12px",
+            padding: "15px 12px",
             borderRadius: "6px",
             border: "1px solid #ccc",
             cursor: "pointer",
@@ -127,16 +175,43 @@ const NavigationPage = ({ user }) => {
           }}
           onClick={() => setShowDirectionsPanel(true)}
         >
-          <FaDirections size={16} />
-          Directions
+          <FaDirections size={20} />
+         
         </button>
       </div>
 
-      {/* Place Info Panel */}
+      {/* Back button aligned to top-right */}
+      <div
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "50px",
+          zIndex: 30,
+        }}
+      >
+        <button
+          style={{
+            backgroundColor: "#fff",
+            padding: "10px 14px",
+            borderRadius: "6px",
+            border: "1px solid #ccc",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+          }}
+          onClick={() => navigate("/smvdu-map")}
+        >
+          <FaArrowLeft size={16} style={{ marginRight: "6px" }} />
+        
+        </button>
+      </div>
+
       {selectedPlace && (
         <SidePanelPlaceInfo
           place={selectedPlace}
           user={user}
+          mapRef={mapRef}
           onGalleryOpen={(photos) => {
             setGalleryImages(photos);
             setGalleryVisible(true);
@@ -149,7 +224,6 @@ const NavigationPage = ({ user }) => {
         />
       )}
 
-      {/* Directions Panel */}
       {showDirectionsPanel && (
         <DirectionsPanel
           mapRef={mapRef}
@@ -158,11 +232,17 @@ const NavigationPage = ({ user }) => {
         />
       )}
 
-      {/* Gallery Panel */}
       {galleryVisible && galleryImages.length > 0 && (
         <GalleryPanel
           photos={galleryImages}
           onClose={() => setGalleryVisible(false)}
+        />
+      )}
+
+      {photoSpherePlace?.photo360 && (
+        <PhotoSphere
+          imageUrl={photoSpherePlace.photo360}
+          onClose={() => setPhotoSpherePlace(null)}
         />
       )}
     </div>
