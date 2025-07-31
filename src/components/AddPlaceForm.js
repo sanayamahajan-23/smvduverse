@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import { db, storage } from "../firebase"; // Your Firebase config file
+import { db } from "../firebase"; // Firebase Firestore config
 import { collection, addDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 import "./AddPlaceForm.css";
+
+// Cloudinary settings
+const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dkpetohjp/upload";
+const UPLOAD_PRESET = "places_upload";
 
 const AddPlaceForm = () => {
   const [formData, setFormData] = useState({
@@ -30,6 +34,16 @@ const AddPlaceForm = () => {
     }
   };
 
+  // Upload single image to Cloudinary
+  const uploadToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", UPLOAD_PRESET);
+
+    const res = await axios.post(CLOUDINARY_URL, formData);
+    return res.data.secure_url;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -41,24 +55,20 @@ const AddPlaceForm = () => {
       setUploading(true);
       setError("");
 
-      // Upload 360 photo (if any)
+      // Upload optional 360 photo
       let photo360Url = "";
       if (formData.photo360) {
-        const photo360Ref = ref(storage, `places/360/${uuidv4()}`);
-        await uploadBytes(photo360Ref, formData.photo360);
-        photo360Url = await getDownloadURL(photo360Ref);
+        photo360Url = await uploadToCloudinary(formData.photo360);
       }
 
-      // Upload multiple photos
+      // Upload all photos
       const photoUrls = [];
       for (let photo of formData.photos) {
-        const photoRef = ref(storage, `places/photos/${uuidv4()}`);
-        await uploadBytes(photoRef, photo);
-        const url = await getDownloadURL(photoRef);
+        const url = await uploadToCloudinary(photo);
         photoUrls.push(url);
       }
 
-      // Add to Firestore
+      // Save to Firestore
       await addDoc(collection(db, "places"), {
         name: formData.name,
         info: formData.info,
@@ -79,14 +89,14 @@ const AddPlaceForm = () => {
       });
     } catch (err) {
       console.error("Error adding place:", err);
-      setError("Something went wrong.");
+      setError("Something went wrong while uploading.");
     } finally {
       setUploading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ padding: "1rem", maxWidth: "500px", margin: "auto" }}>
+    <form onSubmit={handleSubmit} className="add-place-form">
       <h2>Add a New Place</h2>
 
       <input name="name" type="text" placeholder="Place Name" required onChange={handleChange} value={formData.name} />
