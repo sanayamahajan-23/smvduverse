@@ -1,0 +1,109 @@
+.side-panel {
+  position: fixed;
+  top: 0;
+  left: 101px;
+  width: 350px;
+  height: 100vh;
+  background: white;
+  box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 0; /* Removed padding to ensure full-width image */
+  z-index: 500;
+  transition: width 0.3s ease-in-out;
+}
+
+/* Expand Panel When Gallery is Open */
+.side-panel.expanded {
+  width: 450px;
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Image & Gallery */
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 220px; /* Increased height */
+}
+
+.place-image,
+.placeholder-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Grey background when no image */
+.placeholder-image {
+  background: #ddd;
+}
+
+/* Gallery Button */
+.gallery-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: white;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Title */
+.place-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 15px;
+  text-align: center;
+}
+
+/* Buttons */
+.button-container {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 15px;
+}
+
+.side-btn {
+  display: flex;
+  flex-direction: column; /* Stacks text below icon */
+  align-items: center;
+  border: none;
+  background: none;
+  color: #007bff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.side-btn:hover {
+  color: #0056b3;
+}
+
+.side-btn svg {
+  font-size: 24px;
+}
+/* Place Info */
+.place-info {
+  margin-top: 20px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 5px;
+}
+
+.place-info h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}

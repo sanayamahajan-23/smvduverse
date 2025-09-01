@@ -1,0 +1,56 @@
+.recent-sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px; /* Start off-screen */
+    width: 300px;
+    height: 100%;
+    background: #f4f4f4;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    transition: right 0.3s ease-in-out; /* Smooth transition */
+    overflow-y: auto;
+    z-index: 10;
+  }
+  
+  .recent-sidebar.open {
+    left: 100px; /* Slide in */
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 11;
+  }
+  
+  h2 {
+    margin-top: 70px;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+    cursor: pointer;
+  }
+  
+  li:last-child {
+    border-bottom: none;
+  }
+  
+  li:hover {
+    color: #4caf50;
+  }
+  

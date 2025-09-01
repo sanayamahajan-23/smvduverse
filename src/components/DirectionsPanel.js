@@ -1,3 +1,4 @@
+
 // DirectionsPanel.js
 import React, { useEffect, useState, useRef } from "react";
 import {
@@ -252,6 +253,7 @@ const DirectionsPanel = ({ mapRef, destination, onClose }) => {
          
         </div>
       </div>
+
     </div>
   );
 };

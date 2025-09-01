@@ -1,3 +1,160 @@
+/* Floating Navigation Button */
+.nav-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-button:hover {
+  background: #0056b3;
+  transform: scale(1.1);
+}
+
+.nav-icon {
+  font-size: 20px;
+}
+
+/* Popup Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Popup Content */
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.3s ease-in-out;
+}
+
+/* Popup Content - Ensure Full Width */
+.popup-content {
+  width: 90%;
+  max-width: 350px; /* Adjust size if needed */
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center; /* Keep text centered */
+  position: relative;
+}
+
+/* Navigation Header - Flexbox to Align Title & Button */
+.navigation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; /* Ensure full width */
+  margin-bottom: 10px;
+}
+
+/* Ensure Title & Close Button Have Proper Alignment */
+.popup-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  flex-grow: 1; /* Pushes the title to take up available space */
+  text-align: left; /* Align title to the left */
+}
+
+/* Close Button Styling */
+.pop-close-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.3s ease-in-out;
+}
+
+.pop-close-btn:hover {
+  color: #000;
+}
+
+/* Start Navigation Button */
+.start-nav-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.start-nav-btn:hover {
+  background: #218838;
+  transform: scale(1.05);
+}
+
+.btn-icon {
+  font-size: 18px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.3s ease-in-out;
+}
+
+.close-btn:hover {
+  color: #000;
+}
+
 .zoom-controls {
   position: fixed;
   bottom: 20px;

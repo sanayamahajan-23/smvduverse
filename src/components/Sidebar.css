@@ -1,0 +1,114 @@
+/* Sidebar styling */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 100vh;
+  background: white;
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  gap: 15px;
+  z-index: 1000;
+}
+
+/* Buttons */
+.sidebar-btn {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  width: 100%;
+  transition: background 0.2s;
+}
+
+.sidebar-btn:hover {
+  background: #f0f0f0;
+  border-radius: 5px;
+}
+
+/* Live Location Dialog */
+.live-location-container {
+  position: relative;
+}
+
+/* Share Button Popup */
+.share-box {
+  position: absolute;
+  left: 70px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 8px;
+  display: none;
+  white-space: nowrap;
+  z-index: 1001;
+}
+
+.live-location-container:hover .share-box {
+  display: block;
+}
+
+/* Share Button */
+.share-btn {
+  background: #25d366;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Location Disabled Popup */
+.location-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  text-align: center;
+  width: 350px;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Text inside the popup */
+.location-popup p {
+  flex: 1;  /* Allows text to take most space */
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Close button (aligned to top-right) */
+.close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: red;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+

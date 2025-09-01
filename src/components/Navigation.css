@@ -1,0 +1,40 @@
+.navigation-container {
+  position: fixed; /* Change from relative to fixed */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* Prevents extra scrolling */
+}
+#map {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* Keep it behind other UI elements */
+}
+.back-button-container {
+  position: fixed;
+  top: 20px;
+  right: 10px;
+  z-index: 1000; /* Ensure it's above other elements */
+}
+
+.back-button {
+  position: fixed ;
+  top: 55px;
+  right: 10px;
+  z-index: 100 ;
+  padding: 2.5px ;
+  font-size: 25px ;
+  background-color: white;
+  color: white ;
+  display: block ;
+  border: none ;
+  outline: none ;
+}
+
+.back-button:hover {
+  background-color: #818181;
+}
