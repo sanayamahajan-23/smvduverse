@@ -1,0 +1,293 @@
+[debug] [2025-05-10T14:36:29.582Z] ----------------------------------------------------------------------
+[debug] [2025-05-10T14:36:29.586Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\HP\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-05-10T14:36:29.586Z] CLI Version:   14.3.1
+[debug] [2025-05-10T14:36:29.586Z] Platform:      win32
+[debug] [2025-05-10T14:36:29.587Z] Node Version:  v20.18.0
+[debug] [2025-05-10T14:36:29.587Z] Time:          Sat May 10 2025 20:06:29 GMT+0530 (India Standard Time)
+[debug] [2025-05-10T14:36:29.587Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-05-10T14:36:29.595Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-05-10T14:36:29.596Z] > authorizing via signed-in user (monagupta9086287092@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\HP\OneDrive\Desktop\smvdu\smvduverse
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-05-10T14:37:05.180Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:37:05.181Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:37:05.186Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2025-05-10T14:37:06.052Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-05-10T14:37:06.052Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] i  Using project smvduverse-30afd (smvduverse) 
+[info] 
+=== Dataconnect Setup
+[debug] [2025-05-10T14:37:08.291Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:37:08.291Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:37:08.292Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/smvduverse-30afd/billingInfo [none]
+[debug] [2025-05-10T14:37:09.904Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/smvduverse-30afd/billingInfo 200
+[debug] [2025-05-10T14:37:09.905Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/smvduverse-30afd/billingInfo {"name":"projects/smvduverse-30afd/billingInfo","projectId":"smvduverse-30afd","billingAccountName":"","billingEnabled":false}
+[info] i  dataconnect: ensuring required API sqladmin.googleapis.com is enabled... 
+[debug] [2025-05-10T14:37:09.906Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:37:09.906Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:37:09.906Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/sqladmin.googleapis.com [none]
+[debug] [2025-05-10T14:37:09.906Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/sqladmin.googleapis.com x-goog-quota-user=projects/smvduverse-30afd
+[debug] [2025-05-10T14:37:11.741Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/sqladmin.googleapis.com 200
+[debug] [2025-05-10T14:37:11.741Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/sqladmin.googleapis.com [omitted]
+[warn] !  dataconnect: missing required API sqladmin.googleapis.com. Enabling now... 
+[debug] [2025-05-10T14:37:11.742Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:37:11.742Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:37:11.743Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/sqladmin.googleapis.com:enable [none]
+[debug] [2025-05-10T14:37:11.743Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/sqladmin.googleapis.com:enable x-goog-quota-user=projects/smvduverse-30afd
+[debug] [2025-05-10T14:37:12.494Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/sqladmin.googleapis.com:enable 200
+[debug] [2025-05-10T14:37:12.495Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/sqladmin.googleapis.com:enable [omitted]
+[debug] [2025-05-10T14:37:22.500Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:37:22.500Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:37:22.500Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/sqladmin.googleapis.com [none]
+[debug] [2025-05-10T14:37:22.500Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/sqladmin.googleapis.com x-goog-quota-user=projects/smvduverse-30afd
+[debug] [2025-05-10T14:37:24.375Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/sqladmin.googleapis.com 200
+[debug] [2025-05-10T14:37:24.375Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/sqladmin.googleapis.com [omitted]
+[info] +  dataconnect: required API sqladmin.googleapis.com is enabled 
+[info] +  Wrote dataconnect\dataconnect.yaml 
+[info] +  Wrote dataconnect\schema\schema.gql 
+[info] +  Wrote dataconnect\connector\connector.yaml 
+[info] +  Wrote dataconnect\connector\queries.gql 
+[info] +  Wrote dataconnect\connector\mutations.gql 
+[info] +  Detected WEB app in directory C:\Users\HP\OneDrive\Desktop\smvdu\smvduverse 
+[info] i  Detected react app. Enabling react generated SDKs. 
+[info] i  Writing your new SDK configuration to C:\Users\HP\OneDrive\Desktop\smvdu\smvduverse\dataconnect\connector/connector.yaml 
+[info] +  Wrote dataconnect\connector\connector.yaml 
+[info] i  dataconnect: downloading dataconnect-emulator-2.5.0.exe... {"metadata":{"emulator":{"name":"dataconnect"},"message":"downloading dataconnect-emulator-2.5.0.exe..."}}
+[debug] [2025-05-10T14:37:35.680Z] >>> [apiv2][query] GET https://storage.googleapis.com/firemat-preview-drop/emulator/dataconnect-emulator-windows-v2.5.0 
+[debug] [2025-05-10T14:37:36.128Z] <<< [apiv2][status] GET https://storage.googleapis.com/firemat-preview-drop/emulator/dataconnect-emulator-windows-v2.5.0 200
+[debug] [2025-05-10T14:37:36.128Z] <<< [apiv2][body] GET https://storage.googleapis.com/firemat-preview-drop/emulator/dataconnect-emulator-windows-v2.5.0 [stream]
+[debug] [2025-05-10T14:37:45.047Z] defaultcredentials: writing to file C:\Users\HP\AppData\Roaming\firebase\monagupta9086287092_gmail_com_application_default_credentials.json
+[debug] [2025-05-10T14:37:45.051Z] Setting GAC to C:\Users\HP\AppData\Roaming\firebase\monagupta9086287092_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"dataconnect"},"message":"Setting GAC to C:\\Users\\HP\\AppData\\Roaming\\firebase\\monagupta9086287092_gmail_com_application_default_credentials.json"}}
+[info] I0510 20:07:45.364125    4240 codegen.go:82] [connector "default" javascriptSdk] Generating sources into "C:\\Users\\HP\\OneDrive\\Desktop\\smvdu\\smvduverse\\dataconnect-generated\\js\\default-connector"
+I0510 20:07:45.374289    4240 generate.go:40] Generated all sources. Writing them to disk...
+I0510 20:07:45.389512    4240 collector.go:107] connector "default" javascriptSdk wrote into "C:\\Users\\HP\\OneDrive\\Desktop\\smvdu\\smvduverse\\dataconnect-generated\\js\\default-connector"
+Generated sources: README.md [2774B] react\index.d.ts [228B] react\esm\package.json [17B] react\esm\index.esm.js [0B] index.d.ts [246B] esm\package.json [17B] index.cjs.js [148B] package.json [860B] react\README.md [5357B] esm\index.esm.js [113B] react\package.json [468B] react\index.cjs.js [0B] 
+I0510 20:07:45.440427    4240 installsdk.go:80] Running command: C:\Program Files\nodejs\npm.cmd install file:dataconnect-generated\js\default-connector
+
+[info] i  Generated SDK code for default 
+[info] i  Visit https://firebase.google.com/docs/data-connect/web-sdk#react for more information on how to set up React Generated SDKs for Firebase Data Connect 
+[info] +  If you'd like to add more generated SDKs to your app your later, run firebase init dataconnect:sdk again 
+[info] i  If you'd like to provision a CloudSQL Postgres instance on the Firebase Data Connect no-cost trial:
+1. Please upgrade to the pay-as-you-go (Blaze) billing plan. Visit the following page:
+     https://console.firebase.google.com/project/smvduverse-30afd/usage/details
+2. Run firebase init dataconnect again to configure the Cloud SQL instance.
+3. Run firebase deploy --only dataconnect to deploy your Data Connect service. 
+[info] 
+=== Firestore Setup
+[debug] [2025-05-10T14:38:02.016Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:02.016Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:02.017Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/firestore.googleapis.com [none]
+[debug] [2025-05-10T14:38:02.017Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/firestore.googleapis.com x-goog-quota-user=projects/smvduverse-30afd
+[debug] [2025-05-10T14:38:03.835Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/firestore.googleapis.com 200
+[debug] [2025-05-10T14:38:03.835Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/firestore.googleapis.com [omitted]
+[debug] [2025-05-10T14:38:03.836Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:03.836Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:03.836Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/smvduverse-30afd/databases/(default) [none]
+[debug] [2025-05-10T14:38:04.059Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/smvduverse-30afd/databases/(default) 200
+[debug] [2025-05-10T14:38:04.059Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/smvduverse-30afd/databases/(default) {"name":"projects/smvduverse-30afd/databases/(default)","uid":"4ead57b1-54bf-4803-9ae3-c04d535ee4ab","createTime":"2025-05-10T14:19:43.639715Z","updateTime":"2025-05-10T14:19:43.639715Z","locationId":"asia-south2","type":"FIRESTORE_NATIVE","concurrencyMode":"PESSIMISTIC","versionRetentionPeriod":"3600s","earliestVersionTime":"2025-05-10T14:19:43.639715Z","appEngineIntegrationMode":"DISABLED","pointInTimeRecoveryEnablement":"POINT_IN_TIME_RECOVERY_DISABLED","deleteProtectionState":"DELETE_PROTECTION_DISABLED","databaseEdition":"STANDARD","freeTier":true,"etag":"ILfJib+QmY0DMKPBzrGMmY0D"}
+[debug] [2025-05-10T14:38:04.059Z] database_type: FIRESTORE_NATIVE
+[debug] [2025-05-10T14:38:04.059Z] database_type: FIRESTORE_NATIVE
+[debug] [2025-05-10T14:38:04.060Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-05-10T14:38:04.060Z] > authorizing via signed-in user (monagupta9086287092@gmail.com)
+[debug] [2025-05-10T14:38:04.060Z] [iam] checking project smvduverse-30afd for permissions ["firebase.projects.get"]
+[debug] [2025-05-10T14:38:04.060Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:04.060Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:04.061Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/smvduverse-30afd:testIamPermissions [none]
+[debug] [2025-05-10T14:38:04.061Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/smvduverse-30afd:testIamPermissions x-goog-quota-user=projects/smvduverse-30afd
+[debug] [2025-05-10T14:38:04.061Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/smvduverse-30afd:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-05-10T14:38:05.653Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/smvduverse-30afd:testIamPermissions 200
+[debug] [2025-05-10T14:38:05.653Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/smvduverse-30afd:testIamPermissions {"permissions":["firebase.projects.get"]}
+[info] 
+[info] Firestore Security Rules allow you to define how and when to allow
+[info] requests. You can keep these rules in your project directory
+[info] and publish them with firebase deploy.
+[info] 
+[debug] [2025-05-10T14:38:17.958Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:17.958Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:17.958Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/smvduverse-30afd/releases pageSize=10&pageToken=
+[debug] [2025-05-10T14:38:18.748Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/smvduverse-30afd/releases 200
+[debug] [2025-05-10T14:38:18.748Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/smvduverse-30afd/releases {"releases":[{"name":"projects/smvduverse-30afd/releases/cloud.firestore","rulesetName":"projects/smvduverse-30afd/rulesets/53c43754-1219-4900-aa04-b6e25df4a2c9","createTime":"2025-05-10T14:19:53.428980Z","updateTime":"2025-05-10T14:19:53.428980Z"}]}
+[debug] [2025-05-10T14:38:18.748Z] Found ruleset: projects/smvduverse-30afd/rulesets/53c43754-1219-4900-aa04-b6e25df4a2c9
+[debug] [2025-05-10T14:38:18.749Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:18.749Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:18.749Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/smvduverse-30afd/rulesets/53c43754-1219-4900-aa04-b6e25df4a2c9 [none]
+[debug] [2025-05-10T14:38:20.120Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/smvduverse-30afd/rulesets/53c43754-1219-4900-aa04-b6e25df4a2c9 200
+[debug] [2025-05-10T14:38:20.120Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/smvduverse-30afd/rulesets/53c43754-1219-4900-aa04-b6e25df4a2c9 [omitted]
+[info] 
+[info] Firestore indexes allow you to perform complex queries while
+[info] maintaining performance that scales with the size of the result
+[info] set. You can keep index definitions in your project directory
+[info] and publish them with firebase deploy.
+[info] 
+[debug] [2025-05-10T14:38:25.613Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:25.613Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:25.613Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:25.613Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:25.613Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/smvduverse-30afd/databases/(default)/collectionGroups/-/indexes [none]
+[debug] [2025-05-10T14:38:25.615Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/smvduverse-30afd/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* [none]
+[debug] [2025-05-10T14:38:25.904Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/smvduverse-30afd/databases/(default)/collectionGroups/-/indexes 200
+[debug] [2025-05-10T14:38:25.904Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/smvduverse-30afd/databases/(default)/collectionGroups/-/indexes {}
+[debug] [2025-05-10T14:38:26.086Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/smvduverse-30afd/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* 200
+[debug] [2025-05-10T14:38:26.086Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/smvduverse-30afd/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* {"fields":[{"name":"projects/smvduverse-30afd/databases/(default)/collectionGroups/__default__/fields/*","indexConfig":{"indexes":[{"queryScope":"COLLECTION","fields":[{"fieldPath":"*","order":"ASCENDING"}],"state":"READY"},{"queryScope":"COLLECTION","fields":[{"fieldPath":"*","order":"DESCENDING"}],"state":"READY"},{"queryScope":"COLLECTION","fields":[{"fieldPath":"*","arrayConfig":"CONTAINS"}],"state":"READY"}]}}]}
+[info] 
+=== Genkit Setup
+[debug] [2025-05-10T14:38:38.028Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-05-10T14:38:38.029Z] > authorizing via signed-in user (monagupta9086287092@gmail.com)
+[debug] [2025-05-10T14:38:38.029Z] [iam] checking project smvduverse-30afd for permissions ["firebase.projects.get"]
+[debug] [2025-05-10T14:38:38.029Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:38.029Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:38.029Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/smvduverse-30afd:testIamPermissions [none]
+[debug] [2025-05-10T14:38:38.029Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/smvduverse-30afd:testIamPermissions x-goog-quota-user=projects/smvduverse-30afd
+[debug] [2025-05-10T14:38:38.029Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/smvduverse-30afd:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-05-10T14:38:39.578Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/smvduverse-30afd:testIamPermissions 200
+[debug] [2025-05-10T14:38:39.578Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/smvduverse-30afd:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-05-10T14:38:39.578Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:39.578Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:39.578Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:39.579Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:39.579Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-05-10T14:38:39.579Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/smvduverse-30afd
+[debug] [2025-05-10T14:38:39.581Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/runtimeconfig.googleapis.com [none]
+[debug] [2025-05-10T14:38:39.582Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/smvduverse-30afd
+[debug] [2025-05-10T14:38:41.403Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/runtimeconfig.googleapis.com 200
+[debug] [2025-05-10T14:38:41.403Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2025-05-10T14:38:41.421Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/cloudfunctions.googleapis.com 200
+[debug] [2025-05-10T14:38:41.421Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/cloudfunctions.googleapis.com [omitted]
+[debug] [2025-05-10T14:38:41.421Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:41.421Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:41.421Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/cloudfunctions.googleapis.com:enable [none]
+[debug] [2025-05-10T14:38:41.421Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/cloudfunctions.googleapis.com:enable x-goog-quota-user=projects/smvduverse-30afd
+[debug] [2025-05-10T14:38:41.983Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/cloudfunctions.googleapis.com:enable 200
+[debug] [2025-05-10T14:38:41.983Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/cloudfunctions.googleapis.com:enable [omitted]
+[debug] [2025-05-10T14:38:51.984Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:51.984Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:38:51.985Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-05-10T14:38:51.985Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/smvduverse-30afd
+[debug] [2025-05-10T14:38:53.864Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/cloudfunctions.googleapis.com 200
+[debug] [2025-05-10T14:38:53.865Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/cloudfunctions.googleapis.com [omitted]
+[info] Let's create a new codebase for your functions.
+[info] A directory corresponding to the codebase will be created in your project
+[info] with sample code pre-configured.
+
+[info] See https://firebase.google.com/docs/functions/organize-functions for
+[info] more information on organizing your functions using codebases.
+
+[info] Functions can be deployed with firebase deploy.
+
+[info] +  Wrote functions/package.json 
+[info] +  Wrote functions/.eslintrc.js 
+[info] +  Wrote functions/tsconfig.dev.json 
+[info] +  Wrote functions/tsconfig.json 
+[info] +  Wrote functions/src/index.ts 
+[info] +  Wrote functions/.gitignore 
+[info] 
+[info] i  genkit: Installing Genkit CLI version 1.8.0
+ 
+[info] i  genkit: Installing NPM packages for genkit 
+[info] +  genkit: Successfully installed NPM packages 
+[info] i  genkit: Updating tsconfig.json 
+[info] +  genkit: Successfully updated tsconfig.json 
+[info] i  genkit: Updating package.json 
+[info] +  genkit: Successfully updated package.json 
+[info] i  genkit: Generating sample file 
+[info] +  genkit: Successfully generated sample file (src/genkit-sample.ts) 
+[info] 
+[info] 
+Login to Google Cloud using:
+[info]     gcloud auth application-default login --project smvduverse-30afd
+
+[info] Then start the Genkit developer experience by running:
+[info]     cd functions && npm run genkit:start
+[info] 
+=== Functions Setup
+[debug] [2025-05-10T14:41:54.786Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-05-10T14:41:54.786Z] > authorizing via signed-in user (monagupta9086287092@gmail.com)
+[debug] [2025-05-10T14:41:54.786Z] [iam] checking project smvduverse-30afd for permissions ["firebase.projects.get"]
+[debug] [2025-05-10T14:41:54.786Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:41:54.786Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:41:54.787Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/smvduverse-30afd:testIamPermissions [none]
+[debug] [2025-05-10T14:41:54.787Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/smvduverse-30afd:testIamPermissions x-goog-quota-user=projects/smvduverse-30afd
+[debug] [2025-05-10T14:41:54.787Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/smvduverse-30afd:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-05-10T14:41:56.306Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/smvduverse-30afd:testIamPermissions 200
+[debug] [2025-05-10T14:41:56.306Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/smvduverse-30afd:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-05-10T14:41:56.306Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:41:56.306Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:41:56.307Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:41:56.307Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:41:56.307Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-05-10T14:41:56.307Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/smvduverse-30afd
+[debug] [2025-05-10T14:41:56.309Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/runtimeconfig.googleapis.com [none]
+[debug] [2025-05-10T14:41:56.309Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/smvduverse-30afd
+[debug] [2025-05-10T14:41:58.094Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/runtimeconfig.googleapis.com 200
+[debug] [2025-05-10T14:41:58.094Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2025-05-10T14:41:58.105Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/cloudfunctions.googleapis.com 200
+[debug] [2025-05-10T14:41:58.105Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/smvduverse-30afd/services/cloudfunctions.googleapis.com [omitted]
+[info] 
+Detected existing codebase(s): default
+
+[info] Let's create a new codebase for your functions.
+[info] A directory corresponding to the codebase will be created in your project
+[info] with sample code pre-configured.
+
+[info] See https://firebase.google.com/docs/functions/organize-functions for
+[info] more information on organizing your functions using codebases.
+
+[info] Functions can be deployed with firebase deploy.
+
+[info] +  Wrote smvduverse/package.json 
+[info] +  Wrote smvduverse/.eslintrc.js 
+[info] +  Wrote smvduverse/index.js 
+[info] +  Wrote smvduverse/.gitignore 
+[info] 
+=== Apphosting Setup
+[debug] [2025-05-10T14:42:42.861Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:42:42.865Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:42:42.865Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/smvduverse-30afd/billingInfo [none]
+[debug] [2025-05-10T14:42:44.347Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/smvduverse-30afd/billingInfo 200
+[debug] [2025-05-10T14:42:44.348Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/smvduverse-30afd/billingInfo {"name":"projects/smvduverse-30afd/billingInfo","projectId":"smvduverse-30afd","billingAccountName":"","billingEnabled":false}
+[info] i  Writing default settings to apphosting.yaml... 
+[info] +  Wrote apphosting.yaml 
+[info] +  Create a new App Hosting backend with `firebase apphosting:backends:create` 
+[info] 
+=== Hosting Setup
+[debug] [2025-05-10T14:42:44.357Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:42:44.357Z] Checked if tokens are valid: true, expires at: 1746891324027
+[debug] [2025-05-10T14:42:44.358Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/smvduverse-30afd [none]
+[debug] [2025-05-10T14:42:45.066Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/smvduverse-30afd 200
+[debug] [2025-05-10T14:42:45.066Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/smvduverse-30afd {"projectId":"smvduverse-30afd","projectNumber":"797186744914","displayName":"smvduverse","name":"projects/smvduverse-30afd","resources":{"hostingSite":"smvduverse-30afd"},"state":"ACTIVE","etag":"1_3d06774d-7c29-45de-ad92-500ce87ee273"}
+[info] 
+[info] Your public directory is the folder (relative to your project directory) that
+[info] will contain Hosting assets to be uploaded with firebase deploy. If you
+[info] have a build process for your assets, use your build's output directory.
+[info] 
+[debug] [2025-05-10T14:51:14.045Z] >>> [apiv2][query] GET https://www.gstatic.com/firebasejs/releases.json [none]
+[debug] [2025-05-10T14:51:14.115Z] <<< [apiv2][status] GET https://www.gstatic.com/firebasejs/releases.json 200
+[debug] [2025-05-10T14:51:14.115Z] <<< [apiv2][body] GET https://www.gstatic.com/firebasejs/releases.json {"current":{"version":"11.7.1","browserURL":"https://www.gstatic.com/firebasejs/11.7.1/firebase.js","packageURL":"https://www.gstatic.com/firebasejs/11.7.1/firebase.tgz"},"live":{"version":"11.7","browserURL":"https://www.gstatic.com/firebasejs/live/11.7/firebase.js","packageURL":"https://www.gstatic.com/firebasejs/live/11.7/firebase.tgz"},"components":{"analytics":"https://www.gstatic.com/firebasejs/11.7.1/firebase-analytics.js","app":"https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js","app-check":"https://www.gstatic.com/firebasejs/11.7.1/firebase-app-check.js","auth":"https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js","auth/cordova":"https://www.gstatic.com/firebasejs/11.7.1/firebase-auth/cordova.js","auth/web-extension":"https://www.gstatic.com/firebasejs/11.7.1/firebase-auth/web-extension.js","functions":"https://www.gstatic.com/firebasejs/11.7.1/firebase-functions.js","firestore":"https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js","firestore/lite":"https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore/lite.js","installations":"https://www.gstatic.com/firebasejs/11.7.1/firebase-installations.js","storage":"https://www.gstatic.com/firebasejs/11.7.1/firebase-storage.js","performance":"https://www.gstatic.com/firebasejs/11.7.1/firebase-performance.js","remote-config":"https://www.gstatic.com/firebasejs/11.7.1/firebase-remote-config.js","messaging":"https://www.gstatic.com/firebasejs/11.7.1/firebase-messaging.js","messaging/sw":"https://www.gstatic.com/firebasejs/11.7.1/firebase-messaging/sw.js","database":"https://www.gstatic.com/firebasejs/11.7.1/firebase-database.js","vertexai":"https://www.gstatic.com/firebasejs/11.7.1/firebase-vertexai.js","data-connect":"https://www.gstatic.com/firebasejs/11.7.1/firebase-data-connect.js","firestore.memory":"https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.memory.js"}}
+[debug] [2025-05-10T14:51:14.312Z] Error: ENOTDIR: not a directory, scandir 'C:\Users\HP\OneDrive\Desktop\smvdu\smvduverse\y'
+    at Object.readdirSync (node:fs:1506:26)
+    at Object.createFileSync (C:\Users\HP\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\fs-extra\lib\ensure\file.js:55:10)
+    at Config.writeProjectFile (C:\Users\HP\AppData\Roaming\npm\node_modules\firebase-tools\lib\config.js:162:12)
+    at Config.askWriteProjectFile (C:\Users\HP\AppData\Roaming\npm\node_modules\firebase-tools\lib\config.js:191:18)
+    at doSetup (C:\Users\HP\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\features\hosting\index.js:156:22)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async init (C:\Users\HP\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\index.js:41:9)
+    at async Command.initAction [as actionFn] (C:\Users\HP\AppData\Roaming\npm\node_modules\firebase-tools\lib\commands\init.js:187:5)
+[error] 
+[error] Error: An unexpected error has occurred.

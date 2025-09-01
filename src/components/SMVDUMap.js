@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./CloudTransition.css";
 import "./SMVDUMap.css";
 import Hotspot from "./Hotspot";
@@ -26,6 +29,27 @@ const SMVDUMap = () => {
   const [cloudAnimationDone, setCloudAnimationDone] = useState(false);
 
   const mapRef = useRef(null);
+  const navigate = useNavigate();
+  const [showNavPopup, setShowNavPopup] = useState(false);
+  useEffect(() => {
+    if (shouldReveal) {
+        setShowNavPopup(true);
+
+        
+    }
+  }, [shouldReveal]);
+
+  const handleNavigate = () => {
+    navigate("/navigate");
+  };
+
+  const handleNavigationClick = () => {
+    handleNavigate();
+  };
+
+  const handleClosePopup = () => {
+    setShowNavPopup(false);
+  };
   const hotspots = [
     {
       id: 1,
@@ -63,6 +87,7 @@ const SMVDUMap = () => {
         { id: "c", latitude: 10, longitude: 0, label: "Exit" },
       ],
     },
+    // `${process.env.PUBLIC_URL}/assets/nearby places/sanjeevni.jpeg`
     {
       id: 3,
       x: 1070,
@@ -1323,6 +1348,94 @@ const SMVDUMap = () => {
           />
         </>
       )}
+      {isLoaded && !selectedPhoto && (
+        <button
+          className="navigation-button"
+          onClick={handleNavigationClick}
+          style={{
+            position: "absolute",
+            bottom: "20px",
+            right: "20px",
+            zIndex: 1000,
+            padding: "10px 20px",
+            backgroundColor: "#4285F4",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            fontSize: "16px",
+            fontWeight: "bold",
+          }}
+        >
+          Navigation
+        </button>
+      )}
+
+      {/* Navigation Popup */}
+      {showNavPopup && (
+        <div
+          className="nav-popup"
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "white",
+            padding: "20px",
+            borderRadius: "10px",
+            boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+            zIndex: 2000,
+            width: "300px",
+            textAlign: "center",
+          }}
+        >
+          <h3>Explore SMVDU</h3>
+          <p>Would you like to use the navigation system?</p>
+          <div
+            style={{ display: "flex", justifyContent: "center", gap: "10px" }}
+          >
+            <button
+              onClick={handleNavigationClick}
+              style={{
+                padding: "8px 16px",
+                backgroundColor: "#4285F4",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
+              Yes, Navigate
+            </button>
+            <button
+              onClick={handleClosePopup}
+              style={{
+                padding: "8px 16px",
+                backgroundColor: "#f44336",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
+              Not Now
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Toast Container (add this once at the root) */}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

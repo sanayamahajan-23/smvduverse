@@ -1,165 +1,126 @@
-/* Ensure HTML and Body Cover Full Viewport */
-html,
-body,
-#root {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-}
 
-/* Fullscreen Map */
-.fullscreen-map {
-  position: fixed;
+.directions-panel-container {
+  position: absolute;
   top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  border: none;
-  z-index: 1; /* Behind the side panel */
+  left: 60px;
+  width: 360px;
+  height: 100%;
+  background: white;
+  z-index: 3000;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  display: flex;
+  flex-direction: column;
 }
 
 .directions-panel {
-  position: fixed;
-  top: 0;
-  left:101px;
-  width: 350px;
-  height: 100vh;
-  background: white;
-  box-shadow: -3px 0 5px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  overflow-y: auto;
-  padding: 20px;
-}
-
-/* Close Button */
-.close-btn {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  align-self: flex-end;
-}
-
-/* Header */
-h2 {
-  text-align: center;
-  margin-bottom: 15px;
-  font-size: 22px;
-}
-
-/* Input Fields */
-.input-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.input-container label {
+  padding: 16px;
   flex: 1;
-  font-weight: bold;
+  overflow-y: auto;
 }
 
-.input-container input {
-  flex: 3;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* Location Button */
-.location-btn {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-left: 8px;
+.directions-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-/* Start Navigation Button */
-.start-btn {
-  background: #28a745;
+.input-group {
+  margin-top: 16px;
+  position: relative;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.input-group button {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background-color: #007bff;
   color: white;
   border: none;
-  padding: 12px;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 12px;
-  text-align: center;
-  transition: background 0.3s ease-in-out;
 }
 
-.start-btn:hover {
-  background: #218838;
+.suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
-/* Route Info Section */
-.route-info {
-  text-align: center;
-  margin-top: 15px;
-  font-size: 16px;
+.suggestions-list li {
   padding: 10px;
-  background: #f8f9fa;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
-/* Styling for Each Mode */
-.route-info p {
-  margin: 8px 0;
-  font-size: 15px;
-  font-weight: bold;
+.suggestions-list li:hover {
+  background: #f0f0f0;
+}
+.written-directions-panel {
+  position: absolute;
+  top: 0;
+  right: -400px;
+  width: 350px;
+  background: #fff;
+  height: 100%;
+  padding: 1rem;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  transition: right 0.3s ease;
 }
 
-.route-info p:nth-child(1) {
-  color: #772e36; /* Driving - Red */
+.written-directions-panel.slide-in {
+  right: 0;
 }
 
-.route-info p:nth-child(2) {
-  color: #416b98; /* Biking - Blue */
-}
-
-.route-info p:nth-child(3) {
-  color: #31633d; /* Walking - Green */
-}
-.route-info {
-  text-align: center;
-  margin-top: 15px;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.route-info p {
-  margin: 5px 0;
-  padding: 5px;
-  background: #f8f8f8;
-  border-radius: 5px;
-}
 .mode-buttons {
   display: flex;
-  justify-content: space-around;
-  margin-top: 10px;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .mode-buttons button {
-  background: #ddd;
+  padding: 10px;
   border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
   cursor: pointer;
-  font-size: 14px;
+  background: #eee;
+  border-radius: 6px;
 }
 
-.mode-buttons button.selected {
-  background: #4575a9;
+.mode-buttons button.active {
+  background: #007bff;
   color: white;
-  font-weight: bold;
+}
+
+.direction-buttons button {
+  background-color: #28a745;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  width: 100%;
+  margin-top: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.direction-buttons button:hover {
+  background-color: #218838;
 }
