@@ -246,6 +246,7 @@ const NavigationPage = ({ user }) => {
 
       {photoSpherePlace?.photo360 && (
         <PhotoSphere
+          key={photoSpherePlace.id || photoSpherePlace.photo360}
           imageUrl={photoSpherePlace.photo360}
           onClose={() => setPhotoSpherePlace(null)}
         />

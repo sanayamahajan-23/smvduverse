@@ -6,7 +6,7 @@ import axios from "axios";
 import "./AddPlaceForm.css";
 
 // Cloudinary settings
-const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dkpetohjp/upload";
+const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dtlteahkp/upload";
 const UPLOAD_PRESET = "places_upload";
 
 const AddPlaceForm = () => {

@@ -6,10 +6,8 @@ import "./CloudTransition.css";
 import "./SMVDUMap.css";
 import Hotspot from "./Hotspot";
 import PhotoSphere from "./PhotoSphereViewer";
-import { useNavigate } from "react-router-dom";
 import { FaMapMarkedAlt, FaTimes, FaRoute } from "react-icons/fa";
 const SMVDUMap = () => {
-  const navigate = useNavigate();
   const [currentHotspotIndex, setCurrentHotspotIndex] = useState(-1);
   const [isCloudVisible, setIsCloudVisible] = useState(true);
   const [shouldReveal, setShouldReveal] = useState(false);
