@@ -52,7 +52,7 @@ const SignIn = () => {
       alert(`Signed in as ${user.email}`);
     } catch (error) {
       console.error("Sign-in failed:", error);
-      alert("Login failed.");
+      alert(`Login failed: ${error.code}\n${error.message}`);
     }
   };
 

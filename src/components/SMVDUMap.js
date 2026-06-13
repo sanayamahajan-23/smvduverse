@@ -988,19 +988,25 @@ const SMVDUMap = () => {
     setSelectedGalleryImages([]);
   };
   useEffect(() => {
-    const mapImage = new Image();
-    const cloudImage = new Image();
+    const preloadImage = (src) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => {
+          console.warn("Failed to preload image:", src);
+          resolve(true); // resolve anyway so UI is not blocked forever
+        };
+        img.src = src;
+        if (img.complete && img.naturalWidth !== 0) {
+          resolve(true);
+        }
+      });
+    };
 
-    mapImage.src = `${process.env.PUBLIC_URL}/assets/smvdu.jpg`;
-    cloudImage.src = `${process.env.PUBLIC_URL}/assets/cloud.png`;
-    Promise.all([
-      new Promise((resolve) => {
-        mapImage.onload = resolve;
-      }),
-      new Promise((resolve) => {
-        cloudImage.onload = resolve;
-      }),
-    ]).then(() => {
+    const mapSrc = `${process.env.PUBLIC_URL}/assets/smvdu.jpg`;
+    const cloudSrc = `${process.env.PUBLIC_URL}/assets/cloud.png`;
+
+    Promise.all([preloadImage(mapSrc), preloadImage(cloudSrc)]).then(() => {
       setIsLoaded(true);
       setTimeout(() => {
         setShouldReveal(true);
